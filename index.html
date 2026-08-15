@@ -1365,6 +1365,290 @@
             display: none !important;
         }
 
+        /* ============ LOGIN SCREEN ============ */
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .login-page::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .login-page::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 50%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .login-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 440px;
+            background: white;
+            border-radius: 24px;
+            padding: 2.75rem 2.5rem;
+            box-shadow: 0 25px 60px -15px rgba(0,0,0,0.35), 0 10px 20px -5px rgba(0,0,0,0.15);
+            animation: loginFadeIn 0.5s ease-out;
+        }
+        @keyframes loginFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .login-logo-icon {
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 10px 25px -5px rgba(59,130,246,0.5);
+        }
+        .login-logo-icon svg {
+            width: 38px;
+            height: 38px;
+        }
+        .login-logo h2 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .login-logo p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .login-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .login-field label {
+            font-size: 0.825rem;
+            font-weight: 600;
+            color: #334155;
+            letter-spacing: 0.01em;
+        }
+        .login-input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .login-input-wrap svg {
+            position: absolute;
+            left: 1rem;
+            width: 20px;
+            height: 20px;
+            color: #94a3b8;
+            transition: color 0.15s;
+        }
+        .login-input-wrap input {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 2.75rem;
+            font-size: 0.95rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.15s;
+            font-family: inherit;
+            background: #f8fafc;
+        }
+        .login-input-wrap input:focus {
+            border-color: #3b82f6;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(59,130,246,0.12);
+        }
+        .login-input-wrap input:focus + svg,
+        .login-input-wrap input:focus ~ svg {
+            color: #3b82f6;
+        }
+        .login-input-wrap input[type="password"] {
+            padding-right: 3rem;
+        }
+        .toggle-pass {
+            position: absolute;
+            right: 0.75rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #94a3b8;
+            padding: 0.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: all 0.15s;
+        }
+        .toggle-pass:hover {
+            color: #3b82f6;
+            background: #eff6ff;
+        }
+        .toggle-pass svg {
+            width: 18px;
+            height: 18px;
+        }
+        .login-error {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            color: #b91c1c;
+            font-size: 0.85rem;
+            font-weight: 500;
+            animation: shake 0.35s ease;
+        }
+        @keyframes shake {
+            0%,100% { transform: translateX(0); }
+            25%     { transform: translateX(-6px); }
+            75%     { transform: translateX(6px); }
+        }
+        .login-error svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 0.95rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(29,78,216,0.35);
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .login-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 22px rgba(29,78,216,0.45);
+        }
+        .login-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        .login-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+        .login-hint {
+            margin-top: 1.25rem;
+            padding: 0.85rem 1rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: #1d4ed8;
+        }
+        .login-hint strong {
+            font-weight: 700;
+        }
+        .login-footer {
+            margin-top: 1.75rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        .header-logout {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.75rem;
+            background: #eff6ff;
+            border-radius: 10px;
+        }
+        .user-badge-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+        .user-badge-name {
+            font-size: 0.825rem;
+            color: #1e40af;
+            font-weight: 600;
+        }
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.85rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            color: #64748b;
+            font-size: 0.825rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: inherit;
+        }
+        .logout-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        .logout-btn:hover {
+            background: #fef2f2;
+            border-color: #fecaca;
+            color: #b91c1c;
+        }
+        @media (max-width: 480px) {
+            .login-card { padding: 2rem 1.5rem; border-radius: 20px; }
+            .login-logo h2 { font-size: 1.25rem; }
+        }
+
         @media (max-width: 768px) {
             .search-box {
                 flex-direction: column;
@@ -1386,7 +1670,94 @@
     </style>
 </head>
 <body ng-cloak>
-    <div class="app-container" ng-controller="MainController">
+    <div ng-if="!isAuthenticated" class="login-page" ng-controller="LoginController">
+        <div class="login-card">
+            <div class="login-logo">
+                <div class="login-logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 13L5 7H19L21 13M3 13V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H6C6.53043 21 7.03914 20.7893 7.41421 20.4142C7.78929 20.0391 8 19.5304 8 19V17M3 13H8M16 13H21M21 13V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H18C17.4696 21 16.9609 20.7893 16.5858 20.4142C16.2107 20.0391 16 19.5304 16 19V17M16 13L17.5 9.5M8 13V17M16 17V17M8 17C8 17.5304 7.78929 18.0391 7.41421 18.4142C7.03914 18.7893 6.53043 19 6 19C5.46957 19 4.96086 18.7893 4.58579 18.4142C4.21071 18.0391 4 17.5304 4 17C4 16.4696 4.21071 15.9609 4.58579 15.5858C4.96086 15.2107 5.46957 15 6 15C6.53043 15 7.03914 15.2107 7.41421 15.5858C7.78929 15.9609 8 16.4696 8 17ZM16 17C16 17.5304 16.2107 18.0391 16.5858 18.4142C16.9609 18.7893 17.4696 19 18 19C18.5304 19 19.0391 18.7893 19.4142 18.4142C19.7893 18.0391 20 17.5304 20 17C20 16.4696 19.7893 15.9609 19.4142 15.5858C19.0391 15.2107 18.5304 15 18 15C17.4696 15 16.9609 15.2107 16.5858 15.5858C16.2107 15.9609 16 16.4696 16 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h2>Fleet Fuel Tracker</h2>
+                <p>Inicia sesión para continuar</p>
+            </div>
+
+            <form class="login-form" ng-submit="doLogin()" novalidate>
+                <div class="login-field">
+                    <label for="login-user">Usuario</label>
+                    <div class="login-input-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <input
+                            type="text"
+                            id="login-user"
+                            ng-model="credentials.username"
+                            ng-keyup="loginError = ''"
+                            placeholder="Ingresa tu usuario"
+                            autocomplete="username"
+                        />
+                    </div>
+                </div>
+
+                <div class="login-field">
+                    <label for="login-pass">Contraseña</label>
+                    <div class="login-input-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                            <path d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <input
+                            type="{{ showPassword ? 'text' : 'password' }}"
+                            id="login-pass"
+                            ng-model="credentials.password"
+                            ng-keyup="$event.keyCode === 13 && doLogin(); loginError = ''"
+                            placeholder="Ingresa tu contraseña"
+                            autocomplete="current-password"
+                        />
+                        <button type="button" class="toggle-pass" ng-click="showPassword = !showPassword" title="{{ showPassword ? 'Ocultar' : 'Mostrar' }}">
+                            <svg ng-if="!showPassword" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <svg ng-if="showPassword" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.94 17.94C16.2306 19.243 14.1491 19.9649 12 20C5 20 1 12 1 12C2.24389 9.6819 3.96914 7.65661 6.06 6.06M9.9 4.24C10.5883 4.0789 11.2931 3.9984 12 4C19 4 23 12 23 12C22.393 13.1356 21.6691 14.199 20.84 15.19M14.12 14.12C13.8454 14.4147 13.5061 14.6416 13.1227 14.7832C12.7393 14.9248 12.3219 14.9761 11.9135 14.9323C11.5051 14.8886 11.1157 14.7508 10.7759 14.5288C10.436 14.3067 10.1552 14.0056 9.95486 13.6465C9.7545 13.2875 9.64009 12.8815 9.62112 12.4666C9.60215 12.0517 9.67921 11.6391 9.84618 11.2585C10.0131 10.8779 10.2643 10.5416 10.5789 10.2759M9.88 6.58C10.5553 6.21038 11.2821 6.0206 12.0126 6.02893C12.743 6.03726 13.4565 6.24303 14.0881 6.62748C14.7196 7.01193 15.2449 7.55946 15.6167 8.21368C15.9884 8.8679 16.1883 9.6061 16.1924 10.3581C16.1965 11.1101 16.0047 11.8509 15.6323 12.5073M1 1L23 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div ng-if="loginError" class="login-error">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 8V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M12 16H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    {{ loginError }}
+                </div>
+
+                <button type="submit" class="login-btn" ng-disabled="logging">
+                    <svg ng-if="!logging" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15M10 17L15 12L10 7M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span ng-if="logging">Iniciando...</span>
+                    <span ng-if="!logging">Iniciar Sesión</span>
+                </button>
+            </form>
+
+            <div class="login-hint">
+                <strong>Credenciales demo:</strong><br>
+                Usuario: <code>admin</code> · Contraseña: <code>tacna26</code>
+            </div>
+
+            <div class="login-footer">
+                © 2026 Fleet Fuel Tracker · Versión Demo
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="isAuthenticated" class="app-container" ng-controller="MainController">
         <header class="app-header">
             <div class="header-content">
                 <div class="logo-section" ng-click="goHome()">
@@ -1400,7 +1771,7 @@
                         <span>Control de Kilometraje y Horómetro</span>
                     </div>
                 </div>
-                <div class="header-actions">
+                <div class="header-logout">
                     <span class="date-badge">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1410,6 +1781,16 @@
                         </svg>
                         {{ currentDate }}
                     </span>
+                    <div class="user-badge" ng-if="currentUser">
+                        <div class="user-badge-icon">{{ currentUser.charAt(0).toUpperCase() }}</div>
+                        <span class="user-badge-name">{{ currentUser }}</span>
+                    </div>
+                    <button type="button" class="logout-btn" ng-click="doLogout()" title="Cerrar sesión">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9M16 17L21 12L16 7M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Salir
+                    </button>
                 </div>
             </div>
         </header>
@@ -1598,14 +1979,89 @@
             };
         }]);
 
-        app.controller('MainController', ['$scope', '$location', function($scope, $location) {
+        app.controller('MainController', ['$scope', '$location', '$rootScope', function($scope, $location, $rootScope) {
             var today = new Date();
             var options = { day: '2-digit', month: 'long', year: 'numeric' };
             $scope.currentDate = today.toLocaleDateString('es-ES', options);
 
+            $scope.currentUser = $rootScope.currentUser || null;
+
             $scope.goHome = function() {
                 $location.path('/');
             };
+
+            $scope.doLogout = function() {
+                sessionStorage.removeItem('fleetAuth');
+                $rootScope.isAuthenticated = false;
+                $rootScope.currentUser = null;
+                $scope.currentUser = null;
+                $location.path('/');
+            };
+
+            $rootScope.$watch('currentUser', function(newVal) {
+                $scope.currentUser = newVal;
+            });
+        }]);
+
+        app.controller('LoginController', ['$scope', '$rootScope', '$location', '$timeout', function($scope, $rootScope, $location, $timeout) {
+            var VALID_USER = 'admin';
+            var VALID_PASS = 'tacna26';
+
+            $scope.credentials = { username: '', password: '' };
+            $scope.showPassword = false;
+            $scope.loginError = '';
+            $scope.logging = false;
+
+            $scope.doLogin = function() {
+                $scope.loginError = '';
+                var user = ($scope.credentials.username || '').trim();
+                var pass = ($scope.credentials.password || '').trim();
+
+                if (!user || !pass) {
+                    $scope.loginError = 'Por favor ingresa usuario y contraseña';
+                    return;
+                }
+
+                $scope.logging = true;
+
+                $timeout(function() {
+                    if (user.toLowerCase() === VALID_USER && pass === VALID_PASS) {
+                        var session = { user: user, loginAt: Date.now() };
+                        try { sessionStorage.setItem('fleetAuth', JSON.stringify(session)); } catch(e) {}
+                        $rootScope.isAuthenticated = true;
+                        $rootScope.currentUser = user;
+                        $scope.loginError = '';
+                        $location.path('/');
+                    } else {
+                        $scope.loginError = 'Usuario o contraseña incorrectos';
+                    }
+                    $scope.logging = false;
+                }, 450);
+            };
+        }]);
+
+        app.run(['$rootScope', '$location', function($rootScope, $location) {
+            try {
+                var raw = sessionStorage.getItem('fleetAuth');
+                if (raw) {
+                    var session = JSON.parse(raw);
+                    if (session && session.user) {
+                        $rootScope.isAuthenticated = true;
+                        $rootScope.currentUser = session.user;
+                    }
+                }
+            } catch(e) {}
+
+            if (!$rootScope.isAuthenticated) {
+                $rootScope.isAuthenticated = false;
+                $rootScope.currentUser = null;
+            }
+
+            $rootScope.$watch('isAuthenticated', function(newVal) {
+                if (newVal && $location.path() === '/login') {
+                    $location.path('/');
+                }
+            });
         }]);
 
         app.controller('HomeController', ['$scope', '$location', 'VehicleService', function($scope, $location, VehicleService) {
