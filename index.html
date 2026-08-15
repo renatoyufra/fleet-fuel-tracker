@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="fleetApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Fuel Tracker - Control de Kilometraje y Horómetro</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .app-container {
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .app-header {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .logo-section:hover {
+            opacity: 0.85;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .logo-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .logo-text h1 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.2;
+        }
+
+        .logo-text span {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .date-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #f1f5f9;
+            border-radius: 8px;
+            color: #475569;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .date-badge svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .app-main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Home Page */
+        .home-page {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .search-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+
+        .search-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-header h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .search-header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            width: 22px;
+            height: 22px;
+            color: #94a3b8;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            font-size: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+            text-transform: uppercase;
+        }
+
+        .search-input::placeholder {
+            color: #94a3b8;
+            text-transform: none;
+        }
+
+        .search-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59,130,246,0.1);
+        }
+
+        .search-btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .search-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+        }
+
+        .search-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            max-width: 640px;
+            margin: 1.5rem auto 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            color: #b91c1c;
+            font-weight: 500;
+        }
+
+        .error-message svg {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        .vehicle-preview-card {
+            max-width: 720px;
+            margin: 2rem auto 0;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #bae6fd;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .vehicle-preview-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(14,165,233,0.15);
+        }
+
+        .vehicle-preview-header {
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.6);
+            border-bottom: 1px solid #bae6fd;
+        }
+
+        .vehicle-badge {
+            padding: 0.35rem 0.85rem;
+            background: #0ea5e9;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 20px;
+        }
+
+        .vehicle-date {
+            font-size: 0.85rem;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .vehicle-preview-body {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .vehicle-plate-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #cbd5e1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .vehicle-plate-block .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .vehicle-plate-block .plate-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e293b;
+            letter-spacing: 0.05em;
+        }
+
+        .vehicle-plate-block .vehicle-unit {
+            margin-top: 0.25rem;
+            font-size: 0.9rem;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .vehicle-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-item {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .stat-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .km-icon {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .hr-icon {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .fuel-icon {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .stat-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .stat-value small {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .vehicle-preview-footer {
+            padding: 1rem 1.5rem;
+            background: rgba(14,165,233,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            color: #0369a1;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .vehicle-preview-footer svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .vehicles-grid-section {}
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .vehicles-count {
+            padding: 0.35rem 0.85rem;
+            background: #e2e8f0;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .vehicles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .vehicle-card {
+            background: white;
+            border-radius: 14px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #f1f5f9;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-color: #cbd5e1;
+        }
+
+        .vehicle-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-badge {
+            padding: 0.25rem 0.6rem;
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 0.65rem;
+            font-weight: 600;
+            border-radius: 12px;
+        }
+
+        .plate-text {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+
+        .vehicle-card-unit {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .vehicle-card-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .mini-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .mini-label {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .mini-value {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .vehicle-card-date {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #f1f5f9;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .tips-section {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+
+        .tips-section h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .tips-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .chip {
+            padding: 0.5rem 1rem;
+            background: #f1f5f9;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: 1px solid transparent;
+        }
+
+        .chip:hover {
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-color: #bfdbfe;
+        }
+
+        /* Vehicle Detail Page */
+        .vehicle-detail-page {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            color: #475569;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .back-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .back-btn:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .page-title-group h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .page-title-group span {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+
+        .card-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .vehicle-identity {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .plate-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 1.75rem;
+            background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%);
+            border-radius: 12px;
+            color: white;
+        }
+
+        .plate-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        .plate-number-big {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+        }
+
+        .vehicle-info h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .vehicle-info .v-type {
+            font-size: 0.9rem;
+            color: #64748b;
+            padding: 0.25rem 0.75rem;
+            background: #e2e8f0;
+            border-radius: 6px;
+        }
+
+        .vehicle-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.25rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            color: #64748b;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-size: 0.875rem;
+            font-family: inherit;
+        }
+
+        .tab-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .tab-btn:hover {
+            background: #f8fafc;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 2px 8px rgba(59,130,246,0.3);
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            padding: 1.5rem;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .stat-card.km-card {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        }
+
+        .stat-card.km-card::before {
+            background: #2563eb;
+        }
+
+        .stat-card.km-card .stat-icon-wrap {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .stat-card.hr-card {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        }
+
+        .stat-card.hr-card::before {
+            background: #d97706;
+        }
+
+        .stat-card.hr-card .stat-icon-wrap {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .stat-card.fuel-card {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+
+        .stat-card.fuel-card::before {
+            background: #16a34a;
+        }
+
+        .stat-card.fuel-card .stat-icon-wrap {
+            background: #22c55e;
+            color: white;
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-icon-wrap {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon-wrap svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .stat-trend svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .km-card .stat-trend {
+            color: #1d4ed8;
+            background: #bfdbfe;
+        }
+
+        .hr-card .stat-trend {
+            color: #b45309;
+            background: #fde68a;
+        }
+
+        .stat-card-value {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #1e293b;
+            line-height: 1.1;
+        }
+
+        .stat-card-value .unit {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #64748b;
+            margin-left: 0.25rem;
+        }
+
+        .stat-card-label {
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-block {
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 14px;
+        }
+
+        .info-block h4 {
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .info-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .consumo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .consumo-item {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .consumo-badge {
+            display: inline-block;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .consumo-badge.optimo {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .consumo-badge.regular {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .consumo-badge.alto {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .consumo-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .consumo-value small {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .consumo-label {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin: 0.25rem 0 0.5rem;
+        }
+
+        .consumo-range {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .form-section {}
+
+        .form-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .form-header h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .form-header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .form-alert {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            color: #166534;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-alert svg {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        .record-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .form-group label .required {
+            color: #dc2626;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.15s;
+            font-family: inherit;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59,130,246,0.1);
+        }
+
+        .form-hint {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .diff-hint {
+            font-size: 0.8rem;
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: white;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: inherit;
+        }
+
+        .btn-secondary:hover {
+            background: #f8fafc;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: inherit;
+        }
+
+        .btn-primary svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .history-section {}
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .history-header h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .history-header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .history-summary {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .summary-item {
+            padding: 0.65rem 1.25rem;
+            background: #f1f5f9;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+
+        .summary-label {
+            font-size: 0.7rem;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .summary-value {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .history-table-container {
+            background: #f8fafc;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            overflow-x: auto;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+            min-width: 900px;
+        }
+
+        .history-table thead {
+            background: #e2e8f0;
+        }
+
+        .history-table th {
+            padding: 0.85rem 1rem;
+            text-align: left;
+            font-weight: 700;
+            color: #334155;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .history-table td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+
+        .history-table tbody tr {
+            transition: background 0.1s;
+        }
+
+        .history-table tbody tr:hover {
+            background: #f1f5f9;
+        }
+
+        .history-table tbody tr.latest {
+            background: #eff6ff;
+        }
+
+        .history-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .date-badge-small {
+            padding: 0.25rem 0.6rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .turno-badge {
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .turno-badge.dia {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .turno-badge.noche {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .turno-badge.turno {
+            background: #fce7f3;
+            color: #9d174d;
+        }
+
+        .td-number {
+            font-weight: 600;
+            font-family: 'Inter', monospace;
+        }
+
+        .td-number small {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .td-fuel {
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        .td-diff {
+            color: #2563eb;
+        }
+
+        .td-empty {
+            color: #cbd5e1;
+            text-align: center;
+        }
+
+        .td-responsible {
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .consumo-tag {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .consumo-tag.optimo {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .consumo-tag.regular {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .consumo-tag.alto {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .empty-state {
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+        }
+
+        .empty-icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .empty-state h5 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .empty-state p {
+            margin: 0;
+            color: #64748b;
+        }
+
+        .not-found-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            max-width: 480px;
+            margin: 2rem auto;
+        }
+
+        .not-found-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: #fef2f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ef4444;
+        }
+
+        .not-found-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .not-found-state h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .not-found-state p {
+            margin: 0 0 1.5rem 0;
+            color: #64748b;
+        }
+
+        .back-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .back-btn-primary svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+            }
+            .vehicle-preview-body {
+                grid-template-columns: 1fr !important;
+            }
+            .vehicle-stats {
+                grid-template-columns: 1fr !important;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .vehicle-identity {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body ng-cloak>
+    <div class="app-container" ng-controller="MainController">
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section" ng-click="goHome()">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 13L5 7H19L21 13M3 13V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H6C6.53043 21 7.03914 20.7893 7.41421 20.4142C7.78929 20.0391 8 19.5304 8 19V17M3 13H8M16 13H21M21 13V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H18C17.4696 21 16.9609 20.7893 16.5858 20.4142C16.2107 20.0391 16 19.5304 16 19V17M16 13L17.5 9.5M8 13V17M16 17V17M8 17C8 17.5304 7.78929 18.0391 7.41421 18.4142C7.03914 18.7893 6.53043 19 6 19C5.46957 19 4.96086 18.7893 4.58579 18.4142C4.21071 18.0391 4 17.5304 4 17C4 16.4696 4.21071 15.9609 4.58579 15.5858C4.96086 15.2107 5.46957 15 6 15C6.53043 15 7.03914 15.2107 7.41421 15.5858C7.78929 15.9609 8 16.4696 8 17ZM16 17C16 17.5304 16.2107 18.0391 16.5858 18.4142C16.9609 18.7893 17.4696 19 18 19C18.5304 19 19.0391 18.7893 19.4142 18.4142C19.7893 18.0391 20 17.5304 20 17C20 16.4696 19.7893 15.9609 19.4142 15.5858C19.0391 15.2107 18.5304 15 18 15C17.4696 15 16.9609 15.2107 16.5858 15.5858C16.2107 15.9609 16 16.4696 16 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Fleet Fuel Tracker</h1>
+                        <span>Control de Kilometraje y Horómetro</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <span class="date-badge">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        {{ currentDate }}
+                    </span>
+                </div>
+            </div>
+        </header>
+        <main class="app-main">
+            <ng-view></ng-view>
+        </main>
+    </div>
+
+    <script>
+        var app = angular.module('fleetApp', ['ngRoute']);
+
+        app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+            $routeProvider
+                .when('/', {
+                    templateUrl: 'home.html',
+                    controller: 'HomeController'
+                })
+                .when('/vehicle/:plate', {
+                    templateUrl: 'vehicle-detail.html',
+                    controller: 'VehicleDetailController'
+                })
+                .otherwise({
+                    redirectTo: '/'
+                });
+            $locationProvider.hashPrefix('');
+        }]);
+
+        app.factory('VehicleService', ['$rootScope', function($rootScope) {
+            var vehicles = [
+                { plate: 'CJN-863', unit: 'Camioneta', type: 'Vehículo Ligero', lastKilometraje: 39011, lastHorometro: 13326.4, lastGalones: 14.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: '160-5', unit: 'Moto Guayandera', type: 'Motocicleta', lastKilometraje: 0, lastHorometro: 3554.1, lastGalones: 8.2, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CCO-EVO-03', unit: 'Excavadora', type: 'Maquinaria Pesada', lastKilometraje: 4163.1, lastHorometro: 0, lastGalones: 8.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'ZQE-760', unit: 'Combi Neto', type: 'Vehículo Ligero', lastKilometraje: 0, lastHorometro: 6121.7, lastGalones: 16.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'RT-Hyundai', unit: 'Retro Excavadora', type: 'Maquinaria Pesada', lastKilometraje: 49402, lastHorometro: 2385.2, lastGalones: 29, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'BXR-897', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 51813, lastHorometro: 0, lastGalones: 23, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHN-817', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 11649, lastHorometro: 0, lastGalones: 41, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHN-998', unit: 'Cisterna', type: 'Vehículo Pesado', lastKilometraje: 45663.1, lastHorometro: 5443.2, lastGalones: 35.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'BUF-847', unit: 'Cisterna', type: 'Vehículo Pesado', lastKilometraje: 84359, lastHorometro: 7363.12, lastGalones: 46.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'VAW-827', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 56041, lastHorometro: 0, lastGalones: 24, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHK-755', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 59233, lastHorometro: 2029.2, lastGalones: 49.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'BLR-771', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 53414, lastHorometro: 0, lastGalones: 60, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHM-919', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 8433, lastHorometro: 0, lastGalones: 32, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHL-903', unit: 'Cisterna', type: 'Vehículo Pesado', lastKilometraje: 53546, lastHorometro: 0, lastGalones: 52, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHN-723', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 41145, lastHorometro: 0, lastGalones: 50, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHM-812', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 146108.7, lastHorometro: 6725, lastGalones: 41.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'DFC-917', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 54672, lastHorometro: 0, lastGalones: 46, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHP-762', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 47441, lastHorometro: 1652.5, lastGalones: 49.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHP-882', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 39371, lastHorometro: 0, lastGalones: 51.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'BZM-772', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 55907, lastHorometro: 0, lastGalones: 44.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHN-766', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 52512, lastHorometro: 0, lastGalones: 55.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHM-814', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 145678.5, lastHorometro: 11010.12, lastGalones: 31, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'DFC-918', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 224352.1, lastHorometro: 14247.56, lastGalones: 67.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'BBZ-792', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 55251, lastHorometro: 1333.5, lastGalones: 36, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CFD-936', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 45734, lastHorometro: 0, lastGalones: 19, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHM-861', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 52632, lastHorometro: 2336.3, lastGalones: 40.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'TFG-854', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 47552, lastHorometro: 0, lastGalones: 41.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'CHM-882', unit: 'Volqueta', type: 'Vehículo Pesado', lastKilometraje: 53805, lastHorometro: 0, lastGalones: 61, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
+                { plate: 'AAQ-303', unit: 'Camion', type: 'Vehículo Pesado', lastKilometraje: 335593, lastHorometro: 1275.5, lastGalones: 40, lastDate: '14-08-2026', responsable: 'Operador Demo' }
+            ];
+
+            var records = [];
+            var nextId = 1;
+
+            function generateRecords() {
+                function addRec(data) {
+                    records.push(angular.extend({ id: nextId++ }, data));
+                }
+                
+                addRec({
+                    plate: 'AAQ-303', unit: 'Camion',
+                    kilometraje: 335560, horometro: 1265.5, galones: 50,
+                    fecha: '13-08-2026', responsable: 'Operador Demo', turno: 'DIA',
+                    kmRecorridos: 0, horasTrabajadas: 0, consumoKm: 0, consumoHora: 0
+                });
+                addRec({
+                    plate: 'AAQ-303', unit: 'Camion',
+                    kilometraje: 335593, horometro: 1275.5, galones: 40,
+                    fecha: '14-08-2026', responsable: 'Operador Demo', turno: 'DIA',
+                    kmRecorridos: 33, horasTrabajadas: 10, consumoKm: 3.6, consumoHora: 3.5
+                });
+
+                var plates = ['CJN-863', 'CHN-817', 'BXR-897', 'CHM-812', 'DFC-918'];
+                plates.forEach(function(plate) {
+                    var vehicle = vehicles.find(function(v) { return v.plate === plate; });
+                    if (vehicle) {
+                        var prevKm = 0, prevHr = 0;
+                        for (var i = 0; i < 5; i++) {
+                            var day = 9 + i;
+                            var fecha = String(day).padStart(2, '0') + '-08-2026';
+                            var km = vehicle.lastKilometraje - (5 - i - 1) * 50;
+                            var hr = vehicle.lastHorometro > 0 ? vehicle.lastHorometro - (5 - i - 1) * 8 : 0;
+                            var galones = 30 + Math.floor(Math.random() * 30);
+                            var kmRec = i > 0 ? km - prevKm : 50;
+                            var hrRec = i > 0 && hr > 0 ? hr - prevHr : 8;
+                            
+                            addRec({
+                                plate: plate,
+                                unit: vehicle.unit,
+                                kilometraje: km,
+                                horometro: hr,
+                                galones: galones,
+                                fecha: fecha,
+                                responsable: vehicle.responsable || 'Yhon Segura',
+                                turno: 'DIA',
+                                kmRecorridos: kmRec > 0 ? kmRec : 0,
+                                horasTrabajadas: hrRec > 0 ? hrRec : 0,
+                                consumoKm: kmRec > 0 ? +(galones / kmRec).toFixed(2) : 0,
+                                consumoHora: hrRec > 0 ? +(galones / hrRec).toFixed(2) : 0
+                            });
+                            prevKm = km;
+                            prevHr = hr;
+                        }
+                    }
+                });
+            }
+            generateRecords();
+
+            return {
+                getAllVehicles: function() {
+                    return vehicles;
+                },
+                searchVehicle: function(plate) {
+                    if (!plate) return null;
+                    var normalizedPlate = plate.trim().toUpperCase().replace(/[\s-]/g, '');
+                    return vehicles.find(function(v) {
+                        return v.plate.toUpperCase().replace(/[\s-]/g, '').indexOf(normalizedPlate) !== -1
+                            || v.plate.toUpperCase() === plate.trim().toUpperCase();
+                    }) || null;
+                },
+                getVehicleRecords: function(plate) {
+                    return records
+                        .filter(function(r) { return r.plate.toUpperCase() === plate.toUpperCase(); })
+                        .sort(function(a, b) {
+                            var dateA = new Date(a.fecha.split('-').reverse().join('-'));
+                            var dateB = new Date(b.fecha.split('-').reverse().join('-'));
+                            return dateB - dateA;
+                        });
+                },
+                addRecord: function(record) {
+                    var vehicleRecords = this.getVehicleRecords(record.plate);
+                    var lastRecord = vehicleRecords[0];
+                    var kmRecorridos = lastRecord ? record.kilometraje - lastRecord.kilometraje : 0;
+                    var horasTrabajadas = lastRecord ? record.horometro - lastRecord.horometro : 0;
+
+                    var newRecord = angular.extend({}, record, {
+                        id: nextId++,
+                        kmRecorridos: kmRecorridos > 0 ? kmRecorridos : 0,
+                        horasTrabajadas: horasTrabajadas > 0 ? horasTrabajadas : 0,
+                        consumoKm: kmRecorridos > 0 ? +(record.galones / kmRecorridos).toFixed(2) : 0,
+                        consumoHora: horasTrabajadas > 0 ? +(record.galones / horasTrabajadas).toFixed(2) : 0
+                    });
+
+                    records.push(newRecord);
+
+                    var vehicleIdx = vehicles.findIndex(function(v) { return v.plate.toUpperCase() === record.plate.toUpperCase(); });
+                    if (vehicleIdx !== -1) {
+                        vehicles[vehicleIdx] = angular.extend({}, vehicles[vehicleIdx], {
+                            lastKilometraje: record.kilometraje,
+                            lastHorometro: record.horometro,
+                            lastGalones: record.galones,
+                            lastDate: record.fecha,
+                            responsable: record.responsable
+                        });
+                    }
+
+                    $rootScope.$broadcast('recordsUpdated');
+                    return newRecord;
+                },
+                getConsumoClass: function(value, type) {
+                    if (type === 'km') {
+                        if (value >= 3 && value <= 6) return 'optimo';
+                        if (value < 3 || value <= 8) return 'regular';
+                        return 'alto';
+                    } else {
+                        if (value >= 3 && value <= 5) return 'optimo';
+                        if (value < 3 || value <= 7) return 'regular';
+                        return 'alto';
+                    }
+                },
+                getConsumoStatus: function(value, type) {
+                    var cls = this.getConsumoClass(value, type);
+                    if (cls === 'optimo') return 'ÓPTIMO';
+                    if (cls === 'regular') return 'REGULAR';
+                    return 'ALTO';
+                }
+            };
+        }]);
+
+        app.controller('MainController', ['$scope', '$location', function($scope, $location) {
+            var today = new Date();
+            var options = { day: '2-digit', month: 'long', year: 'numeric' };
+            $scope.currentDate = today.toLocaleDateString('es-ES', options);
+
+            $scope.goHome = function() {
+                $location.path('/');
+            };
+        }]);
+
+        app.controller('HomeController', ['$scope', '$location', 'VehicleService', function($scope, $location, VehicleService) {
+            $scope.searchPlate = '';
+            $scope.searching = false;
+            $scope.notFound = false;
+            $scope.foundVehicle = null;
+            $scope.vehicles = VehicleService.getAllVehicles();
+            $scope.suggestedPlates = ['AAQ-303', 'CJN-863', 'CHN-817', 'BXR-897', 'CHM-812', 'DFC-918'];
+
+            $scope.onSearch = function() {
+                if (!$scope.searchPlate.trim()) return;
+                $scope.searching = true;
+                $scope.notFound = false;
+                $scope.foundVehicle = null;
+
+                setTimeout(function() {
+                    $scope.$apply(function() {
+                        $scope.searching = false;
+                        var vehicle = VehicleService.searchVehicle($scope.searchPlate);
+                        if (vehicle) {
+                            $scope.foundVehicle = vehicle;
+                        } else {
+                            $scope.notFound = true;
+                        }
+                    });
+                }, 300);
+            };
+
+            $scope.goToVehicle = function(plate) {
+                $location.path('/vehicle/' + plate);
+            };
+
+            $scope.setPlate = function(plate) {
+                $scope.searchPlate = plate;
+                $scope.onSearch();
+            };
+
+            $scope.formatNumber = function(n) {
+                if (n === undefined || n === null) return '0';
+                return Number(n).toLocaleString('es-ES');
+            };
+        }]);
+
+        app.controller('VehicleDetailController', ['$scope', '$routeParams', '$location', 'VehicleService', function($scope, $routeParams, $location, VehicleService) {
+            var plate = $routeParams.plate || '';
+            $scope.vehicle = VehicleService.searchVehicle(plate);
+            $scope.loading = false;
+            $scope.activeTab = 'overview';
+            $scope.successMessage = '';
+            $scope.vehicleRecords = [];
+            $scope.lastRecord = null;
+
+            function loadRecords() {
+                if ($scope.vehicle) {
+                    $scope.vehicleRecords = VehicleService.getVehicleRecords($scope.vehicle.plate);
+                    $scope.lastRecord = $scope.vehicleRecords[0] || null;
+                }
+            }
+            loadRecords();
+
+            var today = new Date();
+            var todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+
+            $scope.newRecord = {
+                kilometraje: $scope.vehicle ? $scope.vehicle.lastKilometraje : 0,
+                horometro: $scope.vehicle ? $scope.vehicle.lastHorometro : 0,
+                galones: 0,
+                fecha: todayStr,
+                turno: '',
+                responsable: $scope.vehicle ? ($scope.vehicle.responsable || '') : ''
+            };
+
+            $scope.goBack = function() {
+                $location.path('/');
+            };
+
+            $scope.getConsumoClass = function(value, type) {
+                return VehicleService.getConsumoClass(value, type);
+            };
+
+            $scope.getConsumoStatus = function(value, type) {
+                return VehicleService.getConsumoStatus(value, type);
+            };
+
+            $scope.isFormValid = function() {
+                if (!$scope.vehicle) return false;
+                return $scope.newRecord.kilometraje >= $scope.vehicle.lastKilometraje
+                    && $scope.newRecord.horometro >= $scope.vehicle.lastHorometro
+                    && $scope.newRecord.galones > 0
+                    && !!$scope.newRecord.fecha
+                    && !!$scope.newRecord.turno
+                    && !!($scope.newRecord.responsable && $scope.newRecord.responsable.trim());
+            };
+
+            $scope.resetForm = function() {
+                if ($scope.vehicle) {
+                    $scope.newRecord = {
+                        kilometraje: $scope.vehicle.lastKilometraje,
+                        horometro: $scope.vehicle.lastHorometro,
+                        galones: 0,
+                        fecha: todayStr,
+                        turno: '',
+                        responsable: $scope.vehicle.responsable || ''
+                    };
+                }
+                $scope.successMessage = '';
+            };
+
+            $scope.getKmDiff = function() {
+                if (!$scope.vehicle) return null;
+                var diff = $scope.newRecord.kilometraje - $scope.vehicle.lastKilometraje;
+                return diff > 0 ? diff : null;
+            };
+
+            $scope.getHrDiff = function() {
+                if (!$scope.vehicle) return null;
+                var diff = $scope.newRecord.horometro - $scope.vehicle.lastHorometro;
+                return diff > 0 ? diff : null;
+            };
+
+            $scope.onSubmit = function() {
+                if (!$scope.isFormValid()) return;
+                var fechaParts = $scope.newRecord.fecha.split('-');
+                var formattedDate = fechaParts[2] + '-' + fechaParts[1] + '-' + fechaParts[0];
+
+                VehicleService.addRecord({
+                    plate: $scope.vehicle.plate,
+                    unit: $scope.vehicle.unit,
+                    kilometraje: $scope.newRecord.kilometraje,
+                    horometro: $scope.newRecord.horometro,
+                    galones: $scope.newRecord.galones,
+                    fecha: formattedDate,
+                    turno: $scope.newRecord.turno,
+                    responsable: $scope.newRecord.responsable.trim()
+                });
+
+                $scope.vehicle = VehicleService.searchVehicle(plate);
+                loadRecords();
+                $scope.successMessage = '¡Registro guardado exitosamente!';
+                $scope.activeTab = 'history';
+                $scope.newRecord.kilometraje = $scope.vehicle.lastKilometraje;
+                $scope.newRecord.horometro = $scope.vehicle.lastHorometro;
+                
+                setTimeout(function() {
+                    $scope.$apply(function() {
+                        $scope.successMessage = '';
+                    });
+                }, 4000);
+            };
+
+            $scope.formatNumber = function(n) {
+                if (n === undefined || n === null) return '0';
+                return Number(n).toLocaleString('es-ES');
+            };
+
+            $scope.getTurnoClass = function(turno) {
+                if (!turno) return '';
+                var t = turno.toLowerCase();
+                if (t === 'dia' || t === 'día') return 'dia';
+                if (t === 'noche') return 'noche';
+                return 'turno';
+            };
+
+            $scope.isLatest = function(record) {
+                return $scope.lastRecord && record.id === $scope.lastRecord.id;
+            };
+        }]);
+
+        app.filter('slice', function() {
+            return function(arr, start, end) {
+                if (!arr) return arr;
+                return arr.slice(start, end);
+            };
+        });
+
+        angular.module('fleetApp').run(['$templateCache', function($templateCache) {
+            var homeTemplate = `
+                <div class="home-page">
+                    <div class="search-section">
+                        <div class="search-header">
+                            <h2>Buscar Vehículo</h2>
+                            <p>Ingrese la placa para ver el historial y registrar nuevo consumo</p>
+                        </div>
+                        <div class="search-box">
+                            <div class="search-input-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="search-icon">
+                                    <path d="M21 21L16.65 16.65M11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 15.4183 15.4183 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <input
+                                    type="text"
+                                    ng-model="searchPlate"
+                                    ng-keyup="$event.keyCode === 13 && onSearch()"
+                                    placeholder="Ingrese placa (ej: AAQ-303, CJN-863...)"
+                                    class="search-input"
+                                />
+                            </div>
+                            <button class="search-btn" ng-click="onSearch()" ng-disabled="searching">
+                                <span ng-if="!searching">Buscar</span>
+                                <span ng-if="searching">Buscando...</span>
+                            </button>
+                        </div>
+                        <div ng-if="notFound" class="error-message">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 16H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            No se encontró ningún vehículo con la placa "{{ searchPlate }}"
+                        </div>
+                        <div ng-if="foundVehicle" class="vehicle-preview-card" ng-click="goToVehicle(foundVehicle.plate)">
+                            <div class="vehicle-preview-header">
+                                <div class="vehicle-badge">{{ foundVehicle.type }}</div>
+                                <span class="vehicle-date">Último registro: {{ foundVehicle.lastDate }}</span>
+                            </div>
+                            <div class="vehicle-preview-body">
+                                <div class="vehicle-plate-block">
+                                    <span class="label">Placa</span>
+                                    <span class="plate-number">{{ foundVehicle.plate }}</span>
+                                    <span class="vehicle-unit">{{ foundVehicle.unit }}</span>
+                                </div>
+                                <div class="vehicle-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-icon km-icon">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4 14L8 6H16L20 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M4 14V18C4 18.5304 4.21071 19.0391 4.58579 19.4142C4.96086 19.7893 5.46957 20 6 20H7C7.53043 20 8.03914 19.7893 8.41421 19.4142C8.78929 19.0391 9 18.5304 9 18V17H15V18C15 18.5304 15.2107 19.0391 15.5858 19.4142C15.9609 19.7893 16.4696 20 17 20H18C18.5304 20 19.0391 19.7893 19.4142 19.4142C19.7893 19.0391 20 18.5304 20 18V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <circle cx="6.5" cy="14.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                                                <circle cx="17.5" cy="14.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                                            </svg>
+                                        </div>
+                                        <div class="stat-content">
+                                            <span class="stat-label">Kilometraje</span>
+                                            <span class="stat-value">{{ formatNumber(foundVehicle.lastKilometraje) }} <small>km</small></span>
+                                        </div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-icon hr-icon">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="stat-content">
+                                            <span class="stat-label">Horómetro</span>
+                                            <span class="stat-value">{{ formatNumber(foundVehicle.lastHorometro) }} <small>hrs</small></span>
+                                        </div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-icon fuel-icon">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M3 22V4C3 3.44772 3.44772 3 4 3H14C14.5523 3 15 3.44772 15 4V22" stroke="currentColor" stroke-width="2"/>
+                                                <path d="M3 22H15" stroke="currentColor" stroke-width="2"/>
+                                                <path d="M15 9H18L21 12V18C21 18.5523 20.5523 19 20 19H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="stat-content">
+                                            <span class="stat-label">Galones</span>
+                                            <span class="stat-value">{{ foundVehicle.lastGalones }} <small>gl</small></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vehicle-preview-footer">
+                                <span>Ver detalles y nuevo registro</span>
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vehicles-grid-section">
+                        <div class="section-header">
+                            <h3>Vehículos Recientes</h3>
+                            <span class="vehicles-count">{{ vehicles.length }} vehículos</span>
+                        </div>
+                        <div class="vehicles-grid">
+                            <div class="vehicle-card" ng-repeat="vehicle in vehicles | slice:0:8" ng-click="goToVehicle(vehicle.plate)">
+                                <div class="vehicle-card-top">
+                                    <div class="type-badge">{{ vehicle.type }}</div>
+                                    <span class="plate-text">{{ vehicle.plate }}</span>
+                                </div>
+                                <div class="vehicle-card-unit">{{ vehicle.unit }}</div>
+                                <div class="vehicle-card-stats">
+                                    <div class="mini-stat">
+                                        <span class="mini-label">KM</span>
+                                        <span class="mini-value">{{ formatNumber(vehicle.lastKilometraje) }}</span>
+                                    </div>
+                                    <div class="mini-stat">
+                                        <span class="mini-label">HRS</span>
+                                        <span class="mini-value">{{ formatNumber(vehicle.lastHorometro) }}</span>
+                                    </div>
+                                    <div class="mini-stat">
+                                        <span class="mini-label">GL</span>
+                                        <span class="mini-value">{{ vehicle.lastGalones }}</span>
+                                    </div>
+                                </div>
+                                <div class="vehicle-card-date">{{ vehicle.lastDate }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tips-section">
+                        <h3>Placas de prueba</h3>
+                        <div class="tips-chips">
+                            <span class="chip" ng-repeat="chip in suggestedPlates" ng-click="setPlate(chip)">
+                                {{ chip }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            $templateCache.put('home.html', homeTemplate);
+
+            var vehicleTemplate = `
+                <div ng-if="vehicle">
+                    <div class="vehicle-detail-page">
+                        <div class="page-header">
+                            <button class="back-btn" ng-click="goBack()">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Volver
+                            </button>
+                            <div class="page-title-group">
+                                <h2 class="page-title">Detalle del Vehículo</h2>
+                                <span class="page-subtitle">Gestión de kilometraje y horómetro</span>
+                            </div>
+                        </div>
+                        <div class="main-card">
+                            <div class="card-header">
+                                <div class="vehicle-identity">
+                                    <div class="plate-display">
+                                        <span class="plate-label">PLACA</span>
+                                        <span class="plate-number-big">{{ vehicle.plate }}</span>
+                                    </div>
+                                    <div class="vehicle-info">
+                                        <h3 class="vehicle-name">{{ vehicle.unit }}</h3>
+                                        <span class="v-type">{{ vehicle.type }}</span>
+                                    </div>
+                                </div>
+                                <div class="vehicle-actions">
+                                    <button class="tab-btn" ng-class="{'active': activeTab === 'overview'}" ng-click="activeTab = 'overview'">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M3 12L12 3L21 12M5 10V20C5 20.5304 5.21071 21.0391 5.58579 21.4142C5.96086 21.7893 6.46957 22 7 22H17C17.5304 22 18.0391 21.7893 18.4142 21.4142C18.7893 21.0391 19 20.5304 19 20V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        Resumen
+                                    </button>
+                                    <button class="tab-btn" ng-class="{'active': activeTab === 'new'}" ng-click="activeTab = 'new'">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        Nuevo Registro
+                                    </button>
+                                    <button class="tab-btn" ng-class="{'active': activeTab === 'history'}" ng-click="activeTab = 'history'">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 8V12L15 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M3.05005 11C3.28001 7.06999 6.47001 3.89998 10.42 3.89998C13.74 3.89998 16.65 5.72999 18.26 8.46998L21 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M20.95 13C20.72 16.93 17.53 20.1 13.58 20.1C10.26 20.1 7.34998 18.27 5.73998 15.53L3.00005 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        Historial
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div ng-if="activeTab === 'overview'">
+                                    <div class="stats-grid">
+                                        <div class="stat-card km-card">
+                                            <div class="stat-card-header">
+                                                <div class="stat-icon-wrap">
+                                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M4 14L8 6H16L20 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M4 14V18C4 18.5304 4.21071 19.0391 4.58579 19.4142C4.96086 19.7893 5.46957 20 6 20H7C7.53043 20 8.03914 19.7893 8.41421 19.4142C8.78929 19.0391 9 18.5304 9 18V17H15V18C15 18.5304 15.2107 19.0391 15.5858 19.4142C15.9609 19.7893 16.4696 20 17 20H18C18.5304 20 19.0391 19.7893 19.4142 19.4142C19.7893 19.0391 20 18.5304 20 18V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <circle cx="6.5" cy="14.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                                                        <circle cx="17.5" cy="14.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                                                    </svg>
+                                                </div>
+                                                <span ng-if="lastRecord && lastRecord.kmRecorridos" class="stat-trend">
+                                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                    +{{ lastRecord.kmRecorridos }} km
+                                                </span>
+                                            </div>
+                                            <div class="stat-card-value">
+                                                {{ formatNumber(vehicle.lastKilometraje) }}
+                                                <span class="unit">km</span>
+                                            </div>
+                                            <div class="stat-card-label">Kilometraje Actual</div>
+                                        </div>
+                                        <div class="stat-card hr-card">
+                                            <div class="stat-card-header">
+                                                <div class="stat-icon-wrap">
+                                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                                        <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                                    </svg>
+                                                </div>
+                                                <span ng-if="lastRecord && lastRecord.horasTrabajadas" class="stat-trend">
+                                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                    +{{ lastRecord.horasTrabajadas }} hrs
+                                                </span>
+                                            </div>
+                                            <div class="stat-card-value">
+                                                {{ formatNumber(vehicle.lastHorometro) }}
+                                                <span class="unit">hrs</span>
+                                            </div>
+                                            <div class="stat-card-label">Horómetro Actual</div>
+                                        </div>
+                                        <div class="stat-card fuel-card">
+                                            <div class="stat-card-header">
+                                                <div class="stat-icon-wrap">
+                                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M3 22V4C3 3.44772 3.44772 3 4 3H14C14.5523 3 15 3.44772 15 4V22" stroke="currentColor" stroke-width="2"/>
+                                                        <path d="M3 22H15" stroke="currentColor" stroke-width="2"/>
+                                                        <path d="M15 9H18L21 12V18C21 18.5523 20.5523 19 20 19H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <div class="stat-card-value">
+                                                {{ vehicle.lastGalones }}
+                                                <span class="unit">gl</span>
+                                            </div>
+                                            <div class="stat-card-label">Última Recarga</div>
+                                        </div>
+                                    </div>
+                                    <div class="info-section">
+                                        <div class="info-block">
+                                            <h4>Información General</h4>
+                                            <div class="info-grid">
+                                                <div class="info-item">
+                                                    <span class="info-label">Responsable</span>
+                                                    <span class="info-value">{{ vehicle.responsable || 'No asignado' }}</span>
+                                                </div>
+                                                <div class="info-item">
+                                                    <span class="info-label">Fecha último registro</span>
+                                                    <span class="info-value">{{ vehicle.lastDate }}</span>
+                                                </div>
+                                                <div class="info-item">
+                                                    <span class="info-label">Total registros</span>
+                                                    <span class="info-value">{{ vehicleRecords.length || 0 }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="info-block" ng-if="lastRecord && (lastRecord.kmRecorridos || lastRecord.horasTrabajadas)">
+                                            <h4>Consumo Promedio - Último Registro</h4>
+                                            <div class="consumo-grid">
+                                                <div class="consumo-item" ng-if="lastRecord.consumoKm">
+                                                    <div class="consumo-badge" ng-class="getConsumoClass(lastRecord.consumoKm, 'km')">
+                                                        {{ getConsumoStatus(lastRecord.consumoKm, 'km') }}
+                                                    </div>
+                                                    <div class="consumo-value">{{ lastRecord.consumoKm }} <small>gl/km</small></div>
+                                                    <div class="consumo-label">Consumo / Kilómetro</div>
+                                                    <div class="consumo-range">Rango óptimo: 3-6 gl/km</div>
+                                                </div>
+                                                <div class="consumo-item" ng-if="lastRecord.consumoHora">
+                                                    <div class="consumo-badge" ng-class="getConsumoClass(lastRecord.consumoHora, 'hr')">
+                                                        {{ getConsumoStatus(lastRecord.consumoHora, 'hr') }}
+                                                    </div>
+                                                    <div class="consumo-value">{{ lastRecord.consumoHora }} <small>gl/hr</small></div>
+                                                    <div class="consumo-label">Consumo / Hora</div>
+                                                    <div class="consumo-range">Rango óptimo: 3-5 gl/hr</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="activeTab === 'new'">
+                                    <div class="form-section">
+                                        <div class="form-header">
+                                            <div>
+                                                <h4>Nuevo Registro de Combustible</h4>
+                                                <p>Ingrese los datos de la nueva recarga</p>
+                                            </div>
+                                        </div>
+                                        <div ng-if="successMessage" class="form-alert">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M22 11.08V12C21.9988 14.1564 21.3005 16.2547 20.0093 17.9818C18.7182 19.709 16.9033 20.9725 14.8354 21.5839C12.7674 22.1953 10.5573 22.1219 8.53447 21.3746C6.51168 20.6273 4.78465 19.2461 3.61096 17.4371C2.43727 15.628 1.87979 13.4881 2.02168 11.3363C2.16356 9.18456 2.99721 7.13631 4.39828 5.49706C5.79935 3.85781 7.69279 2.71537 9.79619 2.24013C11.8996 1.7649 14.1003 1.98232 16.07 2.85999" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M22 4L12 14.01L9 11.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            {{ successMessage }}
+                                        </div>
+                                        <form class="record-form" ng-submit="onSubmit()">
+                                            <div class="form-row">
+                                                <div class="form-group">
+                                                    <label for="kilometraje">Kilometraje Actual <span class="required">*</span></label>
+                                                    <input
+                                                        type="number"
+                                                        id="kilometraje"
+                                                        name="kilometraje"
+                                                        ng-model="newRecord.kilometraje"
+                                                        min="{{ vehicle.lastKilometraje }}"
+                                                        step="1"
+                                                        placeholder="Ingrese kilometraje"
+                                                        required
+                                                    />
+                                                    <span class="form-hint">Anterior: {{ formatNumber(vehicle.lastKilometraje) }} km</span>
+                                                    <span ng-if="getKmDiff()" class="diff-hint">
+                                                        +{{ formatNumber(getKmDiff()) }} km recorridos
+                                                    </span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="horometro">Horómetro Actual <span class="required">*</span></label>
+                                                    <input
+                                                        type="number"
+                                                        id="horometro"
+                                                        name="horometro"
+                                                        ng-model="newRecord.horometro"
+                                                        min="{{ vehicle.lastHorometro }}"
+                                                        step="0.1"
+                                                        placeholder="Ingrese horómetro"
+                                                        required
+                                                    />
+                                                    <span class="form-hint">Anterior: {{ formatNumber(vehicle.lastHorometro) }} hrs</span>
+                                                    <span ng-if="getHrDiff()" class="diff-hint">
+                                                        +{{ formatNumber(getHrDiff()) }} hrs trabajadas
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group">
+                                                    <label for="galones">Galones Recargados <span class="required">*</span></label>
+                                                    <input
+                                                        type="number"
+                                                        id="galones"
+                                                        name="galones"
+                                                        ng-model="newRecord.galones"
+                                                        min="0"
+                                                        step="0.1"
+                                                        placeholder="Ingrese galones"
+                                                        required
+                                                    />
+                                                    <span class="form-hint">Última recarga: {{ vehicle.lastGalones }} gl</span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fecha">Fecha <span class="required">*</span></label>
+                                                    <input
+                                                        type="date"
+                                                        id="fecha"
+                                                        name="fecha"
+                                                        ng-model="newRecord.fecha"
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group">
+                                                    <label for="turno">Turno <span class="required">*</span></label>
+                                                    <select id="turno" name="turno" ng-model="newRecord.turno" required>
+                                                        <option value="">Seleccione turno</option>
+                                                        <option value="DIA">Día</option>
+                                                        <option value="NOCHE">Noche</option>
+                                                        <option value="TURNO 1">Turno 1</option>
+                                                        <option value="TURNO 2">Turno 2</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="responsable">Responsable <span class="required">*</span></label>
+                                                    <input
+                                                        type="text"
+                                                        id="responsable"
+                                                        name="responsable"
+                                                        ng-model="newRecord.responsable"
+                                                        placeholder="Nombre del responsable"
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="form-actions">
+                                                <button type="button" class="btn-secondary" ng-click="resetForm()">Limpiar Formulario</button>
+                                                <button type="submit" class="btn-primary" ng-disabled="!isFormValid()">
+                                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16L21 8V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M17 21V13H7V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M7 3V8H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                    Guardar Registro
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div ng-if="activeTab === 'history'">
+                                    <div class="history-section">
+                                        <div class="history-header">
+                                            <div>
+                                                <h4>Historial de Registros</h4>
+                                                <p>Registro completo de recargas y consumos</p>
+                                            </div>
+                                            <div class="history-summary">
+                                                <div class="summary-item">
+                                                    <span class="summary-label">Total Registros</span>
+                                                    <span class="summary-value">{{ vehicleRecords.length || 0 }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="history-table-container">
+                                            <table ng-if="vehicleRecords.length" class="history-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Fecha</th>
+                                                        <th>Turno</th>
+                                                        <th>Kilometraje</th>
+                                                        <th>Horómetro</th>
+                                                        <th>Galones</th>
+                                                        <th>KM Rec.</th>
+                                                        <th>Horas Rec.</th>
+                                                        <th>Cons. KM</th>
+                                                        <th>Cons. HRS</th>
+                                                        <th>Responsable</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="record in vehicleRecords" ng-class="{'latest': isLatest(record)}">
+                                                        <td>
+                                                            <span class="date-badge-small">{{ record.fecha }}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="turno-badge" ng-class="getTurnoClass(record.turno)">{{ record.turno }}</span>
+                                                        </td>
+                                                        <td class="td-number">{{ formatNumber(record.kilometraje) }} <small>km</small></td>
+                                                        <td class="td-number">{{ formatNumber(record.horometro) }} <small>hrs</small></td>
+                                                        <td class="td-number td-fuel">{{ record.galones }} <small>gl</small></td>
+                                                        <td class="td-number td-diff" ng-if="record.kmRecorridos">+{{ record.kmRecorridos }}</td>
+                                                        <td class="td-empty" ng-if="!record.kmRecorridos">-</td>
+                                                        <td class="td-number td-diff" ng-if="record.horasTrabajadas">+{{ record.horasTrabajadas }}</td>
+                                                        <td class="td-empty" ng-if="!record.horasTrabajadas">-</td>
+                                                        <td class="td-number">
+                                                            <span ng-if="record.consumoKm" class="consumo-tag" ng-class="getConsumoClass(record.consumoKm, 'km')">
+                                                                {{ record.consumoKm }}
+                                                            </span>
+                                                            <span ng-if="!record.consumoKm">-</span>
+                                                        </td>
+                                                        <td class="td-number">
+                                                            <span ng-if="record.consumoHora" class="consumo-tag" ng-class="getConsumoClass(record.consumoHora, 'hr')">
+                                                                {{ record.consumoHora }}
+                                                            </span>
+                                                            <span ng-if="!record.consumoHora">-</span>
+                                                        </td>
+                                                        <td class="td-responsible">{{ record.responsable }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div ng-if="!vehicleRecords.length" class="empty-state">
+                                                <div class="empty-icon">
+                                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M9 12H15M12 9V15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                                <h5>No hay registros aún</h5>
+                                                <p>Crea el primer registro de este vehículo en la pestaña "Nuevo Registro"</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="!vehicle && !loading" class="not-found-state">
+                    <div class="not-found-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M8 15C8.73687 14.3516 9.65157 14.0002 10.6 14C11.7776 13.9998 12.8187 14.5565 13.4 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M9 9H9.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M15 9H15.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Vehículo no encontrado</h3>
+                    <p>No se encontró ningún vehículo con la placa especificada</p>
+                    <button class="back-btn-primary" ng-click="goBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Volver a la búsqueda
+                    </button>
+                </div>
+            `;
+            $templateCache.put('vehicle-detail.html', vehicleTemplate);
+        }]);
+    </script>
+</body>
+</html>
