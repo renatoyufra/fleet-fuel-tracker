@@ -1644,28 +1644,560 @@
             border-color: #fecaca;
             color: #b91c1c;
         }
+
+        /* ACTIVE WORKSHIFT BADGE (Header) */
+        .active-workshift-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.45rem 0.85rem;
+            background: linear-gradient(135deg, #065f46 0%, #059669 100%);
+            color: white;
+            border-radius: 10px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(5,150,105,0.3);
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        @keyframes pulseGlow {
+            0%,100% { box-shadow: 0 2px 10px rgba(5,150,105,0.3); }
+            50%     { box-shadow: 0 2px 18px rgba(5,150,105,0.55); }
+        }
+        .active-workshift-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #86efac;
+            box-shadow: 0 0 0 3px rgba(134,239,172,0.35);
+        }
+        .active-workshift-badge .ws-plate {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            background: rgba(255,255,255,0.18);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        /* NEW MINIMAL CAPTURE UI */
+        .home-minimal {
+            padding: 2rem 1.5rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .quick-search-wrap {
+            max-width: 720px;
+            margin: 0 auto 1.5rem;
+        }
+        .quick-search-title {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .quick-search-title h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 0.25rem;
+        }
+        .quick-search-title p {
+            color: #64748b;
+            font-size: 0.88rem;
+        }
+        .minimal-search {
+            display: flex;
+            align-items: stretch;
+            gap: 0.6rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px -10px rgba(15,23,42,0.18), 0 1px 3px rgba(0,0,0,0.05);
+            border: 1.5px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+        .minimal-search:focus-within {
+            border-color: #3b82f6;
+            box-shadow: 0 12px 30px -10px rgba(59,130,246,0.35), 0 0 0 4px rgba(59,130,246,0.08);
+        }
+        .minimal-search-input {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.3rem 0.8rem;
+        }
+        .minimal-search-input svg {
+            width: 20px;
+            height: 20px;
+            color: #94a3b8;
+            flex-shrink: 0;
+        }
+        .minimal-search-input input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            padding: 0.4rem 0;
+            background: transparent;
+            color: #0f172a;
+        }
+        .minimal-search-input input::placeholder {
+            color: #cbd5e1;
+            font-weight: 500;
+            letter-spacing: 0;
+        }
+        .minimal-search-btn {
+            padding: 0.65rem 1.5rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 4px 12px rgba(29,78,216,0.3);
+        }
+        .minimal-search-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(29,78,216,0.4);
+        }
+        .minimal-search-btn:disabled { opacity: 0.7; cursor: wait; }
+
+        .minimal-error {
+            margin-top: 0.85rem;
+            text-align: center;
+            color: #b91c1c;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .suggested-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.9rem;
+        }
+        .chip-plate {
+            padding: 0.4rem 0.75rem;
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            color: #1e40af;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .chip-plate:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            transform: translateY(-1px);
+        }
+
+        /* VEHICLE COMPACT CARD (INLINE) */
+        .vehicle-compact-card {
+            max-width: 860px;
+            margin: 0 auto 1.5rem;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 18px 40px -15px rgba(15,23,42,0.2), 0 2px 6px rgba(0,0,0,0.04);
+            overflow: hidden;
+            animation: slideUp 0.4s ease-out;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .vcc-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-bottom: 1px solid #e0e7ff;
+        }
+        .vcc-id {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+        .vcc-plate {
+            background: white;
+            padding: 0.5rem 0.95rem;
+            border-radius: 10px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #1e3a8a;
+            border: 1.5px solid #bfdbfe;
+            box-shadow: 0 2px 8px rgba(59,130,246,0.08);
+            letter-spacing: 0.04em;
+        }
+        .vcc-meta h3 {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #0f172a;
+            font-weight: 700;
+        }
+        .vcc-meta p {
+            margin: 0.08rem 0 0;
+            font-size: 0.78rem;
+            color: #475569;
+        }
+        .vcc-stats-mini {
+            display: flex;
+            gap: 0.4rem;
+        }
+        .vcc-mini-stat {
+            background: white;
+            padding: 0.4rem 0.65rem;
+            border-radius: 9px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            min-width: 68px;
+        }
+        .vcc-mini-stat .lbl {
+            font-size: 0.65rem;
+            color: #64748b;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .vcc-mini-stat .val {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-top: 2px;
+        }
+        .vcc-mini-stat.km .val { color: #1d4ed8; }
+        .vcc-mini-stat.hr .val { color: #b45309; }
+        .vcc-mini-stat.gl .val { color: #059669; }
+
+        /* STEPS INDICATOR */
+        .steps-wrap {
+            padding: 1rem 1.25rem 0.5rem;
+            background: #fafbfc;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.82rem;
+            background: #e2e8f0;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+        .step-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #64748b;
+            text-align: center;
+        }
+        .step.active .step-number {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            box-shadow: 0 4px 10px rgba(29,78,216,0.35);
+        }
+        .step.active .step-label {
+            color: #1d4ed8;
+        }
+        .step.done .step-number {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .step.done .step-label { color: #059669; }
+        .step-connector {
+            position: absolute;
+            top: 15px;
+            left: 25%;
+            width: 50%;
+            height: 2.5px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+        .step-connector.done {
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+        }
+
+        /* FORMS (compact minimalist) */
+        .form-panels { padding: 1.25rem; }
+        .form-panel-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .form-panel-title h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: #0f172a;
+            font-weight: 800;
+        }
+        .form-panel-title .sub {
+            color: #64748b;
+            font-size: 0.78rem;
+        }
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem 1rem;
+        }
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .form-field label {
+            font-size: 0.78rem;
+            color: #334155;
+            font-weight: 600;
+        }
+        .form-field label .hint {
+            font-weight: 500;
+            color: #94a3b8;
+            font-size: 0.72rem;
+            margin-left: 0.2rem;
+        }
+        .form-field input, .form-field select {
+            padding: 0.6rem 0.85rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.15s;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .form-field input:focus, .form-field select:focus {
+            border-color: #3b82f6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+        }
+        .form-field input.mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-weight: 700;
+        }
+        .diff-hint {
+            display: block;
+            font-size: 0.72rem;
+            color: #059669;
+            font-weight: 600;
+            margin-top: 0.15rem;
+        }
+        .diff-hint.warn { color: #b45309; }
+        .diff-hint.err { color: #b91c1c; }
+
+        .actions-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1.1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #e2e8f0;
+            gap: 0.75rem;
+        }
+        .btn-primary {
+            padding: 0.7rem 1.3rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            border-radius: 11px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 4px 12px rgba(29,78,216,0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            justify-content: center;
+        }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(29,78,216,0.4); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 12px rgba(5,150,105,0.3);
+        }
+        .btn-success:hover:not(:disabled) { box-shadow: 0 8px 18px rgba(5,150,105,0.4); }
+        .btn-danger {
+            background: white;
+            color: #b91c1c;
+            border: 1.5px solid #fecaca;
+            box-shadow: none;
+            padding: 0.55rem 0.95rem;
+        }
+        .btn-danger:hover:not(:disabled) { background: #fef2f2; transform: none; }
+        .btn-ghost {
+            background: white;
+            color: #475569;
+            border: 1.5px solid #e2e8f0;
+            box-shadow: none;
+        }
+        .btn-ghost:hover:not(:disabled) {
+            background: #f8fafc; transform: none; border-color: #cbd5e1; }
+        .btn-warn {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 12px rgba(217,119,6,0.3);
+        }
+
+        /* Refuels list */
+        .refuels-list {
+            margin-top: 0.9rem;
+            padding: 0.85rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        .refuels-list-head {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #334155;
+        }
+        .refuel-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.55rem 0.7rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.83rem;
+        }
+        .refuel-item:last-child { border-bottom: none; }
+        .refuel-item .rnum {
+            font-weight: 600;
+            color: #475569;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.75rem;
+        }
+        .refuel-item .rgl {
+            font-weight: 800;
+            color: #059669;
+        }
+        .refuel-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.65rem;
+            padding-top: 0.6rem;
+            border-top: 2px solid #cbd5e1;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .empty-refuels {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            padding: 0.5rem;
+        }
+
+        .alert-success-inline {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.75rem 1rem;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 0 0 0.9rem;
+        }
+
+        /* Workshift Resume (closed card) */
+        .workshift-summary {
+            margin-top: 1rem 1.25rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1.5px solid #bbf7d0;
+            border-radius: 12px;
+        }
+        .ws-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        .ws-sum-item {
+            text-align: center;
+            padding: 0.3rem;
+        }
+        .ws-sum-item .s-lbl {
+            font-size: 0.7rem;
+            color: #166534;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .ws-sum-item .s-val {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #064e3b;
+            margin-top: 0.2rem;
+        }
+        .ws-sum-item .s-unit {
+            font-size: 0.75rem;
+            color: #166534;
+            font-weight: 600;
+            margin-left: 2px;
+        }
+
+        /* Hide helpers */
+        .hide-mobile { display: block; }
+        .show-mobile { display: none; }
+
+        @media (max-width: 768px) {
+            .hide-mobile { display: none !important; }
+            .show-mobile { display: block; }
+            .home-minimal { padding: 1.1rem 0.85rem; }
+            .quick-search-title h2 { font-size: 1.2rem; }
+            .minimal-search { padding: 0.4rem; flex-direction: column; align-items: stretch; }
+            .minimal-search-input { padding: 0.4rem 0.6rem; }
+            .minimal-search-btn { width: 100%; justify-content: center; }
+            .vcc-header { flex-direction: column; gap: 0.75rem; align-items: stretch; }
+            .vcc-stats-mini { justify-content: space-between; }
+            .vcc-mini-stat { flex: 1; min-width: 0; }
+            .form-grid-2 { grid-template-columns: 1fr; }
+            .ws-summary-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps-wrap { padding: 0.8rem 0.85rem 0.3rem; }
+            .step-label { font-size: 0.62rem; }
+            .form-panels { padding: 0.9rem; }
+            .actions-row { flex-direction: column-reverse; align-items: stretch; }
+            .btn-primary, .btn-success, .btn-ghost, .btn-danger, .btn-warn { width: 100%; }
+        }
         @media (max-width: 480px) {
             .login-card { padding: 2rem 1.5rem; border-radius: 20px; }
             .login-logo h2 { font-size: 1.25rem; }
-        }
-
-        @media (max-width: 768px) {
-            .search-box {
-                flex-direction: column;
-            }
-            .vehicle-preview-body {
-                grid-template-columns: 1fr !important;
-            }
-            .vehicle-stats {
-                grid-template-columns: 1fr !important;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr !important;
-            }
-            .vehicle-identity {
-                flex-direction: column;
-                align-items: flex-start;
-            }
         }
     </style>
 </head>
@@ -1772,6 +2304,11 @@
                     </div>
                 </div>
                 <div class="header-logout">
+                    <span class="active-workshift-badge" ng-if="activeWorkshift" ng-click="goHome(); searchAndLoadPlate(activeWorkshift.plate);" style="cursor:pointer;" title="Ir a la jornada activa">
+                        <span class="dot"></span>
+                        <span>Jornada Activa</span>
+                        <span class="ws-plate">{{ activeWorkshift.plate }}</span>
+                    </span>
                     <span class="date-badge">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1908,6 +2445,18 @@
             }
             generateRecords();
 
+            function loadWorkshifts() {
+                try {
+                    var raw = sessionStorage.getItem('fleetWorkshifts');
+                    return raw ? JSON.parse(raw) : [];
+                } catch(e) { return []; }
+            }
+            function saveWorkshifts(list) {
+                try { sessionStorage.setItem('fleetWorkshifts', JSON.stringify(list)); } catch(e) {}
+            }
+            var workshifts = loadWorkshifts();
+            var nextWsId = workshifts.length > 0 ? (Math.max.apply(null, workshifts.map(function(w){ return w.id || 0; })) + 1) : 1;
+
             return {
                 getAllVehicles: function() {
                     return vehicles;
@@ -1975,19 +2524,114 @@
                     if (cls === 'optimo') return 'ÓPTIMO';
                     if (cls === 'regular') return 'REGULAR';
                     return 'ALTO';
+                },
+                getActiveWorkshift: function(plate, operator) {
+                    var now = new Date();
+                    var today = now.toISOString().split('T')[0];
+                    return workshifts.find(function(w) {
+                        if (w.status !== 'open') return false;
+                        if (plate && w.plate.toUpperCase() !== plate.toUpperCase()) return false;
+                        if (operator && w.operator.toLowerCase() !== operator.toLowerCase()) return false;
+                        return true;
+                    }) || null;
+                },
+                listWorkshifts: function(plate) {
+                    var list = plate ? workshifts.filter(function(w){ return w.plate.toUpperCase() === plate.toUpperCase(); }) : workshifts.slice();
+                    return list.sort(function(a,b){ return (b.id||0) - (a.id||0); });
+                },
+                startWorkshift: function(data) {
+                    var ws = {
+                        id: nextWsId++,
+                        plate: data.plate,
+                        unit: data.unit,
+                        operator: data.operator,
+                        turno: data.turno,
+                        startDate: data.date,
+                        startTime: data.time,
+                        startKilometraje: data.startKilometraje,
+                        startHorometro: data.startHorometro,
+                        refuels: [],
+                        status: 'open',
+                        totalGalonesAbastecidos: 0,
+                        createdAt: Date.now()
+                    };
+                    workshifts.push(ws);
+                    saveWorkshifts(workshifts);
+                    $rootScope.$broadcast('workshiftsUpdated');
+                    return ws;
+                },
+                addRefuel: function(workshiftId, galones, fecha) {
+                    var ws = workshifts.find(function(w){ return w.id === workshiftId; });
+                    if (!ws) return null;
+                    var refuel = {
+                        id: (ws.refuels.length + 1),
+                        galones: +galones,
+                        fecha: fecha
+                    };
+                    ws.refuels.push(refuel);
+                    ws.totalGalonesAbastecidos = +(ws.totalGalonesAbastecidos + refuel.galones).toFixed(2);
+                    saveWorkshifts(workshifts);
+                    $rootScope.$broadcast('workshiftsUpdated');
+                    return refuel;
+                },
+                endWorkshift: function(workshiftId, data) {
+                    var ws = workshifts.find(function(w){ return w.id === workshiftId; });
+                    if (!ws) return null;
+                    ws.status = 'closed';
+                    ws.endDate = data.endDate;
+                    ws.endTime = data.endTime;
+                    ws.endKilometraje = data.endKilometraje;
+                    ws.endHorometro = data.endHorometro;
+                    ws.finalGalones = +(data.finalGalones || 0);
+                    ws.kmRecorridos = +(ws.endKilometraje - ws.startKilometraje).toFixed(2);
+                    ws.horasTrabajadas = +(ws.endHorometro - ws.startHorometro).toFixed(2);
+                    if (ws.kmRecorridos < 0) ws.kmRecorridos = 0;
+                    if (ws.horasTrabajadas < 0) ws.horasTrabajadas = 0;
+                    var totalGl = +(ws.totalGalonesAbastecidos + ws.finalGalones).toFixed(2);
+                    ws.consumoKm = ws.kmRecorridos > 0 ? +(totalGl / ws.kmRecorridos).toFixed(2) : 0;
+                    ws.consumoHora = ws.horasTrabajadas > 0 ? +(totalGl / ws.horasTrabajadas).toFixed(2) : 0;
+                    ws.closedAt = Date.now();
+                    saveWorkshifts(workshifts);
+                    $rootScope.$broadcast('workshiftsUpdated');
+                    return ws;
+                },
+                cancelWorkshift: function(workshiftId) {
+                    workshifts = workshifts.filter(function(w){ return w.id !== workshiftId; });
+                    saveWorkshifts(workshifts);
+                    $rootScope.$broadcast('workshiftsUpdated');
                 }
             };
         }]);
 
-        app.controller('MainController', ['$scope', '$location', '$rootScope', function($scope, $location, $rootScope) {
+        app.controller('MainController', ['$scope', '$location', '$rootScope', 'VehicleService', function($scope, $location, $rootScope, VehicleService) {
             var today = new Date();
             var options = { day: '2-digit', month: 'long', year: 'numeric' };
             $scope.currentDate = today.toLocaleDateString('es-ES', options);
 
             $scope.currentUser = $rootScope.currentUser || null;
+            $scope.activeWorkshift = null;
+
+            function refreshActiveWorkshift() {
+                if ($rootScope.currentUser) {
+                    $scope.activeWorkshift = VehicleService.getActiveWorkshift(null, $rootScope.currentUser);
+                } else {
+                    $scope.activeWorkshift = null;
+                }
+            }
+            refreshActiveWorkshift();
+
+            $scope.$on('workshiftsUpdated', refreshActiveWorkshift);
+            $scope.$on('$locationChangeSuccess', refreshActiveWorkshift);
+
+            $scope.$on('$routeChangeSuccess', refreshActiveWorkshift);
+            $rootScope.$watch('currentUser', refreshActiveWorkshift);
 
             $scope.goHome = function() {
                 $location.path('/');
+            };
+
+            $scope.searchAndLoadPlate = function(plate) {
+                $rootScope.$broadcast('autoLoadPlate', plate);
             };
 
             $scope.doLogout = function() {
@@ -1995,6 +2639,7 @@
                 $rootScope.isAuthenticated = false;
                 $rootScope.currentUser = null;
                 $scope.currentUser = null;
+                $scope.activeWorkshift = null;
                 $location.path('/');
             };
 
@@ -2064,35 +2709,106 @@
             });
         }]);
 
-        app.controller('HomeController', ['$scope', '$location', 'VehicleService', function($scope, $location, VehicleService) {
+        app.controller('HomeController', ['$scope', '$location', '$rootScope', '$timeout', 'VehicleService', function($scope, $location, $rootScope, $timeout, VehicleService) {
             $scope.searchPlate = '';
             $scope.searching = false;
-            $scope.notFound = false;
+            $scope.searchError = '';
             $scope.foundVehicle = null;
-            $scope.vehicles = VehicleService.getAllVehicles();
             $scope.suggestedPlates = ['AAQ-303', 'CJN-863', 'CHN-817', 'BXR-897', 'CHM-812', 'DFC-918'];
+            $scope.currentWorkshift = null;
+            $scope.stepIndex = 1;
+            $scope.canStartWorkshift = true;
+            $scope.successMessage = '';
+            $scope.plateWorkshifts = [];
 
-            $scope.onSearch = function() {
-                if (!$scope.searchPlate.trim()) return;
-                $scope.searching = true;
-                $scope.notFound = false;
-                $scope.foundVehicle = null;
+            $scope.$on('autoLoadPlate', function(ev, plate) {
+                if (!plate) return;
+                $scope.searchPlate = plate;
+                $scope.onSearch(true);
+            });
 
-                setTimeout(function() {
-                    $scope.$apply(function() {
-                        $scope.searching = false;
-                        var vehicle = VehicleService.searchVehicle($scope.searchPlate);
-                        if (vehicle) {
-                            $scope.foundVehicle = vehicle;
-                        } else {
-                            $scope.notFound = true;
-                        }
-                    });
-                }, 300);
+            $scope.$on('workshiftsUpdated', function() {
+                if ($scope.foundVehicle) {
+                    $scope.refreshWorkshiftContext();
+                }
+            });
+
+            function todayISO() {
+                var t = new Date();
+                return t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0') + '-' + String(t.getDate()).padStart(2,'0');
+            }
+            function nowTimeStr() {
+                var t = new Date();
+                return String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
+            }
+            function formatDateDDMM(iso) {
+                if (!iso) return '';
+                var p = iso.split('-');
+                return p[2] + '-' + p[1] + '-' + p[0];
+            }
+
+            $scope.resetStartForm = function() {
+                var kmInit = $scope.foundVehicle ? $scope.foundVehicle.lastKilometraje : 0;
+                var hrInit = $scope.foundVehicle ? $scope.foundVehicle.lastHorometro : 0;
+                $scope.startForm = {
+                    kilometraje: kmInit || null,
+                    horometro: hrInit || null,
+                    date: todayISO(),
+                    turno: 'DIA'
+                };
+                $scope.startKmClass = ''; $scope.startKmHint = '';
+                $scope.startHrClass = ''; $scope.startHrHint = '';
+                $scope.showCancelStart = false;
+            };
+            $scope.resetEndForm = function() {
+                var kmBase = $scope.currentWorkshift ? $scope.currentWorkshift.startKilometraje : 0;
+                var hrBase = $scope.currentWorkshift ? $scope.currentWorkshift.startHorometro : 0;
+                $scope.endForm = {
+                    kilometraje: kmBase || null,
+                    horometro: hrBase || null,
+                    finalGalones: 0,
+                    date: todayISO()
+                };
+                $scope.endKmClass = ''; $scope.endKmHint = '';
+                $scope.endHrClass = ''; $scope.endHrHint = '';
+            };
+            $scope.resetRefuelForm = function() {
+                $scope.refuelForm = { galones: null, date: todayISO() };
             };
 
-            $scope.goToVehicle = function(plate) {
-                $location.path('/vehicle/' + plate);
+            $scope.refreshWorkshiftContext = function() {
+                if (!$scope.foundVehicle) return;
+                var op = $rootScope.currentUser || 'admin';
+                $scope.currentWorkshift = VehicleService.getActiveWorkshift($scope.foundVehicle.plate, op);
+                if ($scope.currentWorkshift) {
+                    $scope.stepIndex = 2;
+                    $scope.resetEndForm();
+                    $scope.resetRefuelForm();
+                } else {
+                    $scope.stepIndex = 1;
+                    $scope.resetStartForm();
+                }
+                $scope.plateWorkshifts = VehicleService.listWorkshifts($scope.foundVehicle.plate);
+                $scope.updateCurrentDisplay();
+            };
+
+            $scope.onSearch = function(fromBadge) {
+                if (!$scope.searchPlate.trim()) return;
+                $scope.searching = true;
+                $scope.searchError = '';
+                $scope.foundVehicle = null;
+                $scope.successMessage = '';
+
+                $timeout(function() {
+                    $scope.searching = false;
+                    var vehicle = VehicleService.searchVehicle($scope.searchPlate);
+                    if (!vehicle) {
+                        $scope.searchError = 'No se encontró ningún vehículo con la placa "' + $scope.searchPlate + '"';
+                        return;
+                    }
+                    $scope.foundVehicle = vehicle;
+                    $scope.refreshWorkshiftContext();
+                }, fromBadge ? 50 : 280);
             };
 
             $scope.setPlate = function(plate) {
@@ -2100,10 +2816,198 @@
                 $scope.onSearch();
             };
 
+            $scope.updateCurrentDisplay = function() {
+                if ($scope.currentWorkshift && $scope.currentWorkshift.status === 'closed') {
+                    $scope.currentDisplayKm = $scope.currentWorkshift.endKilometraje;
+                    $scope.currentDisplayHr = $scope.currentWorkshift.endHorometro;
+                    var totalG = ($scope.currentWorkshift.totalGalonesAbastecidos||0) + ($scope.currentWorkshift.finalGalones||0);
+                    $scope.currentDisplayGl = totalG;
+                } else if ($scope.currentWorkshift && $scope.currentWorkshift.status === 'open') {
+                    $scope.currentDisplayKm = $scope.currentWorkshift.startKilometraje;
+                    $scope.currentDisplayHr = $scope.currentWorkshift.startHorometro;
+                    $scope.currentDisplayGl = $scope.currentWorkshift.totalGalonesAbastecidos || 0;
+                } else {
+                    $scope.currentDisplayKm = $scope.foundVehicle ? $scope.foundVehicle.lastKilometraje : 0;
+                    $scope.currentDisplayHr = $scope.foundVehicle ? $scope.foundVehicle.lastHorometro : 0;
+                    $scope.currentDisplayGl = $scope.foundVehicle ? $scope.foundVehicle.lastGalones : 0;
+                }
+            };
+
+            // STEP HELPERS
+            $scope.getStepClass = function(n) {
+                if ($scope.stepIndex > n) return 'done';
+                if ($scope.stepIndex === n) return 'active';
+                return '';
+            };
+            $scope.goToStep = function(n) {
+                $scope.stepIndex = n;
+                $scope.successMessage = '';
+            };
+
+            // VALIDATIONS
+            $scope.validateStartKm = function() {
+                if (!$scope.foundVehicle || $scope.startForm.kilometraje === undefined || $scope.startForm.kilometraje === null) {
+                    $scope.startKmClass = ''; $scope.startKmHint = ''; return;
+                }
+                var last = $scope.foundVehicle.lastKilometraje || 0;
+                var diff = +$scope.startForm.kilometraje - last;
+                if (diff < 0) { $scope.startKmClass='err'; $scope.startKmHint='El kilometraje inicial no puede ser menor al último registrado (' + $scope.formatNumber(last) + ' km)'; return; }
+                if (diff === 0) { $scope.startKmClass=''; $scope.startKmHint='Coincide con el último registro'; return; }
+                $scope.startKmClass=''; $scope.startKmHint='Diferencia: +' + $scope.formatNumber(diff) + ' km desde el último registro';
+            };
+            $scope.validateStartHr = function() {
+                if (!$scope.foundVehicle || $scope.startForm.horometro === undefined || $scope.startForm.horometro === null) {
+                    $scope.startHrClass=''; $scope.startHrHint=''; return;
+                }
+                var last = $scope.foundVehicle.lastHorometro || 0;
+                if (last === 0) { $scope.startHrClass=''; $scope.startHrHint='Valor inicial configurado'; return; }
+                var diff = +$scope.startForm.horometro - last;
+                if (diff < 0) { $scope.startHrClass='err'; $scope.startHrHint='El horómetro inicial no puede ser menor al último registrado (' + $scope.formatNumber(last) + ' hrs)'; return; }
+                if (diff === 0) { $scope.startHrClass=''; $scope.startHrHint='Coincide con el último registro'; return; }
+                $scope.startHrClass=''; $scope.startHrHint='Diferencia: +' + $scope.formatNumber(diff) + ' hrs desde el último registro';
+            };
+            $scope.canSubmitStart = function() {
+                if (!$scope.startForm || !$scope.foundVehicle) return false;
+                if ($scope.startForm.kilometraje === undefined || $scope.startForm.kilometraje === null) return false;
+                if ($scope.startForm.horometro === undefined || $scope.startForm.horometro === null) return false;
+                if ($scope.startForm.kilometraje < ($scope.foundVehicle.lastKilometraje || 0)) return false;
+                if ($scope.foundVehicle.lastHorometro > 0 && $scope.startForm.horometro < $scope.foundVehicle.lastHorometro) return false;
+                if (!$scope.startForm.date) return false;
+                if (!$scope.startForm.turno) return false;
+                // Prevent having an open workshift for another vehicle with same operator
+                var op = $rootScope.currentUser || 'admin';
+                var otherActive = VehicleService.getActiveWorkshift(null, op);
+                if (otherActive && otherActive.plate.toUpperCase() !== $scope.foundVehicle.plate.toUpperCase()) {
+                    return false;
+                }
+                return true;
+            };
+
+            $scope.startWorkshift = function() {
+                if (!$scope.canSubmitStart()) return;
+                var op = $rootScope.currentUser || 'admin';
+                VehicleService.startWorkshift({
+                    plate: $scope.foundVehicle.plate,
+                    unit: $scope.foundVehicle.unit,
+                    operator: op,
+                    turno: $scope.startForm.turno,
+                    date: formatDateDDMM($scope.startForm.date),
+                    time: nowTimeStr(),
+                    startKilometraje: +$scope.startForm.kilometraje,
+                    startHorometro: +$scope.startForm.horometro
+                });
+                $scope.successMessage = '✅ Jornada iniciada para ' + $scope.foundVehicle.plate + '. Puedes registrar abastecimientos o continuar a finalizar.';
+                $scope.refreshWorkshiftContext();
+                $scope.stepIndex = 2;
+                $timeout(function(){ $scope.successMessage = ''; }, 6000);
+            };
+
+            $scope.addRefuel = function() {
+                if (!$scope.refuelForm.galones || $scope.refuelForm.galones <= 0) return;
+                if (!$scope.currentWorkshift) return;
+                VehicleService.addRefuel($scope.currentWorkshift.id, +$scope.refuelForm.galones, formatDateDDMM($scope.refuelForm.date));
+                $scope.successMessage = '⛽ Abastecimiento de ' + $scope.refuelForm.galones + ' galones registrado';
+                $scope.refreshWorkshiftContext();
+                $scope.refuelForm.galones = null;
+                $timeout(function(){ $scope.successMessage = ''; }, 4000);
+            };
+
+            // End form validations
+            $scope.validateEndKm = function() {
+                if (!$scope.currentWorkshift || $scope.endForm.kilometraje === undefined || $scope.endForm.kilometraje === null) {
+                    $scope.endKmClass=''; $scope.endKmHint=''; return;
+                }
+                var start = $scope.currentWorkshift.startKilometraje || 0;
+                var diff = +$scope.endForm.kilometraje - start;
+                if (diff < 0) { $scope.endKmClass='err'; $scope.endKmHint='El kilometraje final no puede ser menor al inicial (' + $scope.formatNumber(start) + ' km)'; return; }
+                $scope.endKmClass=''; $scope.endKmHint='KM recorridos: +' + $scope.formatNumber(diff) + ' km';
+            };
+            $scope.validateEndHr = function() {
+                if (!$scope.currentWorkshift || $scope.endForm.horometro === undefined || $scope.endForm.horometro === null) {
+                    $scope.endHrClass=''; $scope.endHrHint=''; return;
+                }
+                var start = $scope.currentWorkshift.startHorometro || 0;
+                if (start === 0) {
+                    var v = +$scope.endForm.horometro;
+                    $scope.endHrClass = ''; $scope.endHrHint = v>0 ? ('Horas trabajadas: +' + $scope.formatNumber(v) + ' hrs') : '';
+                    return;
+                }
+                var diff = +$scope.endForm.horometro - start;
+                if (diff < 0) { $scope.endHrClass='err'; $scope.endHrHint='El horómetro final no puede ser menor al inicial (' + $scope.formatNumber(start) + ' hrs)'; return; }
+                $scope.endHrClass=''; $scope.endHrHint='Horas trabajadas: +' + $scope.formatNumber(diff) + ' hrs';
+            };
+            $scope.canSubmitEnd = function() {
+                if (!$scope.currentWorkshift) return false;
+                if ($scope.endForm.kilometraje === undefined || $scope.endForm.kilometraje === null) return false;
+                if ($scope.endForm.horometro === undefined || $scope.endForm.horometro === null) return false;
+                if ($scope.endForm.kilometraje < ($scope.currentWorkshift.startKilometraje || 0)) return false;
+                if ($scope.currentWorkshift.startHorometro > 0 && $scope.endForm.horometro < $scope.currentWorkshift.startHorometro) return false;
+                if (!$scope.endForm.date) return false;
+                return true;
+            };
+
+            $scope.endWorkshift = function() {
+                if (!$scope.canSubmitEnd()) return;
+                var closed = VehicleService.endWorkshift($scope.currentWorkshift.id, {
+                    endDate: formatDateDDMM($scope.endForm.date),
+                    endTime: nowTimeStr(),
+                    endKilometraje: +$scope.endForm.kilometraje,
+                    endHorometro: +$scope.endForm.horometro,
+                    finalGalones: +($scope.endForm.finalGalones || 0)
+                });
+
+                // Also register a historical record for the vehicle with the final KM/H
+                var totalGl = +((closed.totalGalonesAbastecidos||0) + (closed.finalGalones||0)).toFixed(2);
+                VehicleService.addRecord({
+                    plate: closed.plate,
+                    unit: closed.unit,
+                    kilometraje: closed.endKilometraje,
+                    horometro: closed.endHorometro,
+                    galones: totalGl,
+                    fecha: closed.endDate || closed.startDate,
+                    turno: closed.turno,
+                    responsable: closed.operator
+                });
+
+                $scope.foundVehicle = VehicleService.searchVehicle(closed.plate);
+                $scope.successMessage = '🎉 Jornada finalizada. Se actualizaron los valores del vehículo.';
+                $scope.refreshWorkshiftContext();
+                $scope.$applyAsync();
+            };
+
+            $scope.cancelWorkshift = function() {
+                if (!$scope.currentWorkshift) return;
+                if (!confirm('¿Estás seguro de cancelar esta jornada? Los datos de abastecimientos se perderán.')) return;
+                VehicleService.cancelWorkshift($scope.currentWorkshift.id);
+                $scope.successMessage = 'Jornada cancelada';
+                $scope.refreshWorkshiftContext();
+                $timeout(function(){ $scope.successMessage = ''; }, 3500);
+            };
+            $scope.clearWorkshiftContext = function() {
+                $scope.currentWorkshift = null;
+                $scope.foundVehicle = VehicleService.searchVehicle($scope.foundVehicle.plate);
+                $scope.refreshWorkshiftContext();
+            };
+            $scope.startNewWorkshiftForVehicle = function() {
+                $scope.currentWorkshift = null;
+                $scope.stepIndex = 1;
+                $scope.resetStartForm();
+                $scope.successMessage = '';
+                $scope.canStartWorkshift = true;
+            };
+
+            // Helpers
             $scope.formatNumber = function(n) {
                 if (n === undefined || n === null) return '0';
                 return Number(n).toLocaleString('es-ES');
             };
+            $scope.getConsumoClass = function(v, t) { return VehicleService.getConsumoClass(v, t); };
+            $scope.getConsumoStatus = function(v, t) { return VehicleService.getConsumoStatus(v, t); };
+
+            // Init default forms
+            $scope.resetStartForm();
+            $scope.resetRefuelForm();
+            $scope.resetEndForm();
         }]);
 
         app.controller('VehicleDetailController', ['$scope', '$routeParams', '$location', 'VehicleService', function($scope, $routeParams, $location, VehicleService) {
@@ -2240,135 +3144,330 @@
 
         angular.module('fleetApp').run(['$templateCache', function($templateCache) {
             var homeTemplate = `
-                <div class="home-page">
-                    <div class="search-section">
-                        <div class="search-header">
-                            <h2>Buscar Vehículo</h2>
-                            <p>Ingrese la placa para ver el historial y registrar nuevo consumo</p>
+                <div class="home-minimal">
+                    <div class="quick-search-wrap">
+                        <div class="quick-search-title">
+                            <h2>Registro de Jornada</h2>
+                            <p>Busca la placa del vehículo para iniciar o continuar la captura</p>
                         </div>
-                        <div class="search-box">
-                            <div class="search-input-wrapper">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="search-icon">
+                        <div class="minimal-search">
+                            <div class="minimal-search-input">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M21 21L16.65 16.65M11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 15.4183 15.4183 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                                 <input
                                     type="text"
                                     ng-model="searchPlate"
                                     ng-keyup="$event.keyCode === 13 && onSearch()"
-                                    placeholder="Ingrese placa (ej: AAQ-303, CJN-863...)"
-                                    class="search-input"
+                                    ng-change="searchError = ''; foundVehicle = null;"
+                                    placeholder="Placa del vehículo..."
+                                    autocomplete="off"
                                 />
                             </div>
-                            <button class="search-btn" ng-click="onSearch()" ng-disabled="searching">
-                                <span ng-if="!searching">Buscar</span>
+                            <button class="minimal-search-btn" ng-click="onSearch()" ng-disabled="searching">
+                                <svg ng-if="!searching" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 21L16.65 16.65M11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 15.4183 15.4183 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                                 <span ng-if="searching">Buscando...</span>
+                                <span ng-if="!searching">Buscar</span>
                             </button>
                         </div>
-                        <div ng-if="notFound" class="error-message">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 8V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 16H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            No se encontró ningún vehículo con la placa "{{ searchPlate }}"
-                        </div>
-                        <div ng-if="foundVehicle" class="vehicle-preview-card" ng-click="goToVehicle(foundVehicle.plate)">
-                            <div class="vehicle-preview-header">
-                                <div class="vehicle-badge">{{ foundVehicle.type }}</div>
-                                <span class="vehicle-date">Último registro: {{ foundVehicle.lastDate }}</span>
-                            </div>
-                            <div class="vehicle-preview-body">
-                                <div class="vehicle-plate-block">
-                                    <span class="label">Placa</span>
-                                    <span class="plate-number">{{ foundVehicle.plate }}</span>
-                                    <span class="vehicle-unit">{{ foundVehicle.unit }}</span>
-                                </div>
-                                <div class="vehicle-stats">
-                                    <div class="stat-item">
-                                        <div class="stat-icon km-icon">
-                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M4 14L8 6H16L20 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                <path d="M4 14V18C4 18.5304 4.21071 19.0391 4.58579 19.4142C4.96086 19.7893 5.46957 20 6 20H7C7.53043 20 8.03914 19.7893 8.41421 19.4142C8.78929 19.0391 9 18.5304 9 18V17H15V18C15 18.5304 15.2107 19.0391 15.5858 19.4142C15.9609 19.7893 16.4696 20 17 20H18C18.5304 20 19.0391 19.7893 19.4142 19.4142C19.7893 19.0391 20 18.5304 20 18V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                <circle cx="6.5" cy="14.5" r="1.5" stroke="currentColor" stroke-width="2"/>
-                                                <circle cx="17.5" cy="14.5" r="1.5" stroke="currentColor" stroke-width="2"/>
-                                            </svg>
-                                        </div>
-                                        <div class="stat-content">
-                                            <span class="stat-label">Kilometraje</span>
-                                            <span class="stat-value">{{ formatNumber(foundVehicle.lastKilometraje) }} <small>km</small></span>
-                                        </div>
-                                    </div>
-                                    <div class="stat-item">
-                                        <div class="stat-icon hr-icon">
-                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                                                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                            </svg>
-                                        </div>
-                                        <div class="stat-content">
-                                            <span class="stat-label">Horómetro</span>
-                                            <span class="stat-value">{{ formatNumber(foundVehicle.lastHorometro) }} <small>hrs</small></span>
-                                        </div>
-                                    </div>
-                                    <div class="stat-item">
-                                        <div class="stat-icon fuel-icon">
-                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M3 22V4C3 3.44772 3.44772 3 4 3H14C14.5523 3 15 3.44772 15 4V22" stroke="currentColor" stroke-width="2"/>
-                                                <path d="M3 22H15" stroke="currentColor" stroke-width="2"/>
-                                                <path d="M15 9H18L21 12V18C21 18.5523 20.5523 19 20 19H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>
-                                        </div>
-                                        <div class="stat-content">
-                                            <span class="stat-label">Galones</span>
-                                            <span class="stat-value">{{ foundVehicle.lastGalones }} <small>gl</small></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="vehicle-preview-footer">
-                                <span>Ver detalles y nuevo registro</span>
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="vehicles-grid-section">
-                        <div class="section-header">
-                            <h3>Vehículos Recientes</h3>
-                            <span class="vehicles-count">{{ vehicles.length }} vehículos</span>
-                        </div>
-                        <div class="vehicles-grid">
-                            <div class="vehicle-card" ng-repeat="vehicle in vehicles | slice:0:8" ng-click="goToVehicle(vehicle.plate)">
-                                <div class="vehicle-card-top">
-                                    <div class="type-badge">{{ vehicle.type }}</div>
-                                    <span class="plate-text">{{ vehicle.plate }}</span>
-                                </div>
-                                <div class="vehicle-card-unit">{{ vehicle.unit }}</div>
-                                <div class="vehicle-card-stats">
-                                    <div class="mini-stat">
-                                        <span class="mini-label">KM</span>
-                                        <span class="mini-value">{{ formatNumber(vehicle.lastKilometraje) }}</span>
-                                    </div>
-                                    <div class="mini-stat">
-                                        <span class="mini-label">HRS</span>
-                                        <span class="mini-value">{{ formatNumber(vehicle.lastHorometro) }}</span>
-                                    </div>
-                                    <div class="mini-stat">
-                                        <span class="mini-label">GL</span>
-                                        <span class="mini-value">{{ vehicle.lastGalones }}</span>
-                                    </div>
-                                </div>
-                                <div class="vehicle-card-date">{{ vehicle.lastDate }}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tips-section">
-                        <h3>Placas de prueba</h3>
-                        <div class="tips-chips">
-                            <span class="chip" ng-repeat="chip in suggestedPlates" ng-click="setPlate(chip)">
+                        <div ng-if="searchError" class="minimal-error">{{ searchError }}</div>
+                        <div class="suggested-row">
+                            <span class="chip-plate" ng-repeat="chip in suggestedPlates" ng-click="setPlate(chip)">
                                 {{ chip }}
                             </span>
+                        </div>
+                    </div>
+
+                    <div ng-if="foundVehicle" class="vehicle-compact-card">
+                        <div class="vcc-header">
+                            <div class="vcc-id">
+                                <div class="vcc-plate">{{ foundVehicle.plate }}</div>
+                                <div class="vcc-meta">
+                                    <h3>{{ foundVehicle.unit }}</h3>
+                                    <p>{{ foundVehicle.type }} · Último registro: {{ foundVehicle.lastDate }}</p>
+                                </div>
+                            </div>
+                            <div class="vcc-stats-mini">
+                                <div class="vcc-mini-stat km">
+                                    <div class="lbl">KM</div>
+                                    <div class="val">{{ formatNumber(currentDisplayKm) }}</div>
+                                </div>
+                                <div class="vcc-mini-stat hr">
+                                    <div class="lbl">HRS</div>
+                                    <div class="val">{{ formatNumber(currentDisplayHr) }}</div>
+                                </div>
+                                <div class="vcc-mini-stat gl">
+                                    <div class="lbl">GL</div>
+                                    <div class="val">{{ formatNumber(currentDisplayGl) }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="steps-wrap" ng-if="currentWorkshift || canStartWorkshift">
+                            <div class="steps">
+                                <div class="step" ng-class="getStepClass(1)">
+                                    <div class="step-number">1</div>
+                                    <div class="step-label">Iniciar Jornada</div>
+                                </div>
+                                <div class="step-connector" ng-class="{'done': stepIndex >= 2}"></div>
+                                <div class="step" ng-class="getStepClass(2)">
+                                    <div class="step-number">2</div>
+                                    <div class="step-label">Abastecimientos</div>
+                                </div>
+                                <div class="step-connector" ng-class="{'done': stepIndex >= 3}"></div>
+                                <div class="step" ng-class="getStepClass(3)">
+                                    <div class="step-number">3</div>
+                                    <div class="step-label">Finalizar</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-panels">
+                            <!-- SUCCESS ALERTS -->
+                            <div ng-if="successMessage" class="alert-success-inline">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                {{ successMessage }}
+                            </div>
+
+                            <!-- PANEL 1: START WORKSHIFT -->
+                            <div ng-if="!currentWorkshift && foundVehicle">
+                                <div class="form-panel-title">
+                                    <h3>Paso 1 · Iniciar Jornada</h3>
+                                    <span class="sub">Captura los valores iniciales del vehículo</span>
+                                </div>
+                                <div class="form-grid-2">
+                                    <div class="form-field">
+                                        <label>Kilometraje Actual <span class="hint">(inicial)</span></label>
+                                        <input type="number" step="0.1" class="mono" ng-model="startForm.kilometraje" placeholder="Ej: 335593" ng-change="validateStartKm()"/>
+                                        <span ng-if="startForm.kilometraje" class="diff-hint" ng-class="startKmClass">{{ startKmHint }}</span>
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Horómetro Actual <span class="hint">(inicial)</span></label>
+                                        <input type="number" step="0.1" class="mono" ng-model="startForm.horometro" placeholder="Ej: 1275.5" ng-change="validateStartHr()"/>
+                                        <span ng-if="startForm.horometro" class="diff-hint" ng-class="startHrClass">{{ startHrHint }}</span>
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Fecha</label>
+                                        <input type="date" ng-model="startForm.date"/>
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Turno</label>
+                                        <select ng-model="startForm.turno">
+                                            <option value="DIA">Día</option>
+                                            <option value="NOCHE">Noche</option>
+                                            <option value="TARDE">Tarde</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="actions-row">
+                                    <button class="btn-danger" ng-if="showCancelStart" ng-click="resetStartForm()">Cancelar</button>
+                                    <button class="btn-primary btn-success" ng-click="startWorkshift()" ng-disabled="!canSubmitStart()">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;">
+                                            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                                        </svg>
+                                        Iniciar Jornada
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- PANEL 2: ACTIVE WORKSHIFT + REFUELS -->
+                            <div ng-if="currentWorkshift && currentWorkshift.status === 'open'">
+                                <!-- Step 2: Add Refuels -->
+                                <div ng-if="stepIndex === 2">
+                                    <div class="form-panel-title">
+                                        <h3>Paso 2 · Abastecimientos</h3>
+                                        <span class="sub">Registra cada recarga de combustible (opcional)</span>
+                                    </div>
+                                    <div class="form-grid-2">
+                                        <div class="form-field">
+                                            <label>Galones</label>
+                                            <input type="number" step="0.1" class="mono" ng-model="refuelForm.galones" placeholder="Ej: 30"/>
+                                        </div>
+                                        <div class="form-field">
+                                            <label>Fecha y hora</label>
+                                            <input type="date" ng-model="refuelForm.date"/>
+                                        </div>
+                                    </div>
+                                    <div class="refuels-list" ng-if="currentWorkshift.refuels.length > 0">
+                                        <div class="refuels-list-head">
+                                            <span>Detalle</span>
+                                            <span>Galones</span>
+                                        </div>
+                                        <div class="refuel-item" ng-repeat="r in currentWorkshift.refuels">
+                                            <span class="rnum">#{{ r.id }} · {{ r.fecha }}</span>
+                                            <span class="rgl">{{ r.galones }} gl</span>
+                                        </div>
+                                        <div class="refuel-total">
+                                            <span>Total Abastecido</span>
+                                            <span>{{ currentWorkshift.totalGalonesAbastecidos }} gl</span>
+                                        </div>
+                                    </div>
+                                    <div class="refuels-list" ng-if="currentWorkshift.refuels.length === 0">
+                                        <div class="empty-refuels">No hay abastecimientos registrados aún</div>
+                                    </div>
+                                    <div class="actions-row">
+                                        <button class="btn-primary btn-warn" ng-click="goToStep(3)">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;">
+                                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                                            </svg>
+                                            Ir a Finalizar
+                                        </button>
+                                        <button class="btn-primary" ng-click="addRefuel()" ng-disabled="!refuelForm.galones || refuelForm.galones <= 0">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;">
+                                                <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                                            </svg>
+                                            Agregar Abastecimiento
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3: End Workshift -->
+                                <div ng-if="stepIndex === 3">
+                                    <div class="form-panel-title">
+                                        <h3>Paso 3 · Finalizar Jornada</h3>
+                                        <span class="sub">Ingresa los valores finales y galones de cierre</span>
+                                    </div>
+                                    <div class="form-grid-2">
+                                        <div class="form-field">
+                                            <label>Kilometraje Final</label>
+                                            <input type="number" step="0.1" class="mono" ng-model="endForm.kilometraje" placeholder="Ej: 335650" ng-change="validateEndKm()"/>
+                                            <span ng-if="endForm.kilometraje" class="diff-hint" ng-class="endKmClass">{{ endKmHint }}</span>
+                                        </div>
+                                        <div class="form-field">
+                                            <label>Horómetro Final</label>
+                                            <input type="number" step="0.1" class="mono" ng-model="endForm.horometro" placeholder="Ej: 1290.5" ng-change="validateEndHr()"/>
+                                            <span ng-if="endForm.horometro" class="diff-hint" ng-class="endHrClass">{{ endHrHint }}</span>
+                                        </div>
+                                        <div class="form-field">
+                                            <label>Galones Final (última recarga)</label>
+                                            <input type="number" step="0.1" class="mono" ng-model="endForm.finalGalones" placeholder="Ej: 40"/>
+                                        </div>
+                                        <div class="form-field">
+                                            <label>Fecha de Cierre</label>
+                                            <input type="date" ng-model="endForm.date"/>
+                                        </div>
+                                    </div>
+                                    <div class="actions-row" style="margin-top:1rem;">
+                                        <div style="display:flex; gap:0.6rem;">
+                                            <button class="btn-danger" ng-click="cancelWorkshift()" title="Cancelar esta jornada">
+                                                Cancelar Jornada
+                                            </button>
+                                            <button class="btn-ghost" ng-click="goToStep(2)" ng-if="stepIndex === 3">
+                                                ← Volver
+                                            </button>
+                                        </div>
+                                        <button class="btn-primary btn-success" ng-click="endWorkshift()" ng-disabled="!canSubmitEnd()">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;">
+                                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                                            </svg>
+                                            Finalizar Jornada
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PANEL 3: CLOSED WORKSHIFT SUMMARY -->
+                            <div ng-if="currentWorkshift && currentWorkshift.status === 'closed'">
+                                <div class="form-panel-title">
+                                    <h3>✅ Jornada Finalizada</h3>
+                                    <span class="sub">Resumen de la operación</span>
+                                </div>
+                                <div class="workshift-summary">
+                                    <div style="font-weight:700; font-size:0.85rem; color:#065f46;">
+                                        Operador: {{ currentWorkshift.operator }} · Turno {{ currentWorkshift.turno }} · {{ currentWorkshift.startDate }}
+                                    </div>
+                                    <div class="ws-summary-grid">
+                                        <div class="ws-sum-item">
+                                            <div class="s-lbl">KM Recorridos</div>
+                                            <div class="s-val">{{ currentWorkshift.kmRecorridos }}<span class="s-unit"> km</span></div>
+                                        </div>
+                                        <div class="ws-sum-item">
+                                            <div class="s-lbl">Horas Trabajadas</div>
+                                            <div class="s-val">{{ currentWorkshift.horasTrabajadas }}<span class="s-unit"> hrs</span></div>
+                                        </div>
+                                        <div class="ws-sum-item">
+                                            <div class="s-lbl">Consumo KM</div>
+                                            <div class="s-val">{{ currentWorkshift.consumoKm }}<span class="s-unit"> gl/km</span></div>
+                                        </div>
+                                        <div class="ws-sum-item">
+                                            <div class="s-lbl">Consumo HRS</div>
+                                            <div class="s-val">{{ currentWorkshift.consumoHora }}<span class="s-unit"> gl/hr</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="actions-row">
+                                    <button class="btn-ghost" ng-click="clearWorkshiftContext()">
+                                        Cerrar resumen
+                                    </button>
+                                    <button class="btn-primary" ng-click="startNewWorkshiftForVehicle()">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;">
+                                            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                                        </svg>
+                                        Nueva Jornada
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- HISTORY SECTION (desktop only) -->
+                            <div class="hide-mobile" style="margin-top:1.5rem; padding-top:1.25rem; border-top: 1px solid #f1f5f9;">
+                                <div class="form-panel-title">
+                                    <h3 style="font-size:0.95rem;">Histórico de Jornadas ({{ plateWorkshifts.length }})</h3>
+                                </div>
+                                <div class="vehicle-history-table" style="margin-top:0.5rem; border: 1px solid #e2e8f0; border-radius:12px; overflow:hidden;">
+                                    <table class="history-table" style="width:100%; border-collapse: collapse;">
+                                        <thead style="background: #f8fafc;">
+                                            <tr>
+                                                <th style="padding:0.65rem 0.85rem; text-align:left; font-size:0.72rem; font-weight:700; color:#475569; letter-spacing:0.05em; text-transform:uppercase; border-bottom: 1px solid #e2e8f0;">Fecha</th>
+                                                <th style="padding:0.65rem 0.85rem; text-align:left; font-size:0.72rem; font-weight:700; color:#475569; letter-spacing:0.05em; text-transform:uppercase; border-bottom: 1px solid #e2e8f0;">Turno</th>
+                                                <th style="padding:0.65rem 0.85rem; text-align:right; font-size:0.72rem; font-weight:700; color:#475569; letter-spacing:0.05em; text-transform:uppercase; border-bottom: 1px solid #e2e8f0;">KM</th>
+                                                <th style="padding:0.65rem 0.85rem; text-align:right; font-size:0.72rem; font-weight:700; color:#475569; letter-spacing:0.05em; text-transform:uppercase; border-bottom: 1px solid #e2e8f0;">HRS</th>
+                                                <th style="padding:0.65rem 0.85rem; text-align:right; font-size:0.72rem; font-weight:700; color:#475569; letter-spacing:0.05em; text-transform:uppercase; border-bottom: 1px solid #e2e8f0;">Gl/KM</th>
+                                                <th style="padding:0.65rem 0.85rem; text-align:right; font-size:0.72rem; font-weight:700; color:#475569; letter-spacing:0.05em; text-transform:uppercase; border-bottom: 1px solid #e2e8f0;">Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="ws in plateWorkshifts | slice:0:10" style="border-bottom: 1px solid #f1f5f9;">
+                                                <td style="padding:0.65rem 0.85rem; font-size:0.82rem; color:#334155;">
+                                                    {{ ws.startDate }}
+                                                    <span ng-if="ws.endDate && ws.endDate !== ws.startDate"> → {{ ws.endDate }}</span>
+                                                </td>
+                                                <td style="padding:0.65rem 0.85rem; font-size:0.82rem;">
+                                                    <span class="badge" ng-class="{'badge-turno-dia': ws.turno==='DIA', 'badge-turno-noche': ws.turno==='NOCHE', 'badge-turno-tarde': ws.turno==='TARDE'}">
+                                                        {{ ws.turno }}
+                                                    </span>
+                                                </td>
+                                                <td style="padding:0.65rem 0.85rem; text-align:right; font-family:ui-monospace; font-size:0.82rem; font-weight:600;">
+                                                    <span ng-if="ws.status==='closed'">{{ ws.kmRecorridos }}</span>
+                                                    <span ng-if="ws.status!=='closed'">-</span>
+                                                </td>
+                                                <td style="padding:0.65rem 0.85rem; text-align:right; font-family:ui-monospace; font-size:0.82rem; font-weight:600;">
+                                                    <span ng-if="ws.status==='closed'">{{ ws.horasTrabajadas }}</span>
+                                                    <span ng-if="ws.status!=='closed'">-</span>
+                                                </td>
+                                                <td style="padding:0.65rem 0.85rem; text-align:right;">
+                                                    <span ng-if="ws.status==='closed'" class="consumo-badge" ng-class="'badge-' + getConsumoClass(ws.consumoKm, 'km')">
+                                                        {{ getConsumoStatus(ws.consumoKm, 'km') }}
+                                                    </span>
+                                                    <span ng-if="ws.status!=='closed'" style="color:#94a3b8;">-</span>
+                                                </td>
+                                                <td style="padding:0.65rem 0.85rem; text-align:right;">
+                                                    <span ng-if="ws.status==='open'" style="font-size:0.75rem; font-weight:700; color:#059669;">● ABIERTA</span>
+                                                    <span ng-if="ws.status==='closed'" style="font-size:0.75rem; font-weight:700; color:#64748b;">Cerrada</span>
+                                                </td>
+                                            </tr>
+                                            <tr ng-if="plateWorkshifts.length === 0">
+                                                <td colspan="6" style="padding:1.2rem; text-align:center; color:#94a3b8; font-size:0.82rem;">
+                                                    No hay jornadas registradas para este vehículo aún
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
