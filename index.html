@@ -2191,9 +2191,37 @@
             .show-mobile { display: block; }
             .home-minimal { padding: 1.1rem 0.85rem; }
             .quick-search-title h2 { font-size: 1.2rem; }
-            .minimal-search { padding: 0.4rem; flex-direction: column; align-items: stretch; }
-            .minimal-search-input { padding: 0.4rem 0.6rem; }
-            .minimal-search-btn { width: 100%; justify-content: center; }
+            .minimal-search {
+                padding: 0.4rem;
+                flex-direction: row;
+                align-items: center;
+                gap: 0.45rem;
+            }
+            .minimal-search-input {
+                flex: 0 1 auto;
+                padding: 0.4rem 0.6rem;
+                gap: 0.4rem;
+                min-width: 0;
+            }
+            .minimal-search-input svg {
+                width: 18px;
+                height: 18px;
+            }
+            .minimal-search-input input {
+                width: 9.5ch;
+                max-width: 130px;
+                flex: 0 0 auto;
+                text-align: center;
+                font-size: 1rem;
+                letter-spacing: 0.05em;
+            }
+            .minimal-search-btn {
+                flex: 1;
+                min-width: 0;
+                justify-content: center;
+                padding: 0.75rem 0.85rem;
+                border-radius: 12px;
+            }
             .vcc-header { flex-direction: column; gap: 0.75rem; align-items: stretch; }
             .vcc-stats-mini { justify-content: space-between; }
             .vcc-mini-stat { flex: 1; min-width: 0; }
@@ -3400,8 +3428,10 @@
                                     ng-model="searchPlate"
                                     ng-keyup="$event.keyCode === 13 && onSearch()"
                                     ng-change="searchError = ''; foundVehicle = null;"
-                                    placeholder="Placa del vehículo..."
+                                    placeholder="Placa..."
                                     autocomplete="off"
+                                    maxlength="8"
+                                    style="text-transform: uppercase;"
                                 />
                             </div>
                             <button class="minimal-search-btn" ng-click="onSearch()" ng-disabled="searching">
