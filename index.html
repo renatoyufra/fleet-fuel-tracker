@@ -2821,7 +2821,113 @@
             $locationProvider.hashPrefix('');
         }]);
 
-        app.factory('VehicleService', ['$rootScope', function($rootScope) {
+        // =============== TIME SERVICE ===============
+        // Centralizado (Zona, fecha, hora, formatos). Cambiar aquí = todo el app.
+        app.factory('TimeService', ['$rootScope', function($rootScope) {
+            var CONFIG = {
+                // DEFAULT ZONA: Perú (UTC-5), sin DST. Ajustar si es otra.
+                defaultZoneOffsetMinutes: -300,
+                locale: 'es-PE',
+                dateFormat: 'DD-MM-YYYY',   // formato histórico ISO = YYYY-MM-DD
+                dateSeparator: '-'
+            };
+
+            function pad(n) { return String(n).padStart(2, '0'); }
+
+            function getNowLocal() {
+                // Usamos Date del navegador (local). Si se requiere UTC offset manual
+                // sumamos/restamos CONFIG.defaultZoneOffsetMinutes (dejamos configurable).
+                var now = new Date();
+                // Ajuste opcional si quieres forzar zona:
+                if (CONFIG.defaultZoneOffsetMinutes !== undefined) {
+                    var utcMs = now.getTime() + now.getTimezoneOffset()*60000;
+                    return new Date(utcMs + CONFIG.defaultZoneOffsetMinutes*60000);
+                }
+                return now;
+            }
+
+            return {
+                config: CONFIG,
+
+                // Fecha ISO YYYY-MM-DD (formato input date)
+                todayISO: function() {
+                    var d = getNowLocal();
+                    return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+                },
+
+                // Fecha formato DD-MM-YYYY (histórico, DB)
+                todayDDMM: function() {
+                    var d = getNowLocal();
+                    return pad(d.getDate()) + CONFIG.dateSeparator + pad(d.getMonth()+1) + CONFIG.dateSeparator + d.getFullYear();
+                },
+
+                // Convertir ISO -> DD-MM-YYYY
+                isoToDDMM: function(iso) {
+                    if (!iso) return '';
+                    if (typeof iso !== 'string') iso = String(iso);
+                    var p = iso.split('-');
+                    if (p.length !== 3) return iso;
+                    // podría venir ya en DD-MM (reverse)
+                    if (p[0].length === 4) return p[2] + CONFIG.dateSeparator + p[1] + CONFIG.dateSeparator + p[0];
+                    return iso;
+                },
+
+                // Convertir DD-MM-YYYY -> ISO YYYY-MM-DD
+                ddmmToISO: function(ddmmyyyy) {
+                    if (!ddmmyyyy) return '';
+                    if (typeof ddmmyyyy !== 'string') ddmmyyyy = String(ddmmyyyy);
+                    var p = ddmmyyyy.split(CONFIG.dateSeparator);
+                    if (p.length !== 3) {
+                        // intentar split por / o - cualquiera
+                        p = ddmmyyyy.split(/[\-\/\.]/);
+                        if (p.length !== 3) return ddmmyyyy;
+                    }
+                    if (p[0].length <= 2) return p[2] + '-' + p[1] + '-' + p[0];
+                    return ddmmyyyy;
+                },
+
+                // Hora actual HH:MM (formato 24h)
+                nowTimeStr: function() {
+                    var d = getNowLocal();
+                    return pad(d.getHours()) + ':' + pad(d.getMinutes());
+                },
+
+                // Fecha larga (05 de septiembre de 2026)
+                todayLong: function() {
+                    var d = getNowLocal();
+                    var months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+                    return d.getDate() + ' de ' + months[d.getMonth()] + ' de ' + d.getFullYear();
+                },
+
+                // Fecha larga + hora (para reportes)
+                nowLongDateTime: function() {
+                    var d = getNowLocal();
+                    var months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+                    var dateStr = d.getDate() + ' de ' + months[d.getMonth()] + ' de ' + d.getFullYear();
+                    var timeStr = pad(d.getHours()) + ':' + pad(d.getMinutes());
+                    return { dateStr: dateStr, timeStr: timeStr };
+                },
+
+                // Obtener Date desde local ajustado (para .toISOString o timestamp)
+                nowDate: function() { return getNowLocal(); },
+
+                // Now ISO string (para createdAT)
+                nowISOString: function() { return getNowLocal().toISOString(); },
+
+                // Forzar zona (ej: UTC-5 = -300 mins). Se puede llamar desde config UI.
+                setZoneOffsetMinutes: function(min) {
+                    CONFIG.defaultZoneOffsetMinutes = min;
+                    $rootScope.$broadcast('timezoneChanged');
+                },
+
+                generateReportSuffix: function() {
+                    var d = getNowLocal();
+                    return pad(d.getDate()) + pad(d.getMonth()+1) + '-' + pad(d.getHours()) + pad(d.getMinutes());
+                }
+            };
+        }]);
+
+        app.factory('VehicleService', ['$rootScope', 'TimeService', function($rootScope, TimeService) {
             var vehicles = [
                 { plate: 'CJN-863', unit: 'Camioneta', type: 'Vehículo Ligero', lastKilometraje: 39011, lastHorometro: 13326.4, lastGalones: 14.5, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
                 { plate: '160-5', unit: 'Moto Guayandera', type: 'Motocicleta', lastKilometraje: 0, lastHorometro: 3554.1, lastGalones: 8.2, lastDate: '11-08-2026', responsable: 'Yhon Segura' },
@@ -3079,7 +3185,12 @@
                 addWorkingSheetRecord: function(data) {
                     var list = loadWorkingSheet();
                     var id = 'WRK' + Date.now().toString().slice(-8) + Math.floor(Math.random()*90+10);
-                    var now = new Date();
+                    var now = TimeService.nowDate();
+                    var fechaInput = data.fecha;
+                    // Si viene en formato ISO YYYY-MM-DD lo convertimos a DD-MM-YYYY
+                    var fechaNormalized = (fechaInput && fechaInput.indexOf('-') > 0 && fechaInput.length === 10)
+                        ? TimeService.isoToDDMM(fechaInput)
+                        : (fechaInput || TimeService.todayDDMM());
                     var record = {
                         id: id,
                         plate: (data.plate||'').toUpperCase(),
@@ -3088,8 +3199,8 @@
                         kilometraje: +data.kilometraje,
                         horometro: +data.horometro,
                         galones: data.galones !== undefined && data.galones !== null && data.galones !== '' ? +data.galones : null,
-                        fecha: data.fecha || formatDateDDMM_local(now),
-                        createdAt: now.toISOString(),
+                        fecha: fechaNormalized,
+                        createdAt: TimeService.nowISOString(),
                         synced: false,
                         status: (data.galones !== undefined && data.galones !== null && data.galones !== '') ? 'complete' : 'pending'
                     };
@@ -3153,12 +3264,7 @@
                     $rootScope.$broadcast('workingSheetUpdated');
                 },
                 generateSessionReportId: function(operator, records) {
-                    var today = new Date();
-                    var dd = String(today.getDate()).padStart(2,'0');
-                    var mm = String(today.getMonth()+1).padStart(2,'0');
-                    var hh = String(today.getHours()).padStart(2,'0');
-                    var min = String(today.getMinutes()).padStart(2,'0');
-                    return 'REP-' + operator.toUpperCase() + '-' + dd + mm + '-' + hh + min;
+                    return 'REP-' + operator.toUpperCase() + '-' + TimeService.generateReportSuffix();
                 }
             };
         }]);
@@ -3176,10 +3282,8 @@
             try { localStorage.setItem('fleetWorkingSheet', JSON.stringify(list)); } catch(e) {}
         }
 
-        app.controller('MainController', ['$scope', '$location', '$rootScope', '$timeout', 'VehicleService', function($scope, $location, $rootScope, $timeout, VehicleService) {
-            var today = new Date();
-            var options = { day: '2-digit', month: 'long', year: 'numeric' };
-            $scope.currentDate = today.toLocaleDateString('es-ES', options);
+        app.controller('MainController', ['$scope', '$location', '$rootScope', '$timeout', 'VehicleService', 'TimeService', function($scope, $location, $rootScope, $timeout, VehicleService, TimeService) {
+            $scope.currentDate = TimeService.todayLong();
 
             $scope.currentUser = $rootScope.currentUser || null;
             $scope.activeWorkshift = null;
@@ -3352,7 +3456,7 @@
             };
         }]);
 
-        app.controller('CampoController', ['$scope', '$location', '$rootScope', '$timeout', '$sce', 'VehicleService', function($scope, $location, $rootScope, $timeout, $sce, VehicleService) {
+        app.controller('CampoController', ['$scope', '$location', '$rootScope', '$timeout', '$sce', 'VehicleService', 'TimeService', function($scope, $location, $rootScope, $timeout, $sce, VehicleService, TimeService) {
             $scope.searchPlate = '';
             $scope.searching = false;
             $scope.searchError = '';
@@ -3365,16 +3469,7 @@
             $scope.completedCount = 0;
             $scope.summaryReport = null;
             $scope.qrDataUrl = '';
-
-            function todayISO() {
-                var t = new Date();
-                return t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0') + '-' + String(t.getDate()).padStart(2,'0');
-            }
-            function formatDateDDMM(iso) {
-                if (!iso) return '';
-                var p = iso.split('-');
-                return p[2] + '-' + p[1] + '-' + p[0];
-            }
+            $scope.addForm = { kilometraje: null, horometro: null, galones: null, date: TimeService.todayISO() };
 
             $scope.getOperator = function() {
                 return $rootScope.currentUser || 'admin';
@@ -3386,6 +3481,9 @@
                 $scope.onSearch(true);
             });
             $scope.$on('workingSheetUpdated', refreshWorkingSheet);
+            $scope.$on('timezoneChanged', function() {
+                $scope.addForm.date = TimeService.todayISO();
+            });
 
             function refreshWorkingSheet() {
                 var op = $scope.getOperator();
@@ -3400,11 +3498,13 @@
                     kilometraje: ($scope.foundVehicle && $scope.foundVehicle.lastKilometraje) ? $scope.foundVehicle.lastKilometraje : null,
                     horometro: ($scope.foundVehicle && $scope.foundVehicle.lastHorometro) ? $scope.foundVehicle.lastHorometro : null,
                     galones: null,
-                    date: todayISO()
+                    date: TimeService.todayISO()
                 };
                 $scope.kmDeltaClass = ''; $scope.kmDeltaHint = '';
                 $scope.hrDeltaClass = ''; $scope.hrDeltaHint = '';
             }
+            // Initialise addForm.date immediately (even if no vehicle found yet)
+            $scope.addForm.date = TimeService.todayISO();
 
             $scope.onSearch = function(fromBadge) {
                 if (!$scope.searchPlate.trim()) return;
@@ -3458,7 +3558,10 @@
                 if (!$scope.foundVehicle) return false;
                 if ($scope.addForm.kilometraje === undefined || $scope.addForm.kilometraje === null || $scope.addForm.kilometraje === '') return false;
                 if ($scope.addForm.horometro === undefined || $scope.addForm.horometro === null || $scope.addForm.horometro === '') return false;
-                if (!$scope.addForm.date) return false;
+                // Fecha: si está vacía forzar today, pero no bloquear.
+                if (!$scope.addForm.date || $scope.addForm.date === '') {
+                    $scope.addForm.date = TimeService.todayISO();
+                }
                 if (+$scope.addForm.kilometraje < ($scope.foundVehicle.lastKilometraje || 0)) return false;
                 if ($scope.foundVehicle.lastHorometro > 0 && +$scope.addForm.horometro < $scope.foundVehicle.lastHorometro) return false;
                 return true;
@@ -3466,6 +3569,8 @@
 
             $scope.addRecordToSheet = function() {
                 if (!$scope.canAddRecord()) return;
+                // Garantizar que haya fecha:
+                var fechaISO = $scope.addForm.date || TimeService.todayISO();
                 VehicleService.addWorkingSheetRecord({
                     plate: $scope.foundVehicle.plate,
                     unit: $scope.foundVehicle.unit,
@@ -3473,7 +3578,7 @@
                     kilometraje: +$scope.addForm.kilometraje,
                     horometro: +$scope.addForm.horometro,
                     galones: $scope.addForm.galones,
-                    fecha: formatDateDDMM($scope.addForm.date)
+                    fecha: fechaISO   // ISO -> VehicleService.normaliza a DD-MM
                 });
                 $scope.successMessage = ($scope.addForm.galones ? '✅ Registro completo' : '📋 Registro agregado (Galones pendientes)') + ' para ' + $scope.foundVehicle.plate;
                 $scope.foundVehicle = null;
@@ -3522,7 +3627,7 @@
             // STEP 3 - Build summary + QR (quickchart free API)
             $scope.buildSummaryReport = function() {
                 var op = $scope.getOperator();
-                var records = VehicleService.listWorkingSheet(op).filter(function(r){ return !r.synced || true; });
+                var records = VehicleService.listWorkingSheet(op);
                 var id = VehicleService.generateSessionReportId(op, records);
                 var total = records.length;
                 var completed = records.filter(function(r){ return r.status === 'complete'; }).length;
@@ -3535,15 +3640,13 @@
                     totalHr += +r.horometro || 0;
                     totalGl += +r.galones || 0;
                 });
-                var createdAt = new Date();
-                var dateStr = createdAt.toLocaleDateString('es-ES', { day:'2-digit', month:'long', year:'numeric' });
-                var timeStr = createdAt.toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit' });
+                var dt = TimeService.nowLongDateTime();
 
                 $scope.summaryReport = {
                     id: id,
                     operator: op,
-                    dateStr: dateStr,
-                    timeStr: timeStr,
+                    dateStr: dt.dateStr,
+                    timeStr: dt.timeStr,
                     totalRecords: total,
                     completedRecords: completed,
                     pendingRecords: pending,
@@ -3554,7 +3657,7 @@
                     records: records
                 };
 
-                var qrText = 'FleetFuel|' + id + '|OP:' + op + '|FECHA:' + dateStr + '|REG:' + total + '|GL:' + totalGl + '|KM:' + totalKm + '|HRS:' + totalHr + '|VEH:' + $scope.summaryReport.vehiclesCount;
+                var qrText = 'FleetFuel|' + id + '|OP:' + op + '|FECHA:' + dt.dateStr + '|REG:' + total + '|GL:' + totalGl + '|KM:' + totalKm + '|HRS:' + totalHr + '|VEH:' + $scope.summaryReport.vehiclesCount;
                 $scope.qrDataUrl = 'https://quickchart.io/qr?text=' + encodeURIComponent(qrText) + '&size=300&margin=1';
             };
 
@@ -3598,7 +3701,7 @@
             };
         }]);
 
-        app.controller('VehicleDetailController', ['$scope', '$routeParams', '$location', 'VehicleService', function($scope, $routeParams, $location, VehicleService) {
+        app.controller('VehicleDetailController', ['$scope', '$routeParams', '$location', 'VehicleService', 'TimeService', function($scope, $routeParams, $location, VehicleService, TimeService) {
             var plate = $routeParams.plate || '';
             $scope.vehicle = VehicleService.searchVehicle(plate);
             $scope.loading = false;
@@ -3615,17 +3718,18 @@
             }
             loadRecords();
 
-            var today = new Date();
-            var todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
-
             $scope.newRecord = {
                 kilometraje: $scope.vehicle ? $scope.vehicle.lastKilometraje : 0,
                 horometro: $scope.vehicle ? $scope.vehicle.lastHorometro : 0,
                 galones: 0,
-                fecha: todayStr,
+                fecha: TimeService.todayISO(),
                 turno: '',
                 responsable: $scope.vehicle ? ($scope.vehicle.responsable || '') : ''
             };
+
+            $scope.$on('timezoneChanged', function() {
+                $scope.newRecord.fecha = TimeService.todayISO();
+            });
 
             $scope.goBack = function() {
                 $location.path('/');
@@ -3655,7 +3759,7 @@
                         kilometraje: $scope.vehicle.lastKilometraje,
                         horometro: $scope.vehicle.lastHorometro,
                         galones: 0,
-                        fecha: todayStr,
+                        fecha: TimeService.todayISO(),
                         turno: '',
                         responsable: $scope.vehicle.responsable || ''
                     };
@@ -3677,8 +3781,7 @@
 
             $scope.onSubmit = function() {
                 if (!$scope.isFormValid()) return;
-                var fechaParts = $scope.newRecord.fecha.split('-');
-                var formattedDate = fechaParts[2] + '-' + fechaParts[1] + '-' + fechaParts[0];
+                var formattedDate = TimeService.isoToDDMM($scope.newRecord.fecha);
 
                 VehicleService.addRecord({
                     plate: $scope.vehicle.plate,
