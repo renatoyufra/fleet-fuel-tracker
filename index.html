@@ -2028,6 +2028,245 @@
         }
         .diff-hint.warn { color: #b45309; }
         .diff-hint.err { color: #b91c1c; }
+        .diff-hint.good { color: #047857; }
+
+        /* Working Sheet record cards */
+        .ws-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 0.8rem 0.85rem;
+            margin-bottom: 0.6rem;
+            box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+        }
+        .ws-card.pending { border-left: 4px solid #f59e0b; }
+        .ws-card.complete { border-left: 4px solid #10b981; }
+        .ws-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .ws-card-plate {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+            color: #0f172a;
+        }
+        .ws-card-unit {
+            font-size: 0.78rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+        .ws-card-status {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.2rem 0.55rem;
+            border-radius: 9999px;
+            line-height: 1;
+        }
+        .ws-card-status.pending { background: #fffbeb; color: #b45309; }
+        .ws-card-status.complete { background: #ecfdf5; color: #065f46; }
+        .ws-card-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.4rem;
+            margin: 0.4rem 0 0.55rem;
+        }
+        .ws-card-stat {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 0.35rem 0.45rem;
+        }
+        .ws-card-stat .l { font-size: 0.68rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+        .ws-card-stat .v { font-family: ui-monospace, monospace; font-weight: 700; color: #0f172a; font-size: 0.92rem; }
+        .ws-card-stat .v.pending-gl { color: #b45309; }
+        .ws-card-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-top: 0.35rem;
+        }
+        .ws-card-bottom input {
+            flex: 1;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 0.45rem 0.6rem;
+            font-family: ui-monospace, monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            outline: none;
+        }
+        .ws-card-bottom input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+        .ws-card-savebtn {
+            border: 0;
+            border-radius: 10px;
+            padding: 0.45rem 0.7rem;
+            background: #2563eb;
+            color: white;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        .ws-card-delbtn {
+            border: 0;
+            background: transparent;
+            color: #94a3b8;
+            padding: 0.3rem 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .ws-card-delbtn:hover { background: #fef2f2; color: #b91c1c; }
+        .ws-empty {
+            text-align: center;
+            color: #94a3b8;
+            padding: 1.25rem 0.5rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+        .ws-summarybar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.4rem;
+            padding: 0.55rem 0.85rem;
+            border-radius: 12px;
+            margin-bottom: 0.85rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+            border: 1px solid #dbeafe;
+        }
+        .ws-summarybar .count { font-weight: 800; font-size: 1.05rem; color: #1d4ed8; }
+        .ws-summarybar .lbl { font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em; }
+        .ws-summarybar .dot-p { display:inline-block; width:8px; height:8px; border-radius:9999px; background: #f59e0b; margin-right:0.25rem; vertical-align: middle; }
+        .ws-summarybar .dot-c { display:inline-block; width:8px; height:8px; border-radius:9999px; background: #10b981; margin-right:0.25rem; vertical-align: middle; }
+
+        /* Report Card (Step 3) */
+        .report-card {
+            background: #ffffff;
+            border: 1px solid #dbeafe;
+            border-radius: 18px;
+            padding: 1.15rem 1rem;
+            box-shadow: 0 10px 25px -10px rgba(59,130,246,0.2);
+        }
+        .report-card-header {
+            text-align: center;
+            padding-bottom: 0.85rem;
+            margin-bottom: 0.85rem;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+        .report-card-header h3 {
+            font-size: 1.05rem;
+            color: #1e3a8a;
+            margin: 0.1rem 0;
+        }
+        .report-card-header .id {
+            font-family: ui-monospace, monospace;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 0.25rem 0.7rem;
+            border-radius: 9999px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            margin-top: 0.25rem;
+        }
+        .report-card-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 0.85rem;
+        }
+        .rcm-item {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 0.5rem 0.6rem;
+        }
+        .rcm-item .l { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em; }
+        .rcm-item .v { font-weight: 700; color: #0f172a; font-size: 0.9rem; margin-top: 0.15rem; }
+        .rc-totals {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.45rem;
+            margin-bottom: 0.85rem;
+        }
+        .rc-total {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 0.65rem 0.45rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rc-total .l { font-size: 0.7rem; opacity: 0.9; font-weight: 600; letter-spacing: 0.05em; }
+        .rc-total .v { font-family: ui-monospace, monospace; font-weight: 900; font-size: 1.1rem; line-height: 1.1; margin-top: 0.2rem; }
+        .rc-qr-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 0.85rem;
+            text-align: center;
+            margin-bottom: 0.85rem;
+        }
+        .rc-qr-box img {
+            width: 200px;
+            max-width: 80%;
+            height: auto;
+            background: white;
+            padding: 0.3rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .rc-qr-box .qr-note { font-size: 0.75rem; color: #64748b; margin-top: 0.45rem; font-weight: 600; }
+        .rc-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .btn-whatsapp {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #25D366;
+            color: white;
+            border: 0;
+            border-radius: 12px;
+            padding: 0.85rem 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            width: 100%;
+        }
+        .btn-whatsapp:hover { background: #20bd5a; }
+        .btn-whatsapp svg { width: 20px; height: 20px; }
+        .rc-detail-list {
+            max-height: 180px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 0.85rem;
+        }
+        .rc-detail-row {
+            display: grid;
+            grid-template-columns: 1.2fr 1.4fr 0.8fr;
+            padding: 0.5rem 0.65rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.82rem;
+        }
+        .rc-detail-row:last-child { border-bottom: 0; }
+        .rc-detail-row .p { font-family: ui-monospace, monospace; font-weight: 700; color: #0f172a; }
+        .rc-detail-row .s { color: #64748b; }
+        .rc-detail-row .g { font-family: ui-monospace, monospace; text-align: right; font-weight: 700; }
+        .rc-detail-row .g.pend { color: #b45309; }
+
+        @media (max-width: 768px) {
+            .ws-card-stats { grid-template-columns: repeat(3, 1fr); }
+            .rc-totals { grid-template-columns: repeat(3, 1fr); }
+            .report-card-meta { grid-template-columns: 1fr 1fr; }
+        }
 
         .actions-row {
             display: flex;
@@ -2826,9 +3065,116 @@
                     workshifts = workshifts.filter(function(w){ return w.id !== workshiftId; });
                     saveWorkshifts(workshifts);
                     $rootScope.$broadcast('workshiftsUpdated');
+                },
+
+                // WORKING SHEET (Hoja de trabajo multi-vehículo / sesión operador)
+                listWorkingSheet: function(operator) {
+                    var list = loadWorkingSheet();
+                    if (!operator) return list;
+                    return list.filter(function(r){ return r.operator === operator; });
+                },
+                getWorkingSheetPendingCount: function(operator) {
+                    return this.listWorkingSheet(operator).filter(function(r){ return r.status === 'pending'; }).length;
+                },
+                addWorkingSheetRecord: function(data) {
+                    var list = loadWorkingSheet();
+                    var id = 'WRK' + Date.now().toString().slice(-8) + Math.floor(Math.random()*90+10);
+                    var now = new Date();
+                    var record = {
+                        id: id,
+                        plate: (data.plate||'').toUpperCase(),
+                        unit: data.unit || '',
+                        operator: data.operator || 'admin',
+                        kilometraje: +data.kilometraje,
+                        horometro: +data.horometro,
+                        galones: data.galones !== undefined && data.galones !== null && data.galones !== '' ? +data.galones : null,
+                        fecha: data.fecha || formatDateDDMM_local(now),
+                        createdAt: now.toISOString(),
+                        synced: false,
+                        status: (data.galones !== undefined && data.galones !== null && data.galones !== '') ? 'complete' : 'pending'
+                    };
+                    list.unshift(record);
+                    saveWorkingSheet(list);
+                    $rootScope.$broadcast('workingSheetUpdated');
+                    return record;
+                },
+                updateWorkingSheetGalones: function(id, galones) {
+                    var list = loadWorkingSheet();
+                    var idx = -1;
+                    for (var i = 0; i < list.length; i++) {
+                        if (list[i].id === id) { idx = i; break; }
+                    }
+                    if (idx < 0) return null;
+                    list[idx].galones = galones !== undefined && galones !== null && galones !== '' ? +galones : null;
+                    list[idx].status = (list[idx].galones !== null) ? 'complete' : 'pending';
+                    saveWorkingSheet(list);
+                    $rootScope.$broadcast('workingSheetUpdated');
+                    return list[idx];
+                },
+                deleteWorkingSheetRecord: function(id) {
+                    var list = loadWorkingSheet();
+                    list = list.filter(function(r){ return r.id !== id; });
+                    saveWorkingSheet(list);
+                    $rootScope.$broadcast('workingSheetUpdated');
+                },
+                syncWorkingSheet: function(operator) {
+                    var list = loadWorkingSheet();
+                    for (var i = 0; i < list.length; i++) {
+                        if (list[i].operator === operator && !list[i].synced) {
+                            list[i].synced = true;
+                            // Also add to permanent historical records of each vehicle
+                            if (list[i].status === 'complete') {
+                                try {
+                                    var veh = this.searchVehicle(list[i].plate);
+                                    if (veh) {
+                                        this.addRecord({
+                                            plate: list[i].plate,
+                                            unit: list[i].unit,
+                                            kilometraje: list[i].kilometraje,
+                                            horometro: list[i].horometro,
+                                            galones: list[i].galones,
+                                            fecha: list[i].fecha,
+                                            turno: 'DIA',
+                                            responsable: list[i].operator
+                                        });
+                                    }
+                                } catch(e) {}
+                            }
+                        }
+                    }
+                    saveWorkingSheet(list);
+                    $rootScope.$broadcast('workingSheetUpdated');
+                    return list;
+                },
+                clearWorkingSheet: function(operator) {
+                    var list = loadWorkingSheet();
+                    list = list.filter(function(r){ return r.operator !== operator; });
+                    saveWorkingSheet(list);
+                    $rootScope.$broadcast('workingSheetUpdated');
+                },
+                generateSessionReportId: function(operator, records) {
+                    var today = new Date();
+                    var dd = String(today.getDate()).padStart(2,'0');
+                    var mm = String(today.getMonth()+1).padStart(2,'0');
+                    var hh = String(today.getHours()).padStart(2,'0');
+                    var min = String(today.getMinutes()).padStart(2,'0');
+                    return 'REP-' + operator.toUpperCase() + '-' + dd + mm + '-' + hh + min;
                 }
             };
         }]);
+
+        function formatDateDDMM_local(d) {
+            return String(d.getDate()).padStart(2,'0') + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + d.getFullYear();
+        }
+        function loadWorkingSheet() {
+            try {
+                var raw = localStorage.getItem('fleetWorkingSheet');
+                return raw ? JSON.parse(raw) : [];
+            } catch(e) { return []; }
+        }
+        function saveWorkingSheet(list) {
+            try { localStorage.setItem('fleetWorkingSheet', JSON.stringify(list)); } catch(e) {}
+        }
 
         app.controller('MainController', ['$scope', '$location', '$rootScope', '$timeout', 'VehicleService', function($scope, $location, $rootScope, $timeout, VehicleService) {
             var today = new Date();
@@ -3006,37 +3352,23 @@
             };
         }]);
 
-        app.controller('CampoController', ['$scope', '$location', '$rootScope', '$timeout', 'VehicleService', function($scope, $location, $rootScope, $timeout, VehicleService) {
+        app.controller('CampoController', ['$scope', '$location', '$rootScope', '$timeout', '$sce', 'VehicleService', function($scope, $location, $rootScope, $timeout, $sce, VehicleService) {
             $scope.searchPlate = '';
             $scope.searching = false;
             $scope.searchError = '';
             $scope.foundVehicle = null;
             $scope.suggestedPlates = ['AAQ-303', 'CJN-863', 'CHN-817', 'BXR-897', 'CHM-812', 'DFC-918'];
-            $scope.currentWorkshift = null;
             $scope.stepIndex = 1;
-            $scope.canStartWorkshift = true;
             $scope.successMessage = '';
-            $scope.plateWorkshifts = [];
-
-            $scope.$on('autoLoadPlate', function(ev, plate) {
-                if (!plate) return;
-                $scope.searchPlate = plate;
-                $scope.onSearch(true);
-            });
-
-            $scope.$on('workshiftsUpdated', function() {
-                if ($scope.foundVehicle) {
-                    $scope.refreshWorkshiftContext();
-                }
-            });
+            $scope.workingSheet = [];
+            $scope.pendingCount = 0;
+            $scope.completedCount = 0;
+            $scope.summaryReport = null;
+            $scope.qrDataUrl = '';
 
             function todayISO() {
                 var t = new Date();
                 return t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0') + '-' + String(t.getDate()).padStart(2,'0');
-            }
-            function nowTimeStr() {
-                var t = new Date();
-                return String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
             }
             function formatDateDDMM(iso) {
                 if (!iso) return '';
@@ -3044,50 +3376,35 @@
                 return p[2] + '-' + p[1] + '-' + p[0];
             }
 
-            $scope.resetStartForm = function() {
-                var kmInit = $scope.foundVehicle ? $scope.foundVehicle.lastKilometraje : 0;
-                var hrInit = $scope.foundVehicle ? $scope.foundVehicle.lastHorometro : 0;
-                $scope.startForm = {
-                    kilometraje: kmInit || null,
-                    horometro: hrInit || null,
-                    date: todayISO(),
-                    turno: 'DIA'
-                };
-                $scope.startKmClass = ''; $scope.startKmHint = '';
-                $scope.startHrClass = ''; $scope.startHrHint = '';
-                $scope.showCancelStart = false;
-            };
-            $scope.resetEndForm = function() {
-                var kmBase = $scope.currentWorkshift ? $scope.currentWorkshift.startKilometraje : 0;
-                var hrBase = $scope.currentWorkshift ? $scope.currentWorkshift.startHorometro : 0;
-                $scope.endForm = {
-                    kilometraje: kmBase || null,
-                    horometro: hrBase || null,
-                    finalGalones: 0,
-                    date: todayISO()
-                };
-                $scope.endKmClass = ''; $scope.endKmHint = '';
-                $scope.endHrClass = ''; $scope.endHrHint = '';
-            };
-            $scope.resetRefuelForm = function() {
-                $scope.refuelForm = { galones: null, date: todayISO() };
+            $scope.getOperator = function() {
+                return $rootScope.currentUser || 'admin';
             };
 
-            $scope.refreshWorkshiftContext = function() {
-                if (!$scope.foundVehicle) return;
-                var op = $rootScope.currentUser || 'admin';
-                $scope.currentWorkshift = VehicleService.getActiveWorkshift($scope.foundVehicle.plate, op);
-                if ($scope.currentWorkshift) {
-                    $scope.stepIndex = 2;
-                    $scope.resetEndForm();
-                    $scope.resetRefuelForm();
-                } else {
-                    $scope.stepIndex = 1;
-                    $scope.resetStartForm();
-                }
-                $scope.plateWorkshifts = VehicleService.listWorkshifts($scope.foundVehicle.plate);
-                $scope.updateCurrentDisplay();
-            };
+            $scope.$on('autoLoadPlate', function(ev, plate) {
+                if (!plate) return;
+                $scope.searchPlate = plate;
+                $scope.onSearch(true);
+            });
+            $scope.$on('workingSheetUpdated', refreshWorkingSheet);
+
+            function refreshWorkingSheet() {
+                var op = $scope.getOperator();
+                $scope.workingSheet = VehicleService.listWorkingSheet(op);
+                $scope.pendingCount = VehicleService.getWorkingSheetPendingCount(op);
+                $scope.completedCount = $scope.workingSheet.length - $scope.pendingCount;
+            }
+            refreshWorkingSheet();
+
+            function resetAddForm() {
+                $scope.addForm = {
+                    kilometraje: ($scope.foundVehicle && $scope.foundVehicle.lastKilometraje) ? $scope.foundVehicle.lastKilometraje : null,
+                    horometro: ($scope.foundVehicle && $scope.foundVehicle.lastHorometro) ? $scope.foundVehicle.lastHorometro : null,
+                    galones: null,
+                    date: todayISO()
+                };
+                $scope.kmDeltaClass = ''; $scope.kmDeltaHint = '';
+                $scope.hrDeltaClass = ''; $scope.hrDeltaHint = '';
+            }
 
             $scope.onSearch = function(fromBadge) {
                 if (!$scope.searchPlate.trim()) return;
@@ -3104,7 +3421,7 @@
                         return;
                     }
                     $scope.foundVehicle = vehicle;
-                    $scope.refreshWorkshiftContext();
+                    resetAddForm();
                 }, fromBadge ? 50 : 280);
             };
 
@@ -3113,21 +3430,74 @@
                 $scope.onSearch();
             };
 
-            $scope.updateCurrentDisplay = function() {
-                if ($scope.currentWorkshift && $scope.currentWorkshift.status === 'closed') {
-                    $scope.currentDisplayKm = $scope.currentWorkshift.endKilometraje;
-                    $scope.currentDisplayHr = $scope.currentWorkshift.endHorometro;
-                    var totalG = ($scope.currentWorkshift.totalGalonesAbastecidos||0) + ($scope.currentWorkshift.finalGalones||0);
-                    $scope.currentDisplayGl = totalG;
-                } else if ($scope.currentWorkshift && $scope.currentWorkshift.status === 'open') {
-                    $scope.currentDisplayKm = $scope.currentWorkshift.startKilometraje;
-                    $scope.currentDisplayHr = $scope.currentWorkshift.startHorometro;
-                    $scope.currentDisplayGl = $scope.currentWorkshift.totalGalonesAbastecidos || 0;
-                } else {
-                    $scope.currentDisplayKm = $scope.foundVehicle ? $scope.foundVehicle.lastKilometraje : 0;
-                    $scope.currentDisplayHr = $scope.foundVehicle ? $scope.foundVehicle.lastHorometro : 0;
-                    $scope.currentDisplayGl = $scope.foundVehicle ? $scope.foundVehicle.lastGalones : 0;
+            $scope.validateKmDelta = function() {
+                if (!$scope.foundVehicle || $scope.addForm.kilometraje === undefined || $scope.addForm.kilometraje === null || $scope.addForm.kilometraje === '') {
+                    $scope.kmDeltaClass = ''; $scope.kmDeltaHint = ''; return;
                 }
+                var last = ($scope.foundVehicle.lastKilometraje || 0);
+                var diff = +$scope.addForm.kilometraje - last;
+                if (diff < 0) { $scope.kmDeltaClass = 'err'; $scope.kmDeltaHint = '⚠ Menor que último registro (' + $scope.formatNumber(last) + ' km)'; return; }
+                if (diff === 0) { $scope.kmDeltaClass = 'warn'; $scope.kmDeltaHint = 'Igual al último registro (sin cambio)'; return; }
+                $scope.kmDeltaClass = 'good'; $scope.kmDeltaHint = 'Δ +' + $scope.formatNumber(diff) + ' km';
+            };
+            $scope.validateHrDelta = function() {
+                if (!$scope.foundVehicle || $scope.addForm.horometro === undefined || $scope.addForm.horometro === null || $scope.addForm.horometro === '') {
+                    $scope.hrDeltaClass = ''; $scope.hrDeltaHint = ''; return;
+                }
+                var last = ($scope.foundVehicle.lastHorometro || 0);
+                if (last === 0) {
+                    $scope.hrDeltaClass = 'good'; $scope.hrDeltaHint = 'Valor inicial'; return;
+                }
+                var diff = +$scope.addForm.horometro - last;
+                if (diff < 0) { $scope.hrDeltaClass = 'err'; $scope.hrDeltaHint = '⚠ Menor que último registro (' + $scope.formatNumber(last) + ' hrs)'; return; }
+                if (diff === 0) { $scope.hrDeltaClass = 'warn'; $scope.hrDeltaHint = 'Igual al último registro (sin cambio)'; return; }
+                $scope.hrDeltaClass = 'good'; $scope.hrDeltaHint = 'Δ +' + $scope.formatNumber(diff) + ' hrs';
+            };
+
+            $scope.canAddRecord = function() {
+                if (!$scope.foundVehicle) return false;
+                if ($scope.addForm.kilometraje === undefined || $scope.addForm.kilometraje === null || $scope.addForm.kilometraje === '') return false;
+                if ($scope.addForm.horometro === undefined || $scope.addForm.horometro === null || $scope.addForm.horometro === '') return false;
+                if (!$scope.addForm.date) return false;
+                if (+$scope.addForm.kilometraje < ($scope.foundVehicle.lastKilometraje || 0)) return false;
+                if ($scope.foundVehicle.lastHorometro > 0 && +$scope.addForm.horometro < $scope.foundVehicle.lastHorometro) return false;
+                return true;
+            };
+
+            $scope.addRecordToSheet = function() {
+                if (!$scope.canAddRecord()) return;
+                VehicleService.addWorkingSheetRecord({
+                    plate: $scope.foundVehicle.plate,
+                    unit: $scope.foundVehicle.unit,
+                    operator: $scope.getOperator(),
+                    kilometraje: +$scope.addForm.kilometraje,
+                    horometro: +$scope.addForm.horometro,
+                    galones: $scope.addForm.galones,
+                    fecha: formatDateDDMM($scope.addForm.date)
+                });
+                $scope.successMessage = ($scope.addForm.galones ? '✅ Registro completo' : '📋 Registro agregado (Galones pendientes)') + ' para ' + $scope.foundVehicle.plate;
+                $scope.foundVehicle = null;
+                $scope.searchPlate = '';
+                resetAddForm();
+                $scope.stepIndex = 2;
+                $timeout(function(){ $scope.successMessage = ''; }, 4500);
+            };
+
+            $scope.continueAdding = function() {
+                $scope.stepIndex = 1;
+                resetAddForm();
+            };
+
+            // Working Sheet CRUD (Step 2)
+            $scope.saveGalones = function(rec) {
+                if (rec.galones === undefined || rec.galones === null || rec.galones === '' || rec.galones < 0) return;
+                VehicleService.updateWorkingSheetGalones(rec.id, rec.galones);
+                $scope.successMessage = '💾 Combustible actualizado';
+                $timeout(function(){ $scope.successMessage = ''; }, 2500);
+            };
+            $scope.removeRecord = function(id) {
+                if (!confirm('¿Eliminar este registro de la hoja de trabajo?')) return;
+                VehicleService.deleteWorkingSheetRecord(id);
             };
 
             $scope.getStepClass = function(n) {
@@ -3138,170 +3508,94 @@
             $scope.goToStep = function(n) {
                 $scope.stepIndex = n;
                 $scope.successMessage = '';
-            };
-
-            $scope.validateStartKm = function() {
-                if (!$scope.foundVehicle || $scope.startForm.kilometraje === undefined || $scope.startForm.kilometraje === null) {
-                    $scope.startKmClass = ''; $scope.startKmHint = ''; return;
-                }
-                var last = $scope.foundVehicle.lastKilometraje || 0;
-                var diff = +$scope.startForm.kilometraje - last;
-                if (diff < 0) { $scope.startKmClass='err'; $scope.startKmHint='El kilometraje inicial no puede ser menor al último registrado (' + $scope.formatNumber(last) + ' km)'; return; }
-                if (diff === 0) { $scope.startKmClass=''; $scope.startKmHint='Coincide con el último registro'; return; }
-                $scope.startKmClass=''; $scope.startKmHint='Diferencia: +' + $scope.formatNumber(diff) + ' km desde el último registro';
-            };
-            $scope.validateStartHr = function() {
-                if (!$scope.foundVehicle || $scope.startForm.horometro === undefined || $scope.startForm.horometro === null) {
-                    $scope.startHrClass=''; $scope.startHrHint=''; return;
-                }
-                var last = $scope.foundVehicle.lastHorometro || 0;
-                if (last === 0) { $scope.startHrClass=''; $scope.startHrHint='Valor inicial configurado'; return; }
-                var diff = +$scope.startForm.horometro - last;
-                if (diff < 0) { $scope.startHrClass='err'; $scope.startHrHint='El horómetro inicial no puede ser menor al último registrado (' + $scope.formatNumber(last) + ' hrs)'; return; }
-                if (diff === 0) { $scope.startHrClass=''; $scope.startHrHint='Coincide con el último registro'; return; }
-                $scope.startHrClass=''; $scope.startHrHint='Diferencia: +' + $scope.formatNumber(diff) + ' hrs desde el último registro';
-            };
-            $scope.canSubmitStart = function() {
-                if (!$scope.startForm || !$scope.foundVehicle) return false;
-                if ($scope.startForm.kilometraje === undefined || $scope.startForm.kilometraje === null) return false;
-                if ($scope.startForm.horometro === undefined || $scope.startForm.horometro === null) return false;
-                if ($scope.startForm.kilometraje < ($scope.foundVehicle.lastKilometraje || 0)) return false;
-                if ($scope.foundVehicle.lastHorometro > 0 && $scope.startForm.horometro < $scope.foundVehicle.lastHorometro) return false;
-                if (!$scope.startForm.date) return false;
-                if (!$scope.startForm.turno) return false;
-                var op = $rootScope.currentUser || 'admin';
-                var otherActive = VehicleService.getActiveWorkshift(null, op);
-                if (otherActive && otherActive.plate.toUpperCase() !== $scope.foundVehicle.plate.toUpperCase()) {
-                    return false;
-                }
-                return true;
-            };
-
-            $scope.startWorkshift = function() {
-                if (!$scope.canSubmitStart()) return;
-                var op = $rootScope.currentUser || 'admin';
-                VehicleService.startWorkshift({
-                    plate: $scope.foundVehicle.plate,
-                    unit: $scope.foundVehicle.unit,
-                    operator: op,
-                    turno: $scope.startForm.turno,
-                    date: formatDateDDMM($scope.startForm.date),
-                    time: nowTimeStr(),
-                    startKilometraje: +$scope.startForm.kilometraje,
-                    startHorometro: +$scope.startForm.horometro
-                });
-                $scope.successMessage = '✅ Jornada iniciada para ' + $scope.foundVehicle.plate + '. Puedes registrar abastecimientos o continuar a finalizar.';
-                $scope.refreshWorkshiftContext();
-                $scope.stepIndex = 2;
-                $timeout(function(){ $scope.successMessage = ''; }, 6000);
-            };
-
-            $scope.addRefuel = function() {
-                if (!$scope.refuelForm.galones || $scope.refuelForm.galones <= 0) return;
-                if (!$scope.currentWorkshift) return;
-                VehicleService.addRefuel($scope.currentWorkshift.id, +$scope.refuelForm.galones, formatDateDDMM($scope.refuelForm.date));
-                $scope.successMessage = '⛽ Abastecimiento de ' + $scope.refuelForm.galones + ' galones registrado';
-                $scope.refreshWorkshiftContext();
-                $scope.refuelForm.galones = null;
-                $timeout(function(){ $scope.successMessage = ''; }, 4000);
-            };
-
-            $scope.validateEndKm = function() {
-                if (!$scope.currentWorkshift || $scope.endForm.kilometraje === undefined || $scope.endForm.kilometraje === null) {
-                    $scope.endKmClass=''; $scope.endKmHint=''; return;
-                }
-                var start = $scope.currentWorkshift.startKilometraje || 0;
-                var diff = +$scope.endForm.kilometraje - start;
-                if (diff < 0) { $scope.endKmClass='err'; $scope.endKmHint='El kilometraje final no puede ser menor al inicial (' + $scope.formatNumber(start) + ' km)'; return; }
-                $scope.endKmClass=''; $scope.endKmHint='KM recorridos: +' + $scope.formatNumber(diff) + ' km';
-            };
-            $scope.validateEndHr = function() {
-                if (!$scope.currentWorkshift || $scope.endForm.horometro === undefined || $scope.endForm.horometro === null) {
-                    $scope.endHrClass=''; $scope.endHrHint=''; return;
-                }
-                var start = $scope.currentWorkshift.startHorometro || 0;
-                if (start === 0) {
-                    var v = +$scope.endForm.horometro;
-                    $scope.endHrClass = ''; $scope.endHrHint = v>0 ? ('Horas trabajadas: +' + $scope.formatNumber(v) + ' hrs') : '';
-                    return;
-                }
-                var diff = +$scope.endForm.horometro - start;
-                if (diff < 0) { $scope.endHrClass='err'; $scope.endHrHint='El horómetro final no puede ser menor al inicial (' + $scope.formatNumber(start) + ' hrs)'; return; }
-                $scope.endHrClass=''; $scope.endHrHint='Horas trabajadas: +' + $scope.formatNumber(diff) + ' hrs';
-            };
-            $scope.canSubmitEnd = function() {
-                if (!$scope.currentWorkshift) return false;
-                if ($scope.endForm.kilometraje === undefined || $scope.endForm.kilometraje === null) return false;
-                if ($scope.endForm.horometro === undefined || $scope.endForm.horometro === null) return false;
-                if ($scope.endForm.kilometraje < ($scope.currentWorkshift.startKilometraje || 0)) return false;
-                if ($scope.currentWorkshift.startHorometro > 0 && $scope.endForm.horometro < $scope.currentWorkshift.startHorometro) return false;
-                if (!$scope.endForm.date) return false;
-                return true;
-            };
-
-            $scope.endWorkshift = function() {
-                if (!$scope.canSubmitEnd()) return;
-                var closed = VehicleService.endWorkshift($scope.currentWorkshift.id, {
-                    endDate: formatDateDDMM($scope.endForm.date),
-                    endTime: nowTimeStr(),
-                    endKilometraje: +$scope.endForm.kilometraje,
-                    endHorometro: +$scope.endForm.horometro,
-                    finalGalones: +($scope.endForm.finalGalones || 0)
-                });
-
-                var totalGl = +((closed.totalGalonesAbastecidos||0) + (closed.finalGalones||0)).toFixed(2);
-                VehicleService.addRecord({
-                    plate: closed.plate,
-                    unit: closed.unit,
-                    kilometraje: closed.endKilometraje,
-                    horometro: closed.endHorometro,
-                    galones: totalGl,
-                    fecha: closed.endDate || closed.startDate,
-                    turno: closed.turno,
-                    responsable: closed.operator
-                });
-
-                $scope.foundVehicle = VehicleService.searchVehicle(closed.plate);
-                $scope.successMessage = '🎉 Jornada finalizada. Se actualizaron los valores del vehículo.';
-                $scope.refreshWorkshiftContext();
-                $scope.$applyAsync();
-            };
-
-            $scope.cancelWorkshift = function() {
-                if (!$scope.currentWorkshift) return;
-                if (!confirm('¿Estás seguro de cancelar esta jornada? Los datos de abastecimientos se perderán.')) return;
-                VehicleService.cancelWorkshift($scope.currentWorkshift.id);
-                $scope.successMessage = 'Jornada cancelada';
-                $scope.refreshWorkshiftContext();
-                $timeout(function(){ $scope.successMessage = ''; }, 3500);
-            };
-            $scope.clearWorkshiftContext = function() {
-                $scope.currentWorkshift = null;
-                $scope.foundVehicle = VehicleService.searchVehicle($scope.foundVehicle.plate);
-                $scope.refreshWorkshiftContext();
-            };
-            $scope.startNewWorkshiftForVehicle = function() {
-                $scope.currentWorkshift = null;
-                $scope.stepIndex = 1;
-                $scope.resetStartForm();
-                $scope.successMessage = '';
-                $scope.canStartWorkshift = true;
+                if (n === 3) $scope.buildSummaryReport();
             };
 
             $scope.goDesktop = function() {
                 $location.path('/');
             };
 
+            $scope.canFinishSession = function() {
+                return $scope.workingSheet.length > 0;
+            };
+
+            // STEP 3 - Build summary + QR (quickchart free API)
+            $scope.buildSummaryReport = function() {
+                var op = $scope.getOperator();
+                var records = VehicleService.listWorkingSheet(op).filter(function(r){ return !r.synced || true; });
+                var id = VehicleService.generateSessionReportId(op, records);
+                var total = records.length;
+                var completed = records.filter(function(r){ return r.status === 'complete'; }).length;
+                var pending = total - completed;
+                var totalKm = 0, totalHr = 0, totalGl = 0;
+                var uniquePlates = {};
+                records.forEach(function(r){
+                    uniquePlates[r.plate] = true;
+                    totalKm += +r.kilometraje || 0;
+                    totalHr += +r.horometro || 0;
+                    totalGl += +r.galones || 0;
+                });
+                var createdAt = new Date();
+                var dateStr = createdAt.toLocaleDateString('es-ES', { day:'2-digit', month:'long', year:'numeric' });
+                var timeStr = createdAt.toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit' });
+
+                $scope.summaryReport = {
+                    id: id,
+                    operator: op,
+                    dateStr: dateStr,
+                    timeStr: timeStr,
+                    totalRecords: total,
+                    completedRecords: completed,
+                    pendingRecords: pending,
+                    totalKm: totalKm,
+                    totalHr: totalHr,
+                    totalGl: totalGl,
+                    vehiclesCount: Object.keys(uniquePlates).length,
+                    records: records
+                };
+
+                var qrText = 'FleetFuel|' + id + '|OP:' + op + '|FECHA:' + dateStr + '|REG:' + total + '|GL:' + totalGl + '|KM:' + totalKm + '|HRS:' + totalHr + '|VEH:' + $scope.summaryReport.vehiclesCount;
+                $scope.qrDataUrl = 'https://quickchart.io/qr?text=' + encodeURIComponent(qrText) + '&size=300&margin=1';
+            };
+
+            $scope.getShareWhatsAppUrl = function() {
+                if (!$scope.summaryReport) return '';
+                var s = $scope.summaryReport;
+                var lines = [
+                    '📋 *Reporte de Hoja de Trabajo Fleet Fuel*',
+                    '',
+                    '🆔 ' + s.id,
+                    '👤 Operador: ' + s.operator,
+                    '📅 Fecha: ' + s.dateStr + ' · ' + s.timeStr,
+                    '',
+                    '🚛 Vehículos: ' + s.vehiclesCount,
+                    '📝 Registros: ' + s.totalRecords + ' (' + s.completedRecords + ' completos / ' + s.pendingRecords + ' pendientes)',
+                    '',
+                    '🔢 Total KM: ' + $scope.formatNumber(s.totalKm),
+                    '⏱️ Total HRS: ' + $scope.formatNumber(s.totalHr),
+                    '⛽ Total GL: ' + $scope.formatNumber(s.totalGl),
+                    '',
+                    'Escanea el QR o abre el reporte para ver el detalle.'
+                ];
+                return 'https://wa.me/?text=' + encodeURIComponent(lines.join('\n'));
+            };
+
+            $scope.syncAndCloseSession = function() {
+                var op = $scope.getOperator();
+                VehicleService.syncWorkingSheet(op);
+                VehicleService.clearWorkingSheet(op);
+                $scope.successMessage = '🎉 Reporte cerrado y sincronizado. Se actualizaron los registros históricos.';
+                $scope.summaryReport = null;
+                $scope.stepIndex = 1;
+                resetAddForm();
+                refreshWorkingSheet();
+                $timeout(function(){ $scope.successMessage = ''; }, 7000);
+            };
+
             $scope.formatNumber = function(n) {
                 if (n === undefined || n === null) return '0';
                 return Number(n).toLocaleString('es-ES');
             };
-            $scope.getConsumoClass = function(v, t) { return VehicleService.getConsumoClass(v, t); };
-            $scope.getConsumoStatus = function(v, t) { return VehicleService.getConsumoStatus(v, t); };
-
-            $scope.resetStartForm();
-            $scope.resetRefuelForm();
-            $scope.resetEndForm();
         }]);
 
         app.controller('VehicleDetailController', ['$scope', '$routeParams', '$location', 'VehicleService', function($scope, $routeParams, $location, VehicleService) {
@@ -3575,240 +3869,288 @@
 
             var campoTemplate = `
                 <div class="home-minimal">
-                    <div style="max-width: 720px; margin: 0 auto 1.5rem; display:flex; align-items:center; justify-content:space-between;">
-                        <div>
-                            <div style="display:flex; align-items:center; gap:0.6rem;">
-                                <button class="btn-ghost" style="padding:0.45rem 0.85rem; font-size:0.82rem; box-shadow:none;" ng-click="goDesktop()">
-                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:15px;height:15px; display:inline-block; vertical-align:middle;">
-                                        <path d="M3 12L12 3L21 12M5 10V20C5 20.5304 5.21071 21.0391 5.58579 21.4142C5.96086 21.7893 6.46957 22 7 22H17C17.5304 22 18.0391 21.7893 18.4142 21.4142C18.7893 21.0391 19 20.5304 19 20V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                    Escritorio
-                                </button>
+                    <div style="max-width: 720px; margin: 0 auto 1.2rem;">
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.4rem;">
+                            <div>
+                                <h2 style="font-size:1.3rem; margin:0; color:#0f172a;">
+                                    🚛 Hoja de Trabajo <span style="color:#2563eb;">(Campo)</span>
+                                </h2>
+                                <p style="color:#64748b; margin:0.15rem 0 0; font-size:0.85rem;">
+                                    Captura actualizaciones KM/Hr. Galones puedes llenarlos luego.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="ws-summarybar" ng-if="workingSheet.length > 0">
+                            <div>
+                                <div class="lbl">Registros</div>
+                                <div class="count">{{ workingSheet.length }} <span style="font-size:0.78rem; color:#64748b; font-weight:600;">en hoja</span></div>
+                            </div>
+                            <div style="text-align:center;">
+                                <span class="dot-c"></span><span class="lbl">{{ completedCount }} completos</span>
+                            </div>
+                            <div style="text-align:right;">
+                                <span class="dot-p"></span><span class="lbl">{{ pendingCount }} GL pend</span>
                             </div>
                         </div>
                     </div>
-                    <div class="quick-search-wrap">
-                        <div class="quick-search-title">
-                            <h2>⛽ Registro de Jornada (Campo)</h2>
-                            <p>Busca la placa para iniciar o continuar la captura</p>
-                        </div>
-                        <div class="minimal-search">
-                            <div class="minimal-search-input">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21 21L16.65 16.65M11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 15.4183 15.4183 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                <input
-                                    type="text"
-                                    ng-model="searchPlate"
-                                    ng-keyup="$event.keyCode === 13 && onSearch()"
-                                    ng-change="searchError = ''; foundVehicle = null;"
-                                    placeholder="Placa..."
-                                    autocomplete="off"
-                                    maxlength="8"
-                                    style="text-transform: uppercase;"
-                                />
-                            </div>
-                            <button class="minimal-search-btn" ng-click="onSearch()" ng-disabled="searching">
-                                <span ng-if="searching">Buscando...</span>
-                                <span ng-if="!searching">Buscar</span>
-                            </button>
-                        </div>
-                        <div ng-if="searchError" class="minimal-error">{{ searchError }}</div>
-                        <div class="suggested-row">
-                            <span class="chip-plate" ng-repeat="chip in suggestedPlates" ng-click="setPlate(chip)">
-                                {{ chip }}
-                            </span>
-                        </div>
-                    </div>
 
-                    <div ng-if="foundVehicle" class="vehicle-compact-card">
-                        <div class="vcc-header">
-                            <div class="vcc-id">
-                                <div class="vcc-plate">{{ foundVehicle.plate }}</div>
-                                <div class="vcc-meta">
-                                    <h3>{{ foundVehicle.unit }}</h3>
-                                    <p>{{ foundVehicle.type }} · Último registro: {{ foundVehicle.lastDate }}</p>
-                                </div>
-                            </div>
-                            <div class="vcc-stats-mini">
-                                <div class="vcc-mini-stat km">
-                                    <div class="lbl">KM</div>
-                                    <div class="val">{{ formatNumber(currentDisplayKm) }}</div>
-                                </div>
-                                <div class="vcc-mini-stat hr">
-                                    <div class="lbl">HRS</div>
-                                    <div class="val">{{ formatNumber(currentDisplayHr) }}</div>
-                                </div>
-                                <div class="vcc-mini-stat gl">
-                                    <div class="lbl">GL</div>
-                                    <div class="val">{{ formatNumber(currentDisplayGl) }}</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="steps-wrap" ng-if="currentWorkshift || canStartWorkshift">
+                    <div style="max-width: 720px; margin:0 auto 1.5rem;">
+                        <div class="steps-wrap" style="padding-top:0.25rem; margin-bottom:0.6rem;">
                             <div class="steps">
                                 <div class="step" ng-class="getStepClass(1)">
                                     <div class="step-number">1</div>
-                                    <div class="step-label">Iniciar</div>
+                                    <div class="step-label">Agregar</div>
                                 </div>
                                 <div class="step-connector" ng-class="{'done': stepIndex >= 2}"></div>
                                 <div class="step" ng-class="getStepClass(2)">
                                     <div class="step-number">2</div>
-                                    <div class="step-label">Abastecer</div>
+                                    <div class="step-label">Hoja</div>
                                 </div>
                                 <div class="step-connector" ng-class="{'done': stepIndex >= 3}"></div>
                                 <div class="step" ng-class="getStepClass(3)">
                                     <div class="step-number">3</div>
-                                    <div class="step-label">Finalizar</div>
+                                    <div class="step-label">Reporte</div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-panels">
-                            <div ng-if="successMessage" class="alert-success-inline">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;">
-                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                {{ successMessage }}
+                    <div ng-if="successMessage" class="alert-success-inline" style="max-width:720px; margin:0 auto 1rem;">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px; flex-shrink:0;">
+                            <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        {{ successMessage }}
+                    </div>
+
+                    <!-- ============ STEP 1: CAPTURAR REGISTRO ============ -->
+                    <div ng-if="stepIndex === 1" style="max-width: 720px; margin:0 auto;">
+                        <div class="quick-search-wrap" style="padding-top:0;">
+                            <div class="minimal-search">
+                                <div class="minimal-search-input">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M21 21L16.65 16.65M11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 15.4183 15.4183 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <input
+                                        type="text"
+                                        ng-model="searchPlate"
+                                        ng-keyup="$event.keyCode === 13 && onSearch()"
+                                        ng-change="searchError = ''; foundVehicle = null;"
+                                        placeholder="Placa..."
+                                        autocomplete="off"
+                                        maxlength="8"
+                                        style="text-transform: uppercase;"
+                                    />
+                                </div>
+                                <button class="minimal-search-btn" ng-click="onSearch()" ng-disabled="searching">
+                                    <span ng-if="searching">Buscando...</span>
+                                    <span ng-if="!searching">Buscar</span>
+                                </button>
                             </div>
+                            <div ng-if="searchError" class="minimal-error">{{ searchError }}</div>
+                            <div class="suggested-row" ng-if="!foundVehicle">
+                                <span class="chip-plate" ng-repeat="chip in suggestedPlates" ng-click="setPlate(chip)">
+                                    {{ chip }}
+                                </span>
+                            </div>
+                        </div>
 
-                            <!-- START WORKSHIFT -->
-                            <div ng-if="!currentWorkshift && foundVehicle">
+                        <!-- VEHICLE FOUND + ADD FORM -->
+                        <div ng-if="foundVehicle" class="vehicle-compact-card">
+                            <div class="vcc-header">
+                                <div class="vcc-id">
+                                    <div class="vcc-plate">{{ foundVehicle.plate }}</div>
+                                    <div class="vcc-meta">
+                                        <h3>{{ foundVehicle.unit }}</h3>
+                                        <p>{{ foundVehicle.type }} · Último: {{ foundVehicle.lastDate }}</p>
+                                    </div>
+                                </div>
+                                <div class="vcc-stats-mini">
+                                    <div class="vcc-mini-stat km">
+                                        <div class="lbl">KM</div>
+                                        <div class="val">{{ formatNumber(foundVehicle.lastKilometraje) }}</div>
+                                    </div>
+                                    <div class="vcc-mini-stat hr">
+                                        <div class="lbl">HRS</div>
+                                        <div class="val">{{ formatNumber(foundVehicle.lastHorometro) }}</div>
+                                    </div>
+                                    <div class="vcc-mini-stat gl">
+                                        <div class="lbl">GL</div>
+                                        <div class="val">{{ formatNumber(foundVehicle.lastGalones) }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-panels">
                                 <div class="form-panel-title">
-                                    <h3>Paso 1 · Iniciar Jornada</h3>
-                                    <span class="sub">Valores iniciales del vehículo</span>
+                                    <h3>📝 Agregar Registro</h3>
+                                    <span class="sub">Actualiza valores del vehículo</span>
                                 </div>
                                 <div class="form-grid-2">
                                     <div class="form-field">
                                         <label>Kilometraje Actual</label>
-                                        <input type="number" step="0.1" class="mono" ng-model="startForm.kilometraje" ng-change="validateStartKm()"/>
-                                        <span ng-if="startForm.kilometraje" class="diff-hint" ng-class="startKmClass">{{ startKmHint }}</span>
+                                        <input type="number" step="0.1" class="mono" ng-model="addForm.kilometraje" ng-change="validateKmDelta()"/>
+                                        <span ng-if="addForm.kilometraje" class="diff-hint" ng-class="kmDeltaClass">{{ kmDeltaHint }}</span>
                                     </div>
                                     <div class="form-field">
                                         <label>Horómetro Actual</label>
-                                        <input type="number" step="0.1" class="mono" ng-model="startForm.horometro" ng-change="validateStartHr()"/>
-                                        <span ng-if="startForm.horometro" class="diff-hint" ng-class="startHrClass">{{ startHrHint }}</span>
+                                        <input type="number" step="0.1" class="mono" ng-model="addForm.horometro" ng-change="validateHrDelta()"/>
+                                        <span ng-if="addForm.horometro" class="diff-hint" ng-class="hrDeltaClass">{{ hrDeltaHint }}</span>
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Galones <span style="color:#94a3b8; font-weight:500; font-size:0.78rem;">(opcional)</span></label>
+                                        <input type="number" step="0.1" class="mono" ng-model="addForm.galones" placeholder="—"/>
                                     </div>
                                     <div class="form-field">
                                         <label>Fecha</label>
-                                        <input type="date" ng-model="startForm.date"/>
-                                    </div>
-                                    <div class="form-field">
-                                        <label>Turno</label>
-                                        <select ng-model="startForm.turno">
-                                            <option value="DIA">Día</option>
-                                            <option value="NOCHE">Noche</option>
-                                            <option value="TARDE">Tarde</option>
-                                        </select>
+                                        <input type="date" ng-model="addForm.date"/>
                                     </div>
                                 </div>
                                 <div class="actions-row">
-                                    <span></span>
-                                    <button class="btn-primary btn-success" ng-click="startWorkshift()" ng-disabled="!canSubmitStart()">
-                                        Iniciar Jornada
+                                    <button class="btn-ghost" ng-if="workingSheet.length > 0" ng-click="goToStep(2)">Ver Hoja ({{ workingSheet.length }})</button>
+                                    <div></div>
+                                    <button class="btn-primary btn-success" ng-click="addRecordToSheet()" ng-disabled="!canAddRecord()">
+                                        + Agregar a Hoja
                                     </button>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- OPEN WORKSHIFT: STEP 2 REFUELS -->
-                            <div ng-if="currentWorkshift && currentWorkshift.status === 'open'">
-                                <div ng-if="stepIndex === 2">
-                                    <div class="form-panel-title">
-                                        <h3>Paso 2 · Abastecimientos</h3>
-                                        <span class="sub">Registra recargas (opcional)</span>
-                                    </div>
-                                    <div class="form-grid-2">
-                                        <div class="form-field">
-                                            <label>Galones</label>
-                                            <input type="number" step="0.1" class="mono" ng-model="refuelForm.galones" placeholder="Ej: 30"/>
+                        <div style="margin-top: 1rem; display:flex; justify-content:flex-end; max-width:720px;">
+                            <button class="btn-primary" ng-if="workingSheet.length > 0 && !foundVehicle" ng-click="goToStep(2)">
+                                Ir a Hoja de Trabajo ({{ workingSheet.length }}) →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ============ STEP 2: WORKING SHEET LIST ============ -->
+                    <div ng-if="stepIndex === 2" style="max-width: 720px; margin:0 auto;">
+                        <div class="vehicle-compact-card" style="padding-top:1rem;">
+                            <div class="form-panels" style="padding-top:0;">
+                                <div class="form-panel-title">
+                                    <h3>📋 Hoja de Trabajo</h3>
+                                    <span class="sub">Registros de hoy · {{ getOperator() }}</span>
+                                </div>
+                                <div class="ws-empty" ng-if="workingSheet.length === 0">
+                                    Aún no hay registros. Agrega el primero en el Paso 1.
+                                </div>
+                                <div ng-if="workingSheet.length > 0">
+                                    <div class="ws-card" ng-repeat="rec in workingSheet" ng-class="rec.status">
+                                        <div class="ws-card-top">
+                                            <div>
+                                                <div class="ws-card-plate">{{ rec.plate }}</div>
+                                                <div class="ws-card-unit">{{ rec.unit }} · {{ rec.fecha }}</div>
+                                            </div>
+                                            <div style="display:flex; align-items:center; gap:0.35rem;">
+                                                <span class="ws-card-status" ng-class="rec.status">
+                                                    <span ng-if="rec.status==='pending'">⏳ GL Pendiente</span>
+                                                    <span ng-if="rec.status==='complete'">✅ Completo</span>
+                                                </span>
+                                                <button class="ws-card-delbtn" title="Eliminar" ng-click="removeRecord(rec.id)">
+                                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:17px; height:17px;">
+                                                        <path d="M3 6H5H21M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="form-field">
-                                            <label>Fecha</label>
-                                            <input type="date" ng-model="refuelForm.date"/>
+                                        <div class="ws-card-stats">
+                                            <div class="ws-card-stat">
+                                                <div class="l">KM</div>
+                                                <div class="v">{{ formatNumber(rec.kilometraje) }}</div>
+                                            </div>
+                                            <div class="ws-card-stat">
+                                                <div class="l">HRS</div>
+                                                <div class="v">{{ formatNumber(rec.horometro) }}</div>
+                                            </div>
+                                            <div class="ws-card-stat">
+                                                <div class="l">GL</div>
+                                                <div class="v" ng-class="{'pending-gl': rec.galones === null}">
+                                                    {{ rec.galones !== null ? formatNumber(rec.galones) : '—' }}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="refuels-list" ng-if="currentWorkshift.refuels.length > 0">
-                                        <div class="refuels-list-head">
-                                            <span>Detalle</span><span>Galones</span>
+                                        <div class="ws-card-bottom" ng-if="rec.status === 'pending'">
+                                            <input type="number" step="0.1" placeholder="Galones..." ng-model="rec.galones"/>
+                                            <button class="ws-card-savebtn" ng-click="saveGalones(rec)">💾 Guardar</button>
                                         </div>
-                                        <div class="refuel-item" ng-repeat="r in currentWorkshift.refuels">
-                                            <span class="rnum">#{{ r.id }} · {{ r.fecha }}</span>
-                                            <span class="rgl">{{ r.galones }} gl</span>
-                                        </div>
-                                        <div class="refuel-total">
-                                            <span>Total Abastecido</span>
-                                            <span>{{ currentWorkshift.totalGalonesAbastecidos }} gl</span>
-                                        </div>
-                                    </div>
-                                    <div class="refuels-list" ng-if="currentWorkshift.refuels.length === 0">
-                                        <div class="empty-refuels">No hay abastecimientos registrados</div>
-                                    </div>
-                                    <div class="actions-row">
-                                        <button class="btn-primary btn-warn" ng-click="goToStep(3)">Ir a Finalizar →</button>
-                                        <button class="btn-primary" ng-click="addRefuel()" ng-disabled="!refuelForm.galones || refuelForm.galones <= 0">
-                                            + Agregar Abastecimiento
-                                        </button>
                                     </div>
                                 </div>
-                                <div ng-if="stepIndex === 3">
-                                    <div class="form-panel-title">
-                                        <h3>Paso 3 · Finalizar Jornada</h3>
-                                        <span class="sub">Valores finales + cierre</span>
-                                    </div>
-                                    <div class="form-grid-2">
-                                        <div class="form-field">
-                                            <label>Kilometraje Final</label>
-                                            <input type="number" step="0.1" class="mono" ng-model="endForm.kilometraje" ng-change="validateEndKm()"/>
-                                            <span ng-if="endForm.kilometraje" class="diff-hint" ng-class="endKmClass">{{ endKmHint }}</span>
-                                        </div>
-                                        <div class="form-field">
-                                            <label>Horómetro Final</label>
-                                            <input type="number" step="0.1" class="mono" ng-model="endForm.horometro" ng-change="validateEndHr()"/>
-                                            <span ng-if="endForm.horometro" class="diff-hint" ng-class="endHrClass">{{ endHrHint }}</span>
-                                        </div>
-                                        <div class="form-field">
-                                            <label>Galones Final</label>
-                                            <input type="number" step="0.1" class="mono" ng-model="endForm.finalGalones" placeholder="0"/>
-                                        </div>
-                                        <div class="form-field">
-                                            <label>Fecha Cierre</label>
-                                            <input type="date" ng-model="endForm.date"/>
-                                        </div>
-                                    </div>
-                                    <div class="actions-row" style="margin-top:1rem;">
-                                        <div style="display:flex; gap:0.6rem;">
-                                            <button class="btn-danger" ng-click="cancelWorkshift()">Cancelar</button>
-                                            <button class="btn-ghost" ng-click="goToStep(2)">← Volver</button>
-                                        </div>
-                                        <button class="btn-primary btn-success" ng-click="endWorkshift()" ng-disabled="!canSubmitEnd()">
-                                            Finalizar Jornada
-                                        </button>
+                                <div class="actions-row" style="margin-top:1rem;">
+                                    <button class="btn-ghost" ng-click="continueAdding()">← Seguir agregando</button>
+                                    <button class="btn-primary btn-success" ng-click="goToStep(3)" ng-disabled="!canFinishSession()">
+                                        Finalizar & Generar Reporte →
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============ STEP 3: FINAL REPORT + QR ============ -->
+                    <div ng-if="stepIndex === 3 && summaryReport" style="max-width: 720px; margin:0 auto;">
+                        <div class="report-card">
+                            <div class="report-card-header">
+                                <h3>📋 Reporte de Hoja de Trabajo</h3>
+                                <div class="id">{{ summaryReport.id }}</div>
+                            </div>
+                            <div class="report-card-meta">
+                                <div class="rcm-item">
+                                    <div class="l">Operador</div>
+                                    <div class="v">{{ summaryReport.operator }}</div>
+                                </div>
+                                <div class="rcm-item">
+                                    <div class="l">Fecha / Hora</div>
+                                    <div class="v">{{ summaryReport.dateStr }} · {{ summaryReport.timeStr }}</div>
+                                </div>
+                                <div class="rcm-item">
+                                    <div class="l">Vehículos</div>
+                                    <div class="v">{{ summaryReport.vehiclesCount }} unidades</div>
+                                </div>
+                                <div class="rcm-item">
+                                    <div class="l">Registros</div>
+                                    <div class="v">
+                                        {{ summaryReport.completedRecords }} ✅
+                                        <span ng-if="summaryReport.pendingRecords > 0" style="color:#b45309; font-weight:700;">
+                                            · {{ summaryReport.pendingRecords }} ⏳
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- CLOSED SUMMARY -->
-                            <div ng-if="currentWorkshift && currentWorkshift.status === 'closed'">
-                                <div class="form-panel-title">
-                                    <h3>✅ Jornada Finalizada</h3>
-                                    <span class="sub">Resumen de operación</span>
+                            <div class="rc-totals">
+                                <div class="rc-total">
+                                    <div class="l">TOTAL KM</div>
+                                    <div class="v">{{ formatNumber(summaryReport.totalKm) }}</div>
                                 </div>
-                                <div class="workshift-summary">
-                                    <div style="font-weight:700; font-size:0.85rem; color:#065f46;">
-                                        Operador: {{ currentWorkshift.operator }} · Turno {{ currentWorkshift.turno }}
+                                <div class="rc-total">
+                                    <div class="l">TOTAL HRS</div>
+                                    <div class="v">{{ formatNumber(summaryReport.totalHr) }}</div>
+                                </div>
+                                <div class="rc-total">
+                                    <div class="l">TOTAL GL</div>
+                                    <div class="v">{{ formatNumber(summaryReport.totalGl) }}</div>
+                                </div>
+                            </div>
+                            <div class="rc-detail-list">
+                                <div class="rc-detail-row" ng-repeat="r in summaryReport.records">
+                                    <div class="p">{{ r.plate }}</div>
+                                    <div class="s">{{ formatNumber(r.kilometraje) }} km · {{ formatNumber(r.horometro) }} hrs</div>
+                                    <div class="g" ng-class="{'pend': r.galones === null}">
+                                        {{ r.galones !== null ? formatNumber(r.galones) + ' gl' : '—' }}
                                     </div>
-                                    <div class="ws-summary-grid">
-                                        <div class="ws-sum-item"><div class="s-lbl">KM</div><div class="s-val">{{ currentWorkshift.kmRecorridos }}<span class="s-unit"> km</span></div></div>
-                                        <div class="ws-sum-item"><div class="s-lbl">HRS</div><div class="s-val">{{ currentWorkshift.horasTrabajadas }}<span class="s-unit"> hrs</span></div></div>
-                                        <div class="ws-sum-item"><div class="s-lbl">gl/km</div><div class="s-val">{{ currentWorkshift.consumoKm }}</div></div>
-                                        <div class="ws-sum-item"><div class="s-lbl">gl/hr</div><div class="s-val">{{ currentWorkshift.consumoHora }}</div></div>
-                                    </div>
                                 </div>
-                                <div class="actions-row">
-                                    <button class="btn-ghost" ng-click="clearWorkshiftContext()">Cerrar</button>
-                                    <button class="btn-primary" ng-click="startNewWorkshiftForVehicle()">Nueva Jornada</button>
-                                </div>
+                            </div>
+                            <div class="rc-qr-box">
+                                <img ng-src="{{ qrDataUrl }}" alt="Código QR del Reporte"/>
+                                <div class="qr-note">Escanea con celular · ID: {{ summaryReport.id }}</div>
+                            </div>
+                            <div class="rc-actions">
+                                <a class="btn-whatsapp" target="_blank" rel="noopener" ng-href="{{ getShareWhatsAppUrl() }}">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                                    </svg>
+                                    Compartir por WhatsApp
+                                </a>
+                                <button class="btn-ghost" ng-click="goToStep(2)">← Volver a la Hoja</button>
+                                <button class="btn-primary btn-success" ng-click="syncAndCloseSession()">
+                                    ✅ Cerrar y Sincronizar Hoja
+                                </button>
                             </div>
                         </div>
                     </div>
