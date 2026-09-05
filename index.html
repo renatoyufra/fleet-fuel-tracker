@@ -2186,8 +2186,99 @@
         }
 
         /* Hide helpers */
-        .hide-mobile { display: block; }
-        .show-mobile { display: none; }
+        /* HAMBURGER MENU (MOBILE ONLY) */
+        .hamburger-btn {
+            display: none;
+            border: 0;
+            background: transparent;
+            color: #0f172a;
+            padding: 0.35rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .hamburger-btn:hover { background: #f1f5f9; }
+        .hamburger-btn svg { width: 22px; height: 22px; }
+
+        .mobile-menu {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0.75rem;
+            width: min(320px, calc(100vw - 1.5rem));
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            box-shadow: 0 20px 25px -5px rgba(15,23,42,0.1), 0 10px 10px -5px rgba(15,23,42,0.04);
+            overflow: hidden;
+            z-index: 50;
+        }
+        .mobile-menu-header {
+            padding: 1rem 1rem 0.75rem;
+            border-bottom: 1px solid #f1f5f9;
+            background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+        }
+        .mobile-menu-section { padding: 0.5rem; }
+        .mobile-menu-section + .mobile-menu-section { border-top: 1px solid #f1f5f9; }
+        .mm-section-title {
+            padding: 0.5rem 0.75rem 0.25rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #94a3b8;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .mm-item {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            gap: 0.7rem;
+            padding: 0.7rem 0.75rem;
+            border: 0;
+            border-radius: 10px;
+            background: transparent;
+            color: #334155;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s ease;
+        }
+        .mm-item:hover { background: #f1f5f9; color: #0f172a; }
+        .mm-item svg { width: 19px; height: 19px; color: #64748b; flex-shrink: 0; }
+        .mm-item.mm-active {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+        .mm-item.mm-active svg { color: #2563eb; }
+        .mm-item.mm-ws { background: #ecfdf5; }
+        .mm-item.mm-ws .dot {
+            width: 10px; height: 10px;
+            border-radius: 9999px;
+            background: #10b981;
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.2);
+            animation: pulseGlow 1.8s infinite;
+            margin-right: 0.2rem;
+        }
+        .mm-item.mm-logout { color: #b91c1c; }
+        .mm-item.mm-logout:hover { background: #fef2f2; }
+
+        .mobile-date-row {
+            display: none;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.6rem 1rem;
+            margin: 0 0.75rem 0.25rem;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            color: #334155;
+            font-weight: 600;
+            font-size: 0.88rem;
+            box-shadow: 0 1px 2px rgba(15,23,42,0.03);
+        }
+        .mobile-date-row svg { width: 17px; height: 17px; color: #2563eb; flex-shrink: 0; }
+
+        /* Desktop default */
+        .mobile-date-row { display: none; }
 
         @media (max-width: 768px) {
             .hide-mobile { display: none !important; }
@@ -2238,6 +2329,14 @@
             .form-panels { padding: 0.9rem; }
             .actions-row { flex-direction: column-reverse; align-items: stretch; }
             .btn-primary, .btn-success, .btn-ghost, .btn-danger, .btn-warn { width: 100%; }
+
+            /* HEADER MOBILE OPTIMIZATIONS */
+            .view-switcher, .date-badge, .logout-btn, .active-workshift-badge { display: none !important; }
+            .user-badge .user-badge-name { display: none !important; }
+            .hamburger-btn { display: inline-flex; align-items: center; justify-content: center; }
+            .logo-text h1 { font-size: 1.15rem; }
+            .logo-text span { display: none; }
+            .mobile-date-row { display: inline-flex; }
         }
         @media (max-width: 480px) {
             .login-card { padding: 2rem 1.5rem; border-radius: 20px; }
@@ -2387,10 +2486,75 @@
                         </svg>
                         Salir
                     </button>
+
+                    <!-- HAMBURGER MOBILE MENU TOGGLE -->
+                    <button type="button" class="hamburger-btn" ng-click="toggleMobileMenu()" aria-label="Menú">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ng-if="!mobileMenuOpen">
+                            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ng-if="mobileMenuOpen">
+                            <path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- MOBILE MENU DROPDOWN -->
+            <div class="mobile-menu" ng-if="mobileMenuOpen" ng-click="$event.stopPropagation()">
+                <div class="mobile-menu-header">
+                    <div class="user-badge" style="border:none; box-shadow:none;">
+                        <div class="user-badge-icon">{{ currentUser.charAt(0).toUpperCase() }}</div>
+                        <span class="user-badge-name">{{ currentUser }}</span>
+                    </div>
+                </div>
+                <div class="mobile-menu-section">
+                    <div class="mm-section-title">Vista</div>
+                    <button class="mm-item" ng-class="{'mm-active': currentView === 'home'}" ng-click="goHome(); closeMobileMenu();">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 12L12 3L21 12M5 10V20C5 20.5304 5.21071 21.0391 5.58579 21.4142C5.96086 21.7893 6.46957 22 7 22H17C17.5304 22 18.0391 21.7893 18.4142 21.4142C18.7893 21.0391 19 20.5304 19 20V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Escritorio
+                    </button>
+                    <button class="mm-item" ng-class="{'mm-active': currentView === 'campo'}" ng-click="goCampo(); closeMobileMenu();">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 3H17C18.6569 3 20 4.34315 20 6V18C20 19.6569 18.6569 21 17 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 18H12.01" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                        Campo
+                    </button>
+                </div>
+                <div class="mobile-menu-section" ng-if="activeWorkshift">
+                    <div class="mm-section-title">Jornada</div>
+                    <button class="mm-item mm-ws" ng-click="handleWorkshiftBadgeClick(); closeMobileMenu();">
+                        <span class="dot"></span>
+                        <div style="display:flex; flex-direction:column; align-items:flex-start;">
+                            <span style="font-weight:700; color:#065f46;">Jornada Activa</span>
+                            <span style="font-family:ui-monospace; font-size:0.85rem; color:#065f46;">{{ activeWorkshift.plate }}</span>
+                        </div>
+                    </button>
+                </div>
+                <div class="mobile-menu-section">
+                    <div class="mm-section-title">Cuenta</div>
+                    <button class="mm-item mm-logout" ng-click="doLogout();">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9M16 17L21 12L16 7M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Cerrar Sesión
+                    </button>
                 </div>
             </div>
         </header>
         <main class="app-main">
+            <!-- MOBILE DATE BADGE (outside header) -->
+            <div class="mobile-date-row" ng-if="currentDate">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>{{ currentDate }}</span>
+            </div>
             <ng-view></ng-view>
         </main>
     </div>
@@ -2684,6 +2848,10 @@
                 }
             }
             detectView();
+
+            $scope.mobileMenuOpen = false;
+            $scope.toggleMobileMenu = function() { $scope.mobileMenuOpen = !$scope.mobileMenuOpen; };
+            $scope.closeMobileMenu = function() { $scope.mobileMenuOpen = false; };
 
             function refreshActiveWorkshift() {
                 if ($rootScope.currentUser) {
