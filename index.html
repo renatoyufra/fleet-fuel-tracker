@@ -2849,6 +2849,69 @@
             return {
                 config: CONFIG,
 
+                // Fecha Date object (para input[type=date] ng-model de AngularJS)
+                todayDate: function() {
+                    var d = getNowLocal();
+                    // Sin horas para evitar TZ shifts en el datepicker
+                    return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
+                },
+
+                parseToDate: function(input) {
+                    // Acepta: Date object, "YYYY-MM-DD", "DD-MM-YYYY", "DD/MM/YYYY", timestamp
+                    if (!input) return null;
+                    if (input instanceof Date && !isNaN(input.valueOf())) {
+                        // Normalizar sin horas
+                        return new Date(input.getFullYear(), input.getMonth(), input.getDate(), 0, 0, 0, 0);
+                    }
+                    if (typeof input === 'number') {
+                        var d = new Date(input);
+                        return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
+                    }
+                    if (typeof input !== 'string') return null;
+                    input = input.trim();
+                    if (!input) return null;
+                    // Split por -, /, o .
+                    var parts = input.split(/[\-\/\.]/);
+                    if (parts.length !== 3) return null;
+                    var p1 = parts[0], p2 = parts[1], p3 = parts[2];
+                    var y, m, day;
+                    if (p1.length === 4) {
+                        // ISO YYYY-MM-DD
+                        y = +p1; m = +p2 - 1; day = +p3;
+                    } else if (p3.length === 4) {
+                        // DD-MM-YYYY
+                        day = +p1; m = +p2 - 1; y = +p3;
+                    } else {
+                        return null;
+                    }
+                    if (isNaN(y) || isNaN(m) || isNaN(day)) return null;
+                    var res = new Date(y, m, day, 0, 0, 0, 0);
+                    // Validar que no haga rollover (ej: 31-feb)
+                    if (res.getFullYear() !== y || res.getMonth() !== m || res.getDate() !== day) return null;
+                    return res;
+                },
+
+                dateToISO: function(d) {
+                    if (!d) return '';
+                    var dt = (d instanceof Date) ? d : this.parseToDate(d);
+                    if (!dt) return '';
+                    return dt.getFullYear() + '-' + pad(dt.getMonth()+1) + '-' + pad(dt.getDate());
+                },
+
+                dateToDDMM: function(d) {
+                    if (!d) return '';
+                    var dt = (d instanceof Date) ? d : this.parseToDate(d);
+                    if (!dt) return '';
+                    return pad(dt.getDate()) + CONFIG.dateSeparator + pad(dt.getMonth()+1) + CONFIG.dateSeparator + dt.getFullYear();
+                },
+
+                anyToDDMM: function(input) {
+                    // Convierte CUALQUIER formato (Date/ISO/DDMM) a DD-MM-YYYY, sin fallar.
+                    if (!input) return this.todayDDMM();
+                    var d = this.parseToDate(input);
+                    return d ? this.dateToDDMM(d) : this.todayDDMM();
+                },
+
                 // Fecha ISO YYYY-MM-DD (formato input date)
                 todayISO: function() {
                     var d = getNowLocal();
@@ -2863,27 +2926,13 @@
 
                 // Convertir ISO -> DD-MM-YYYY
                 isoToDDMM: function(iso) {
-                    if (!iso) return '';
-                    if (typeof iso !== 'string') iso = String(iso);
-                    var p = iso.split('-');
-                    if (p.length !== 3) return iso;
-                    // podría venir ya en DD-MM (reverse)
-                    if (p[0].length === 4) return p[2] + CONFIG.dateSeparator + p[1] + CONFIG.dateSeparator + p[0];
-                    return iso;
+                    return this.anyToDDMM(iso);
                 },
 
                 // Convertir DD-MM-YYYY -> ISO YYYY-MM-DD
                 ddmmToISO: function(ddmmyyyy) {
-                    if (!ddmmyyyy) return '';
-                    if (typeof ddmmyyyy !== 'string') ddmmyyyy = String(ddmmyyyy);
-                    var p = ddmmyyyy.split(CONFIG.dateSeparator);
-                    if (p.length !== 3) {
-                        // intentar split por / o - cualquiera
-                        p = ddmmyyyy.split(/[\-\/\.]/);
-                        if (p.length !== 3) return ddmmyyyy;
-                    }
-                    if (p[0].length <= 2) return p[2] + '-' + p[1] + '-' + p[0];
-                    return ddmmyyyy;
+                    var d = this.parseToDate(ddmmyyyy);
+                    return d ? this.dateToISO(d) : '';
                 },
 
                 // Hora actual HH:MM (formato 24h)
@@ -3186,11 +3235,8 @@
                     var list = loadWorkingSheet();
                     var id = 'WRK' + Date.now().toString().slice(-8) + Math.floor(Math.random()*90+10);
                     var now = TimeService.nowDate();
-                    var fechaInput = data.fecha;
-                    // Si viene en formato ISO YYYY-MM-DD lo convertimos a DD-MM-YYYY
-                    var fechaNormalized = (fechaInput && fechaInput.indexOf('-') > 0 && fechaInput.length === 10)
-                        ? TimeService.isoToDDMM(fechaInput)
-                        : (fechaInput || TimeService.todayDDMM());
+                    // Normaliza FECHA: acepta Date object, ISO string, DD-MM string, cualquier cosa.
+                    var fechaNormalized = TimeService.anyToDDMM(data.fecha);
                     var record = {
                         id: id,
                         plate: (data.plate||'').toUpperCase(),
@@ -3469,7 +3515,7 @@
             $scope.completedCount = 0;
             $scope.summaryReport = null;
             $scope.qrDataUrl = '';
-            $scope.addForm = { kilometraje: null, horometro: null, galones: null, date: TimeService.todayISO() };
+            $scope.addForm = { kilometraje: null, horometro: null, galones: null, date: TimeService.todayDate() };
 
             $scope.getOperator = function() {
                 return $rootScope.currentUser || 'admin';
@@ -3482,7 +3528,11 @@
             });
             $scope.$on('workingSheetUpdated', refreshWorkingSheet);
             $scope.$on('timezoneChanged', function() {
-                $scope.addForm.date = TimeService.todayISO();
+                var newDate = TimeService.todayDate();
+                $scope.addForm.date = newDate;
+                if ($scope.foundVehicle) {
+                    // keep the date already chosen by user if different from default? we refresh.
+                }
             });
 
             function refreshWorkingSheet() {
@@ -3498,13 +3548,13 @@
                     kilometraje: ($scope.foundVehicle && $scope.foundVehicle.lastKilometraje) ? $scope.foundVehicle.lastKilometraje : null,
                     horometro: ($scope.foundVehicle && $scope.foundVehicle.lastHorometro) ? $scope.foundVehicle.lastHorometro : null,
                     galones: null,
-                    date: TimeService.todayISO()
+                    date: TimeService.todayDate()
                 };
                 $scope.kmDeltaClass = ''; $scope.kmDeltaHint = '';
                 $scope.hrDeltaClass = ''; $scope.hrDeltaHint = '';
             }
             // Initialise addForm.date immediately (even if no vehicle found yet)
-            $scope.addForm.date = TimeService.todayISO();
+            $scope.addForm.date = TimeService.todayDate();
 
             $scope.onSearch = function(fromBadge) {
                 if (!$scope.searchPlate.trim()) return;
@@ -3558,9 +3608,10 @@
                 if (!$scope.foundVehicle) return false;
                 if ($scope.addForm.kilometraje === undefined || $scope.addForm.kilometraje === null || $scope.addForm.kilometraje === '') return false;
                 if ($scope.addForm.horometro === undefined || $scope.addForm.horometro === null || $scope.addForm.horometro === '') return false;
-                // Fecha: si está vacía forzar today, pero no bloquear.
-                if (!$scope.addForm.date || $scope.addForm.date === '') {
-                    $scope.addForm.date = TimeService.todayISO();
+                // Fecha: validar que exista y sea parseable. Si no, setear hoy.
+                var parsed = TimeService.parseToDate($scope.addForm.date);
+                if (!parsed) {
+                    $scope.addForm.date = TimeService.todayDate();
                 }
                 if (+$scope.addForm.kilometraje < ($scope.foundVehicle.lastKilometraje || 0)) return false;
                 if ($scope.foundVehicle.lastHorometro > 0 && +$scope.addForm.horometro < $scope.foundVehicle.lastHorometro) return false;
@@ -3569,8 +3620,8 @@
 
             $scope.addRecordToSheet = function() {
                 if (!$scope.canAddRecord()) return;
-                // Garantizar que haya fecha:
-                var fechaISO = $scope.addForm.date || TimeService.todayISO();
+                // Garantizar que haya fecha (se pasa Date a VehicleService.anyToDDMM)
+                var fechaAny = $scope.addForm.date || TimeService.todayDate();
                 VehicleService.addWorkingSheetRecord({
                     plate: $scope.foundVehicle.plate,
                     unit: $scope.foundVehicle.unit,
@@ -3578,7 +3629,7 @@
                     kilometraje: +$scope.addForm.kilometraje,
                     horometro: +$scope.addForm.horometro,
                     galones: $scope.addForm.galones,
-                    fecha: fechaISO   // ISO -> VehicleService.normaliza a DD-MM
+                    fecha: fechaAny
                 });
                 $scope.successMessage = ($scope.addForm.galones ? '✅ Registro completo' : '📋 Registro agregado (Galones pendientes)') + ' para ' + $scope.foundVehicle.plate;
                 $scope.foundVehicle = null;
@@ -3722,13 +3773,13 @@
                 kilometraje: $scope.vehicle ? $scope.vehicle.lastKilometraje : 0,
                 horometro: $scope.vehicle ? $scope.vehicle.lastHorometro : 0,
                 galones: 0,
-                fecha: TimeService.todayISO(),
+                fecha: TimeService.todayDate(),
                 turno: '',
                 responsable: $scope.vehicle ? ($scope.vehicle.responsable || '') : ''
             };
 
             $scope.$on('timezoneChanged', function() {
-                $scope.newRecord.fecha = TimeService.todayISO();
+                $scope.newRecord.fecha = TimeService.todayDate();
             });
 
             $scope.goBack = function() {
@@ -3759,7 +3810,7 @@
                         kilometraje: $scope.vehicle.lastKilometraje,
                         horometro: $scope.vehicle.lastHorometro,
                         galones: 0,
-                        fecha: TimeService.todayISO(),
+                        fecha: TimeService.todayDate(),
                         turno: '',
                         responsable: $scope.vehicle.responsable || ''
                     };
